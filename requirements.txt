@@ -1,0 +1,7 @@
+jupedsim
+pandas
+pedpy
+nbformat
+notebook
+jupyter_core
+plotly
