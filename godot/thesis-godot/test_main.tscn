@@ -2,11 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bk5r86begjmk5" path="res://sim_client.gd" id="1_b6ro0"]
 [ext_resource type="Script" uid="uid://dtjk70nvb6i7e" path="res://geometry_exporter.gd" id="2_tcanr"]
+[ext_resource type="Texture2D" uid="uid://bj3ygby5pm7tr" path="res://icon.svg" id="3_2n3av"]
 
 [node name="TestMain" type="Node2D" unique_id=347431086]
 
-[node name="SimClient" type="Node" parent="." unique_id=1687148984]
+[node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter")]
 script = ExtResource("1_b6ro0")
+geometry_exporter = NodePath("../GeometryExporter")
 
 [node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("walkable_area", "entry_areas", "exit_areas", "sim_client")]
 script = ExtResource("2_tcanr")
@@ -22,11 +24,11 @@ polygon = PackedVector2Array(188, 190, 361, 65, 778, 60, 1032, 251, 833, 568, 29
 
 [node name="EntryPoint" type="Polygon2D" parent="." unique_id=2021540900]
 color = Color(0.4147725, 0.60473317, 0.28495726, 1)
-polygon = PackedVector2Array(221, 251, 217, 364, 262, 379, 268, 251)
+polygon = PackedVector2Array(185, 175, 199, 370, 346, 459, 401, 190)
 
 [node name="ExitPoint" type="Polygon2D" parent="." unique_id=1589285996]
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
-polygon = PackedVector2Array(605, 151, 605, 237, 741, 249, 753, 141)
+polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=675606304]
 
@@ -44,4 +46,23 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Fix Geometry"
 
+[node name="StartSimulationButton" type="Button" parent="CanvasLayer" unique_id=1360453678]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -201.0
+offset_top = -178.0
+offset_right = -47.0
+offset_bottom = -119.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Start Simulation"
+
+[node name="Agent" type="Sprite2D" parent="." unique_id=1262746668]
+scale = Vector2(0.296875, 0.296875)
+texture = ExtResource("3_2n3av")
+
 [connection signal="button_up" from="CanvasLayer/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]

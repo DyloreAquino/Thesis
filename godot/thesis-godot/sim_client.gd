@@ -1,11 +1,13 @@
 extends Node
 class_name SimClient
 
+@export var geometry_exporter : GeometryExporter
 var socket := WebSocketPeer.new()
 
 func _ready():
 	socket.connect_to_url("ws://127.0.0.1:8765")
 
+## Each frame, check if the server sent something
 func _process(_delta):
 	socket.poll()
 	match socket.get_ready_state():
@@ -13,15 +15,10 @@ func _process(_delta):
 			while socket.get_available_packet_count() > 0:
 				var text := socket.get_packet().get_string_from_utf8()
 				var data = JSON.parse_string(text)
-				_apply_snapshot(data)
+				_parse_coordinates(data)
 		WebSocketPeer.STATE_CLOSED:
 			print("Closed, code: %d" % socket.get_close_code())
 			set_process(false)
-
-func _apply_snapshot(data: Dictionary) -> void:
-	for agent in data["agents"]:
-		print(agent["id"], " ", agent["x"], ",", agent["y"])
-		# later: look up agent Node3D by id, set position/velocityextends Node
 
 ## Send message to the server in string format.
 func send_message(text: String) -> void:
@@ -29,3 +26,19 @@ func send_message(text: String) -> void:
 		socket.send_text(text)
 	else:
 		push_warning("Tried to send before the socket was open")
+
+## Parses given coordinates from JuPedSim Coordinates to Godot Coordinates
+func _parse_coordinates(data: Dictionary) -> void:
+	if data.get("cmd") == "tick":
+		var inv_scale := 1.0 / geometry_exporter.world_scale
+		
+		for agent in data["agents"]:
+			var godot_pos := Vector2(agent["x"], agent["y"]) * inv_scale
+			print(agent["id"], " ", godot_pos)
+			$"../Agent".position = godot_pos
+
+func start_simulation() -> void:
+	send_message(JSON.stringify({"cmd": "start_simulation"}))
+
+func _on_start_simulation_button_button_up():
+	start_simulation()
