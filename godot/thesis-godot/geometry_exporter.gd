@@ -1,7 +1,7 @@
 extends Node
 class_name GeometryExporter
 
-@export var world_scale: float = 0.01
+@export var world_scale: float = 0.03125 # If one agent is 32 pixels diameter
 @export var walkable_area: Polygon2D
 @export var entry_areas: Array[Polygon2D] = []
 @export var exit_areas: Array[Polygon2D] = []

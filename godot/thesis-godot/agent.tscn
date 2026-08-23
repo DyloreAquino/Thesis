@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b2ivfbf11cg61"]
+
+[ext_resource type="Texture2D" uid="uid://bj3ygby5pm7tr" path="res://icon.svg" id="1_dhb2b"]
+[ext_resource type="Script" uid="uid://dmk8p4x4ean1y" path="res://agent.gd" id="2_8l2ru"]
+
+[node name="Agent" type="Sprite2D" unique_id=1925994197]
+position = Vector2(0, 2.3841858e-07)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_dhb2b")
+script = ExtResource("2_8l2ru")

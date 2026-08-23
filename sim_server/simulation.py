@@ -6,9 +6,9 @@ import jupedsim as jps
 from numpy.random import normal
 from geometry import SceneGeometry
 
-AGENTS_PER_ENTRY = 3
+AGENTS_PER_ENTRY = 20
 MEAN_DESIRED_SPEED = 1.34   # m/s, standard pedestrian walking speed
-SPEED_STD_DEV = 0.05
+SPEED_STD_DEV = 0.2
 
 class CrowdSimulation:
     def __init__(self, scene: SceneGeometry, trajectory_file: str = "output.sqlite"):
@@ -35,7 +35,7 @@ class CrowdSimulation:
             positions = jps.distributions.distribute_by_number(
                 polygon=entry_area,
                 number_of_agents=AGENTS_PER_ENTRY,
-                distance_to_agents=1,
+                distance_to_agents=1.0,
                 distance_to_polygon=0.2,
                 seed=None,
             )

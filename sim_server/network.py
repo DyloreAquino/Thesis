@@ -24,19 +24,23 @@ async def start_server(host: str = "127.0.0.1", port: int = 8765) -> None:
         await asyncio.Future()
 
 async def _run_simulation(websocket) -> None:
-    """Starts the simulation"""
+    """Runs the simulation, then sends info to Godot"""
     crowd = CrowdSimulation(scene_geometry)
     tick = 0
     while crowd.agent_count() > 0:
         crowd.step()
         tick += 1
         if tick % SNAPSHOT_EVERY_N_ITERATIONS == 0:
-            await websocket.send(json.dumps({"cmd": "tick", "t": tick, "agents": crowd.snapshot()}))
+            await websocket.send(json.dumps({
+                "cmd": "tick", 
+                "t": tick,
+                "dt": crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS,
+                "agents": crowd.snapshot()}))
             await asyncio.sleep(crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS)
     print("All agents exited")
 
 async def _route_message(raw_message: str, websocket) -> None:
-    """Routes the needed command to whatever it needs to do"""
+    """Routes the needed command from Godot to whatever it needs to do"""
     data = json.loads(raw_message)
     cmd = data.get("cmd")
 

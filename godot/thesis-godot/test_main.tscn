@@ -2,13 +2,15 @@
 
 [ext_resource type="Script" uid="uid://bk5r86begjmk5" path="res://sim_client.gd" id="1_b6ro0"]
 [ext_resource type="Script" uid="uid://dtjk70nvb6i7e" path="res://geometry_exporter.gd" id="2_tcanr"]
-[ext_resource type="Texture2D" uid="uid://bj3ygby5pm7tr" path="res://icon.svg" id="3_2n3av"]
+[ext_resource type="Script" uid="uid://dh8f5ldmmhsr8" path="res://agent_manager.gd" id="3_aueqv"]
+[ext_resource type="PackedScene" uid="uid://b2ivfbf11cg61" path="res://agent.tscn" id="4_nuuvo"]
 
 [node name="TestMain" type="Node2D" unique_id=347431086]
 
-[node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter")]
+[node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager")]
 script = ExtResource("1_b6ro0")
 geometry_exporter = NodePath("../GeometryExporter")
+agent_manager = NodePath("../AgentManager")
 
 [node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("walkable_area", "entry_areas", "exit_areas", "sim_client")]
 script = ExtResource("2_tcanr")
@@ -16,6 +18,10 @@ walkable_area = NodePath("../WalkableArea")
 entry_areas = [NodePath("../EntryPoint")]
 exit_areas = [NodePath("../ExitPoint")]
 sim_client = NodePath("../SimClient")
+
+[node name="AgentManager" type="Node" parent="." unique_id=826777606]
+script = ExtResource("3_aueqv")
+agent_scene = ExtResource("4_nuuvo")
 
 [node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
 position = Vector2(-72, -10)
@@ -59,10 +65,6 @@ offset_bottom = -119.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Start Simulation"
-
-[node name="Agent" type="Sprite2D" parent="." unique_id=1262746668]
-scale = Vector2(0.296875, 0.296875)
-texture = ExtResource("3_2n3av")
 
 [connection signal="button_up" from="CanvasLayer/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]
