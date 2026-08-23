@@ -1,4 +1,5 @@
 extends Node
+class_name SimClient
 
 var socket := WebSocketPeer.new()
 
@@ -21,3 +22,10 @@ func _apply_snapshot(data: Dictionary) -> void:
 	for agent in data["agents"]:
 		print(agent["id"], " ", agent["x"], ",", agent["y"])
 		# later: look up agent Node3D by id, set position/velocityextends Node
+
+## Send message to the server in string format.
+func send_message(text: String) -> void:
+	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
+		socket.send_text(text)
+	else:
+		push_warning("Tried to send before the socket was open")
