@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bnmefrpa6md73"]
+
+[ext_resource type="Script" uid="uid://bk5r86begjmk5" path="res://sim_client.gd" id="1_b6ro0"]
+
+[node name="TestMain" type="Node2D" unique_id=347431086]
+
+[node name="SimClient" type="Node" parent="." unique_id=1687148984]
+script = ExtResource("1_b6ro0")

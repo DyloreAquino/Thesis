@@ -5,3 +5,4 @@ nbformat
 notebook
 jupyter_core
 plotly
+websockets
