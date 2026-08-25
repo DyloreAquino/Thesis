@@ -48,7 +48,7 @@ async def _route_message(raw_message: str, websocket) -> None:
         scene_geometry.set_from_message(data)
         print(f"Geometry received: {len(scene_geometry.entry_areas)} entry areas, "
               f"{len(scene_geometry.exit_areas)} exit areas, and "
-              f"a walking area with these points: {list(scene_geometry.walkable_area.exterior.coords)}")
+              f"{len(scene_geometry.obstacles)} obstacles.")
         
     elif cmd == "start_simulation":
         if not scene_geometry.is_ready():

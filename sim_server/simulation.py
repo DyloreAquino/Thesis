@@ -19,10 +19,19 @@ class CrowdSimulation:
                 output_file=pathlib.Path(trajectory_file)
             ),
         )
-        self._exit_journeys = self._build_exit_journeys(scene)  # list of (journey_id, stage_id)
-        self._spawn_agents(scene)
+        self._exit_journeys = self._build_exit_journeys(scene)  
+        self._spawn_agents(scene) # In the future, they must spawn randomly 
+        # https://trello.com/c/i32b3qup/17-random-realtime-spawning-of-agents 
 
     def _build_exit_journeys(self, scene: SceneGeometry) -> list[tuple[int, int]]:
+        """Builds exit journeys for the simulaiton
+
+        Args:
+            scene (SceneGeometry): the SceneGeometry object, taken from Godot scenes
+
+        Returns:
+            list[tuple[int, int]]: A list of journey ids and exit ids
+        """
         journeys = []
         for exit_area in scene.exit_areas:
             exit_id = self.sim.add_exit_stage(exit_area.exterior.coords[:-1])
@@ -31,6 +40,11 @@ class CrowdSimulation:
         return journeys
 
     def _spawn_agents(self, scene: SceneGeometry) -> None:
+        """Spawn agents
+
+        Args:
+            scene (SceneGeometry): the SceneGeometry object, taken from Godot scenes
+        """
         for entry_area in scene.entry_areas:
             positions = jps.distributions.distribute_by_number(
                 polygon=entry_area,
