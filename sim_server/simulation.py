@@ -6,12 +6,19 @@ import jupedsim as jps
 from numpy.random import normal
 from geometry import SceneGeometry
 
-AGENTS_PER_ENTRY = 20
 MEAN_DESIRED_SPEED = 1.34   # m/s, standard pedestrian walking speed
 SPEED_STD_DEV = 0.2
 
+sim_parameters = {
+    "agent_count"
+}
+
 class CrowdSimulation:
-    def __init__(self, scene: SceneGeometry, trajectory_file: str = "output.sqlite"):
+    def __init__(self, 
+                 scene: SceneGeometry, 
+                 trajectory_file: str = "output.sqlite",
+                 sim_parameters: dict = None):
+        self.sim_parameters = sim_parameters or {}
         self.sim = jps.Simulation(
             model=jps.AnticipationVelocityModel(),
             geometry=scene.walkable_area,
@@ -48,7 +55,7 @@ class CrowdSimulation:
         for entry_area in scene.entry_areas:
             positions = jps.distributions.distribute_by_number(
                 polygon=entry_area,
-                number_of_agents=AGENTS_PER_ENTRY,
+                number_of_agents=self.sim_parameters.get("agent_count", 20),
                 distance_to_agents=1.0,
                 distance_to_polygon=0.2,
                 seed=None,
@@ -73,6 +80,9 @@ class CrowdSimulation:
 
     def agent_count(self) -> int:
         return self.sim.agent_count()
+    
+    def set_agent_count(self, new_agent_count: int) -> None:
+        self.agent_count = new_agent_count
 
     def snapshot(self) -> list[dict]:
         return [{"id": a.id, "x": a.position[0], "y": a.position[1]} for a in self.sim.agents()]

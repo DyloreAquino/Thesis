@@ -8,6 +8,10 @@ from simulation import CrowdSimulation
 scene_geometry = SceneGeometry()
 SNAPSHOT_EVERY_N_ITERATIONS = 5
 
+sim_parameters = {
+    "agent_count": 20
+}
+
 async def handler(websocket) -> None:
     """Handles messages received from Godot"""
     print("Godot connected")
@@ -25,7 +29,7 @@ async def start_server(host: str = "127.0.0.1", port: int = 8765) -> None:
 
 async def _run_simulation(websocket) -> None:
     """Runs the simulation, then sends info to Godot"""
-    crowd = CrowdSimulation(scene_geometry)
+    crowd = CrowdSimulation(scene_geometry, sim_parameters=sim_parameters)
     tick = 0
     while crowd.agent_count() > 0:
         crowd.step()
@@ -49,6 +53,10 @@ async def _route_message(raw_message: str, websocket) -> None:
         print(f"Geometry received: {len(scene_geometry.entry_areas)} entry areas, "
               f"{len(scene_geometry.exit_areas)} exit areas, and "
               f"{len(scene_geometry.obstacles)} obstacles.")
+        
+    elif cmd == "update_sim_parameters":
+        if "agent_count" in data:
+            sim_parameters["agent_count"] = data["agent_count"]   
         
     elif cmd == "start_simulation":
         if not scene_geometry.is_ready():

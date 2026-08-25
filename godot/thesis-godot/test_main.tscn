@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dtjk70nvb6i7e" path="res://geometry_exporter.gd" id="2_tcanr"]
 [ext_resource type="Script" uid="uid://dh8f5ldmmhsr8" path="res://agent_manager.gd" id="3_aueqv"]
 [ext_resource type="PackedScene" uid="uid://b2ivfbf11cg61" path="res://agent.tscn" id="4_nuuvo"]
+[ext_resource type="Script" uid="uid://ccsi6j6kq5ey5" path="res://parameters_manager.gd" id="5_aueqv"]
 
 [node name="TestMain" type="Node2D" unique_id=347431086]
 
@@ -23,6 +24,10 @@ obstacles = [NodePath("../Obstacle")]
 [node name="AgentManager" type="Node" parent="." unique_id=826777606]
 script = ExtResource("3_aueqv")
 agent_scene = ExtResource("4_nuuvo")
+
+[node name="ParametersManager" type="Node" parent="." unique_id=336944035 node_paths=PackedStringArray("sim_client")]
+script = ExtResource("5_aueqv")
+sim_client = NodePath("../SimClient")
 
 [node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
 position = Vector2(-72, -10)
@@ -71,5 +76,23 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Start Simulation"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1403239964]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -314.0
+offset_top = 41.0
+offset_right = -16.0
+offset_bottom = 99.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer" unique_id=1683984986]
+layout_mode = 2
+text = "Agent Count: "
+
+[node name="AgentCountInput" type="SpinBox" parent="CanvasLayer/HBoxContainer" unique_id=626557622]
+layout_mode = 2
+
 [connection signal="button_up" from="CanvasLayer/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]
+[connection signal="value_changed" from="CanvasLayer/HBoxContainer/AgentCountInput" to="ParametersManager" method="_on_agent_count_input_value_changed"]
