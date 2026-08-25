@@ -2,4 +2,4 @@
 thesisenv/
 .dist/
 env/
-*.sqlite
+output.sqlite
