@@ -7,3 +7,4 @@ env/
 *.pyc
 .venv/
 .vscode/
+*.sqlite
