@@ -32,7 +32,7 @@ sim_client = NodePath("../SimClient")
 [node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
 position = Vector2(-72, -10)
 color = Color(0.5211406, 0.5211406, 0.5211405, 1)
-polygon = PackedVector2Array(175, 97, 601, 76, 778, 60, 1032, 251, 815, 413, 293, 562)
+polygon = PackedVector2Array(175, 97, 601, 76, 778, 60, 1032, 251, 823, 566, 175, 563)
 
 [node name="EntryPoint" type="Polygon2D" parent="." unique_id=2021540900]
 position = Vector2(14, -25)
@@ -45,14 +45,14 @@ color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="ExitPoint2" type="Polygon2D" parent="." unique_id=965333159]
-position = Vector2(26, 98)
+position = Vector2(5, 254)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="Obstacle" type="Polygon2D" parent="." unique_id=2051941769]
-position = Vector2(34, -48)
+position = Vector2(50, -27)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(441, 287, 474, 301, 456, 358, 436, 330)
+polygon = PackedVector2Array(519, 221, 560, 395, 444, 473, 400, 342, 411, 231)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=675606304]
 
@@ -84,23 +84,38 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Start Simulation"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1403239964]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=506859602]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -314.0
-offset_top = 41.0
-offset_right = -16.0
-offset_bottom = 99.0
+offset_left = -207.0
+offset_bottom = 67.0
 grow_horizontal = 0
 
-[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer" unique_id=1683984986]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=1403239964]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1683984986]
 layout_mode = 2
 text = "Agent Count: "
 
-[node name="AgentCountInput" type="SpinBox" parent="CanvasLayer/HBoxContainer" unique_id=626557622]
+[node name="AgentCountInput" type="SpinBox" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=626557622]
 layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=1825287393]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer2" unique_id=1726010282]
+layout_mode = 2
+text = "Entry Rate"
+
+[node name="EntryRateInput" type="SpinBox" parent="CanvasLayer/VBoxContainer/HBoxContainer2" unique_id=1087231704]
+layout_mode = 2
+step = 0.01
 
 [connection signal="button_up" from="CanvasLayer/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]
-[connection signal="value_changed" from="CanvasLayer/HBoxContainer/AgentCountInput" to="ParametersManager" method="_on_agent_count_input_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/VBoxContainer/HBoxContainer/AgentCountInput" to="ParametersManager" method="_on_agent_count_input_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/VBoxContainer/HBoxContainer2/EntryRateInput" to="ParametersManager" method="_on_entry_rate_input_value_changed"]

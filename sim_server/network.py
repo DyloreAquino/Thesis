@@ -9,7 +9,8 @@ scene_geometry = SceneGeometry()
 SNAPSHOT_EVERY_N_ITERATIONS = 5
 
 sim_parameters = {
-    "agent_count": 20
+    "agent_count": 20,
+    "entry_rate": 1.0
 }
 
 async def handler(websocket) -> None:
@@ -56,7 +57,10 @@ async def _route_message(raw_message: str, websocket) -> None:
         
     elif cmd == "update_sim_parameters":
         if "agent_count" in data:
-            sim_parameters["agent_count"] = data["agent_count"]   
+            sim_parameters["agent_count"] = data["agent_count"]
+            
+        if "entry_rate" in data:
+            sim_parameters["entry_rate"] = data["entry_rate"]
         
     elif cmd == "start_simulation":
         if not scene_geometry.is_ready():

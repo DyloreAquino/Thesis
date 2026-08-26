@@ -31,9 +31,8 @@ class CrowdSimulation:
         self._agents_left_to_spawn = max(
             0, int(self.sim_parameters.get("agent_count", 20))
         )
-        self._next_spawn_time = random.uniform(
-            MIN_SPAWN_INTERVAL, MAX_SPAWN_INTERVAL
-        )
+        self._spawn_interval = float(self.sim_parameters.get("entry_rate", 1.0))
+        self._next_spawn_time = 0
 
     def _build_exit_journeys(self, scene: SceneGeometry) -> list[tuple[int, int]]:
         """Build one single-stage journey for every exit defined in Godot.
@@ -91,15 +90,10 @@ class CrowdSimulation:
         return False
 
     def step(self) -> None:
-        if (
-            self._agents_left_to_spawn > 0
-            and self.sim.elapsed_time() >= self._next_spawn_time
-        ):
+        if (self._agents_left_to_spawn > 0 and self.sim.elapsed_time() >= self._next_spawn_time):
             if self._spawn_random_agent():
                 self._agents_left_to_spawn -= 1
-                self._next_spawn_time = self.sim.elapsed_time() + random.uniform(
-                    MIN_SPAWN_INTERVAL, MAX_SPAWN_INTERVAL
-                )
+                self._next_spawn_time = self.sim.elapsed_time() + self._spawn_interval
         self.sim.iterate()
         
     def delta_time(self) -> float:
