@@ -2,16 +2,16 @@
 
 import pathlib
 import random
+
 import jupedsim as jps
-from numpy.random import normal
 from geometry import SceneGeometry
+from numpy.random import normal
 
 MEAN_DESIRED_SPEED = 1.34   # m/s, standard pedestrian walking speed
 SPEED_STD_DEV = 0.2
-
-sim_parameters = {
-    "agent_count"
-}
+MIN_SPAWN_INTERVAL = 0.5     # simulated seconds
+MAX_SPAWN_INTERVAL = 2.0
+SPAWN_POSITION_ATTEMPTS = 20
 
 class CrowdSimulation:
     def __init__(self, 
@@ -26,12 +26,17 @@ class CrowdSimulation:
                 output_file=pathlib.Path(trajectory_file)
             ),
         )
-        self._exit_journeys = self._build_exit_journeys(scene)  
-        self._spawn_agents(scene) # In the future, they must spawn randomly 
-        # https://trello.com/c/i32b3qup/17-random-realtime-spawning-of-agents 
+        self._entry_areas = scene.entry_areas
+        self._exit_journeys = self._build_exit_journeys(scene)
+        self._agents_left_to_spawn = max(
+            0, int(self.sim_parameters.get("agent_count", 20))
+        )
+        self._next_spawn_time = random.uniform(
+            MIN_SPAWN_INTERVAL, MAX_SPAWN_INTERVAL
+        )
 
     def _build_exit_journeys(self, scene: SceneGeometry) -> list[tuple[int, int]]:
-        """Builds exit journeys for the simulaiton
+        """Build one single-stage journey for every exit defined in Godot.
 
         Args:
             scene (SceneGeometry): the SceneGeometry object, taken from Godot scenes
@@ -46,33 +51,55 @@ class CrowdSimulation:
             journeys.append((journey_id, exit_id))
         return journeys
 
-    def _spawn_agents(self, scene: SceneGeometry) -> None:
-        """Spawn agents
+    def _spawn_random_agent(self) -> bool:
+        """Try to spawn one agent at a random entry with a random exit."""
+        for _ in range(SPAWN_POSITION_ATTEMPTS):
+            entry_area = random.choice(self._entry_areas)
+            try:
+                positions = jps.distributions.distribute_by_number(
+                    polygon=entry_area,
+                    number_of_agents=1,
+                    distance_to_agents=1.0,
+                    distance_to_polygon=0.2,
+                    seed=random.randrange(2**32),
+                )
+            except RuntimeError:
+                # This entry may be too small to produce a valid position.
+                continue
+            if not positions:
+                continue
 
-        Args:
-            scene (SceneGeometry): the SceneGeometry object, taken from Godot scenes
-        """
-        for entry_area in scene.entry_areas:
-            positions = jps.distributions.distribute_by_number(
-                polygon=entry_area,
-                number_of_agents=self.sim_parameters.get("agent_count", 20),
-                distance_to_agents=1.0,
-                distance_to_polygon=0.2,
-                seed=None,
+            journey_id, exit_stage_id = random.choice(self._exit_journeys)
+            desired_speed = max(
+                0.1, float(normal(MEAN_DESIRED_SPEED, SPEED_STD_DEV))
             )
-            speeds = normal(MEAN_DESIRED_SPEED, SPEED_STD_DEV, len(positions))
-            for pos, speed in zip(positions, speeds):
-                journey_id, stage_id = random.choice(self._exit_journeys)
+            try:
                 self.sim.add_agent(
                     jps.AnticipationVelocityModelAgentParameters(
                         journey_id=journey_id,
-                        stage_id=stage_id,
-                        position=pos,
-                        desired_speed=speed,
+                        stage_id=exit_stage_id,
+                        position=positions[0],
+                        desired_speed=desired_speed,
                     )
                 )
+                return True
+            except RuntimeError:
+                # The candidate can be too close to an agent already occupying
+                # the entry. Try another random position instead.
+                continue
+
+        return False
 
     def step(self) -> None:
+        if (
+            self._agents_left_to_spawn > 0
+            and self.sim.elapsed_time() >= self._next_spawn_time
+        ):
+            if self._spawn_random_agent():
+                self._agents_left_to_spawn -= 1
+                self._next_spawn_time = self.sim.elapsed_time() + random.uniform(
+                    MIN_SPAWN_INTERVAL, MAX_SPAWN_INTERVAL
+                )
         self.sim.iterate()
         
     def delta_time(self) -> float:
@@ -80,9 +107,13 @@ class CrowdSimulation:
 
     def agent_count(self) -> int:
         return self.sim.agent_count()
-    
-    def set_agent_count(self, new_agent_count: int) -> None:
-        self.agent_count = new_agent_count
+
+    def is_finished(self) -> bool:
+        """True after every requested agent has spawned and reached an exit."""
+        return self._agents_left_to_spawn == 0 and self.agent_count() == 0
 
     def snapshot(self) -> list[dict]:
-        return [{"id": a.id, "x": a.position[0], "y": a.position[1]} for a in self.sim.agents()]
+        return [
+            {"id": a.id, "x": a.position[0], "y": a.position[1]}
+            for a in self.sim.agents()
+        ]

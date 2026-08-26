@@ -31,7 +31,7 @@ async def _run_simulation(websocket) -> None:
     """Runs the simulation, then sends info to Godot"""
     crowd = CrowdSimulation(scene_geometry, sim_parameters=sim_parameters)
     tick = 0
-    while crowd.agent_count() > 0:
+    while not crowd.is_finished():
         crowd.step()
         tick += 1
         if tick % SNAPSHOT_EVERY_N_ITERATIONS == 0:
