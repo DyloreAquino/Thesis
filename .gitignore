@@ -3,3 +3,5 @@ thesisenv/
 .dist/
 env/
 *.sqlite
+__pycache__/
+*.pyc
