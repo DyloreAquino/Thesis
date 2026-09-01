@@ -17,8 +17,8 @@ class SceneGeometry:
 
     def is_ready(self) -> bool:
         """True once a walkable area and at least one entry/exit have arrived."""
-        return self.walkable_area is not None and self.entry_areas and self.exit_areas
+        return self.walkable_area is not None and self.entry_areas and self.exit_areas # type: ignore
     
     def _build_obstacles(self, data: dict) -> None:
         for obstacle in self.obstacles:
-            self.walkable_area = self.walkable_area.difference(obstacle)
+            self.walkable_area = self.walkable_area.difference(obstacle) # type: ignore

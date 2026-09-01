@@ -17,8 +17,13 @@ class CrowdSimulation:
     def __init__(self, 
                  scene: SceneGeometry, 
                  trajectory_file: str = "output.sqlite",
-                 sim_parameters: dict = None):
+                 sim_parameters: dict | None = None):
+        
         self.sim_parameters = sim_parameters or {}
+        
+        if scene.walkable_area is None:
+            raise ValueError("Geometry cannot be none")
+        
         self.sim = jps.Simulation(
             model=jps.AnticipationVelocityModel(),
             geometry=scene.walkable_area,
@@ -45,7 +50,7 @@ class CrowdSimulation:
         """
         journeys = []
         for exit_area in scene.exit_areas:
-            exit_id = self.sim.add_exit_stage(exit_area.exterior.coords[:-1])
+            exit_id = self.sim.add_exit_stage(exit_area.exterior.coords[:-1]) # type: ignore
             journey_id = self.sim.add_journey(jps.JourneyDescription([exit_id]))
             journeys.append((journey_id, exit_id))
         return journeys
@@ -55,7 +60,7 @@ class CrowdSimulation:
         for _ in range(SPAWN_POSITION_ATTEMPTS):
             entry_area = random.choice(self._entry_areas)
             try:
-                positions = jps.distributions.distribute_by_number(
+                positions = jps.distribute_by_number(
                     polygon=entry_area,
                     number_of_agents=1,
                     distance_to_agents=1.0,
