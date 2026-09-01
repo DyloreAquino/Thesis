@@ -8,6 +8,9 @@ var socket := WebSocketPeer.new()
 func _ready():
 	socket.connect_to_url("ws://127.0.0.1:8765")
 
+func _exit_tree() -> void:
+	close_socket()
+
 ## Each frame, check if the server sent something
 func _process(_delta):
 	socket.poll()
@@ -27,6 +30,12 @@ func send_message(text: String) -> void:
 		socket.send_text(text)
 	else:
 		push_warning("Tried to send before the socket was open")
+
+## Initiate a normal WebSocket close handshake when this client exits.
+func close_socket() -> void:
+	if socket.get_ready_state() == WebSocketPeer.STATE_OPEN:
+		socket.close(1000, "Godot client shutting down")
+		socket.poll()
 
 ## Parses given coordinates from JuPedSim Coordinates to Godot Coordinates
 ## Then calls our agent manager to update the snapshot
