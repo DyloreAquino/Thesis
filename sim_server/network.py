@@ -1,6 +1,8 @@
 """Websocket server: connection lifecycle + message routing. Knows nothing about JuPedSim itself."""
 import asyncio
 import json
+import math
+
 import websockets
 from geometry import SceneGeometry
 from simulation import CrowdSimulation
@@ -80,7 +82,11 @@ async def _route_message(raw_message: str, websocket) -> asyncio.Task | None:
             sim_parameters["agent_count"] = data["agent_count"]
             
         if "entry_rate" in data:
-            sim_parameters["entry_rate"] = data["entry_rate"]
+            entry_rate = float(data["entry_rate"])
+            if math.isfinite(entry_rate) and entry_rate > 0:
+                sim_parameters["entry_rate"] = entry_rate
+            else:
+                print("Ignoring entry_rate: it must be greater than 0 agents/second")
         
     elif cmd == "start_simulation":
         if not scene_geometry.is_ready():

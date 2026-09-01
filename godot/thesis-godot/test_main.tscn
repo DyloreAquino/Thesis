@@ -109,7 +109,7 @@ alignment = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer2" unique_id=1726010282]
 layout_mode = 2
-text = "Entry Rate"
+text = "Entry Rate / s"
 
 [node name="EntryRateInput" type="SpinBox" parent="CanvasLayer/VBoxContainer/HBoxContainer2" unique_id=1087231704]
 layout_mode = 2
