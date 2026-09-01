@@ -16,35 +16,55 @@ sim_parameters = {
 async def handler(websocket) -> None:
     """Handles messages received from Godot"""
     print("Godot connected")
+    simulation_tasks: set[asyncio.Task] = set()
     try:
         async for raw_message in websocket:
-            await _route_message(raw_message, websocket)
-    except websockets.exceptions.ConnectionClosed:
+            simulation_task = await _route_message(raw_message, websocket)
+            if simulation_task is not None:
+                simulation_tasks.add(simulation_task)
+    except websockets.exceptions.ConnectionClosedOK as closed:
+        print(f"Godot closed normally: {closed.code} {closed.reason}")
+    except websockets.exceptions.ConnectionClosedError as closed:
+        print(f"Godot connection lost: {closed.code} {closed.reason}")
+    finally:
+        for task in simulation_tasks:
+            if not task.done():
+                task.cancel()
+        if simulation_tasks:
+            await asyncio.gather(*simulation_tasks, return_exceptions=True)
+        if websocket.close_code is None:
+            await websocket.close(code=1000, reason="Server handler shutting down")
         print("Godot disconnected")
 
 async def start_server(host: str = "127.0.0.1", port: int = 8765) -> None:
     """Only main calls this. Starts the server upon starting main.py"""
     async with websockets.serve(handler, host, port):
         print(f"Listening on ws://{host}:{port}")
-        await asyncio.Future()
+        try:
+            await asyncio.Future()
+        finally:
+            print("WebSocket server shutting down")
 
 async def _run_simulation(websocket) -> None:
     """Runs the simulation, then sends info to Godot"""
     crowd = CrowdSimulation(scene_geometry, sim_parameters=sim_parameters)
-    tick = 0
-    while not crowd.is_finished():
-        crowd.step()
-        tick += 1
-        if tick % SNAPSHOT_EVERY_N_ITERATIONS == 0:
-            await websocket.send(json.dumps({
-                "cmd": "tick", 
-                "t": tick,
-                "dt": crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS,
-                "agents": crowd.snapshot()}))
-            await asyncio.sleep(crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS)
-    print("All agents exited")
+    try:
+        tick = 0
+        while not crowd.is_finished():
+            crowd.step()
+            tick += 1
+            if tick % SNAPSHOT_EVERY_N_ITERATIONS == 0:
+                await websocket.send(json.dumps({
+                    "cmd": "tick",
+                    "t": tick,
+                    "dt": crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS,
+                    "agents": crowd.snapshot()}))
+                await asyncio.sleep(crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS)
+        print("All agents exited")
+    finally:
+        crowd.close()
 
-async def _route_message(raw_message: str, websocket) -> None:
+async def _route_message(raw_message: str, websocket) -> asyncio.Task | None:
     """Routes the needed command from Godot to whatever it needs to do"""
     data = json.loads(raw_message)
     cmd = data.get("cmd")
@@ -66,7 +86,7 @@ async def _route_message(raw_message: str, websocket) -> None:
         if not scene_geometry.is_ready():
             print("Cannot start: geometry not fully received yet")
             return
-        asyncio.create_task(_run_simulation(websocket))
+        return asyncio.create_task(_run_simulation(websocket))
         
     else:
         print(f"Unknown command: {cmd}")
