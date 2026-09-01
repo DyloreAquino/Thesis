@@ -7,12 +7,14 @@ class SceneGeometry:
         self.entry_areas: list[Polygon] = []
         self.exit_areas: list[Polygon] = []
         self.obstacles: list[Polygon] = []
+        self.switches: list[tuple[float, float]] = []
 
     def set_from_message(self, data: dict) -> None:
         self.walkable_area = Polygon(data["walkable_area"])
         self.entry_areas = [Polygon(pts) for pts in data["entry_areas"]]
         self.exit_areas = [Polygon(pts) for pts in data["exit_areas"]]
         self.obstacles = [Polygon(pts) for pts in data["obstacles"]]
+        self.switch_positions = [(float(position[0]), float(position[1])) for position in data["switches"]]
         self._build_obstacles(data)
 
     def is_ready(self) -> bool:
