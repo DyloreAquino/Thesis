@@ -9,14 +9,13 @@ func update_parameters() -> void:
 	var message := {
 		"cmd": "update_sim_parameters",
 		"agent_count": agent_count_input.value,
-		"entry_rate": entry_rate_input.value
+		"entry_rate": entry_rate_input.value ## params here are in agents per second
 	}
 	sim_client.send_message(JSON.stringify(message))
 	print(message)
 
 func _on_agent_count_input_value_changed(value: int) -> void:
 	update_parameters()
-
 
 func _on_entry_rate_input_value_changed(value: float) -> void:
 	update_parameters()

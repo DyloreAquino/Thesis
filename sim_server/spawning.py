@@ -9,7 +9,7 @@ SPEED_STD_DEV = 0.2
 SPAWN_POSITION_ATTEMPTS = 20
 
 def spawn_random_agent(sim: jps.Simulation, entry_areas: list[Polygon], journey_starts: list[tuple[int, int]]) -> bool:
-    """Try to spawn one agent at a random entry with a random exit."""
+    """Try to spawn one agent at a random entry and journey start."""
     for _ in range(SPAWN_POSITION_ATTEMPTS):
         entry_area = random.choice(entry_areas)
         try:

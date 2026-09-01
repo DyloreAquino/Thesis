@@ -33,17 +33,7 @@ class CrowdSimulation:
             trajectory_writer=self._trajectory_writer,
         )
         self._entry_areas = scene.entry_areas
-        # # temp remove after
-        # temporary_switch = scene.walkable_area.representative_point()
-        # temp_pos = (
-        #     temporary_switch.x,
-        #     temporary_switch.y
-        # )
-        
-        self._journey_starts = routing.build_journeys(self.sim,
-                                                      scene,
-                                                      switch_position=scene.switch_positions[0],
-                                                      switch_radius=1.5)
+        self._journey_starts = routing.build_journeys(self.sim, scene)
         self._agents_left_to_spawn = max(
             0, int(self.sim_parameters.get("agent_count", 20))
         )

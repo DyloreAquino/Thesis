@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dh8f5ldmmhsr8" path="res://agent_manager.gd" id="3_aueqv"]
 [ext_resource type="PackedScene" uid="uid://b2ivfbf11cg61" path="res://agent.tscn" id="4_nuuvo"]
 [ext_resource type="Script" uid="uid://ccsi6j6kq5ey5" path="res://parameters_manager.gd" id="5_aueqv"]
+[ext_resource type="Script" uid="uid://bwcro5ae67kla" path="res://journey_switch.gd" id="6_saih3"]
 
 [node name="TestMain" type="Node2D" unique_id=347431086]
 
@@ -13,13 +14,14 @@ script = ExtResource("1_b6ro0")
 geometry_exporter = NodePath("../GeometryExporter")
 agent_manager = NodePath("../AgentManager")
 
-[node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("walkable_area", "entry_areas", "exit_areas", "obstacles", "switches", "sim_client")]
+[node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("walkable_area", "entry_areas", "exit_areas", "obstacles", "switches", "initial_switch", "sim_client")]
 script = ExtResource("2_tcanr")
 walkable_area = NodePath("../WalkableArea")
 entry_areas = [NodePath("../EntryPoint")]
 exit_areas = [NodePath("../ExitPoint"), NodePath("../ExitPoint2")]
 obstacles = [NodePath("../Obstacle")]
-switches = [NodePath("../JourneySwitch1")]
+switches = [NodePath("../JourneySwitch1"), NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
+initial_switch = NodePath("../JourneySwitch1")
 sim_client = NodePath("../SimClient")
 
 [node name="AgentManager" type="Node" parent="." unique_id=826777606]
@@ -31,32 +33,48 @@ script = ExtResource("5_aueqv")
 sim_client = NodePath("../SimClient")
 
 [node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
-position = Vector2(-72, -10)
+position = Vector2(-62, 41)
 color = Color(0.5211406, 0.5211406, 0.5211405, 1)
-polygon = PackedVector2Array(175, 97, 601, 76, 778, 60, 1032, 251, 823, 566, 175, 563)
+polygon = PackedVector2Array(97, 18, 590, 26, 1033, 22, 1032, 251, 1038, 578, 107, 576)
 
 [node name="EntryPoint" type="Polygon2D" parent="." unique_id=2021540900]
-position = Vector2(14, -25)
+position = Vector2(-116, 46)
 color = Color(0.4147725, 0.60473317, 0.28495726, 1)
 polygon = PackedVector2Array(185, 175, 199, 370, 346, 459, 401, 190)
 
 [node name="ExitPoint" type="Polygon2D" parent="." unique_id=1589285996]
-position = Vector2(-31, -52)
+position = Vector2(169, -49)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="ExitPoint2" type="Polygon2D" parent="." unique_id=965333159]
-position = Vector2(5, 254)
+position = Vector2(184, 332)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="Obstacle" type="Polygon2D" parent="." unique_id=2051941769]
-position = Vector2(133, -28)
+position = Vector2(134, 7)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(519, 221, 560, 395, 444, 473, 400, 342, 411, 231)
+polygon = PackedVector2Array(519, 221, 560, 395, 444, 473, 432, 351, 411, 231)
 
-[node name="JourneySwitch1" type="Marker2D" parent="." unique_id=1155639863]
-position = Vector2(776, 305)
+[node name="JourneySwitch3" type="Marker2D" parent="." unique_id=1490291367 node_paths=PackedStringArray("target_exits")]
+position = Vector2(599, 167)
+script = ExtResource("6_saih3")
+switch_id = "switch_c"
+target_exits = [NodePath("../ExitPoint")]
+
+[node name="JourneySwitch2" type="Marker2D" parent="." unique_id=1227249041 node_paths=PackedStringArray("target_exits")]
+position = Vector2(644, 549)
+script = ExtResource("6_saih3")
+switch_id = "switch_b"
+target_exits = [NodePath("../ExitPoint2")]
+
+[node name="JourneySwitch1" type="Marker2D" parent="." unique_id=1155639863 node_paths=PackedStringArray("target_switches")]
+position = Vector2(436, 341)
+script = ExtResource("6_saih3")
+switch_id = "switch_a"
+target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
+transition_type = "least_targeted"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=675606304]
 
@@ -66,10 +84,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -202.0
-offset_top = -103.0
-offset_right = -46.0
-offset_bottom = -34.0
+offset_left = -159.0
+offset_top = -73.0
+offset_right = -3.0
+offset_bottom = -4.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Fix Geometry"
@@ -80,10 +98,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -201.0
-offset_top = -178.0
-offset_right = -47.0
-offset_bottom = -119.0
+offset_left = -158.0
+offset_top = -146.0
+offset_right = -4.0
+offset_bottom = -87.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Start Simulation"

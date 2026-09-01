@@ -101,11 +101,16 @@ async def _route_message(
     cmd = data.get("cmd")
 
     if cmd == "setup_geometry":
-        scene_geometry.set_from_message(data)
+        try:
+            scene_geometry.set_from_message(data)
+        except (KeyError, TypeError, ValueError) as error:
+            print(f"Invalid geometry or routing: {error}")
+            await _send_simulation_state(websocket, "error", str(error))
+            return
         print(f"Geometry received: {len(scene_geometry.entry_areas)} entry areas, "
               f"{len(scene_geometry.exit_areas)} exit areas, "
               f"{len(scene_geometry.obstacles)} obstacles, and "
-              f"{len(scene_geometry.switch_positions)} switches.")
+              f"{len(scene_geometry.switches)} switches.")
         
     elif cmd == "update_sim_parameters":
         if "agent_count" in data:
