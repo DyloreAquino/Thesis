@@ -102,6 +102,7 @@ text = "Agent Count: "
 
 [node name="AgentCountInput" type="SpinBox" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=626557622]
 layout_mode = 2
+value = 20.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=1825287393]
 layout_mode = 2
@@ -114,6 +115,7 @@ text = "Entry Rate / s"
 [node name="EntryRateInput" type="SpinBox" parent="CanvasLayer/VBoxContainer/HBoxContainer2" unique_id=1087231704]
 layout_mode = 2
 step = 0.01
+value = 1.0
 
 [connection signal="button_up" from="CanvasLayer/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]

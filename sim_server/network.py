@@ -21,7 +21,12 @@ async def handler(websocket) -> None:
     simulation_tasks: set[asyncio.Task] = set()
     try:
         async for raw_message in websocket:
-            simulation_task = await _route_message(raw_message, websocket)
+            active_simulation = next(
+                (task for task in simulation_tasks if not task.done()), None
+            )
+            simulation_task = await _route_message(
+                raw_message, websocket, active_simulation
+            )
             if simulation_task is not None:
                 simulation_tasks.add(simulation_task)
     except websockets.exceptions.ConnectionClosedOK as closed:
@@ -49,8 +54,10 @@ async def start_server(host: str = "127.0.0.1", port: int = 8765) -> None:
 
 async def _run_simulation(websocket) -> None:
     """Runs the simulation, then sends info to Godot"""
-    crowd = CrowdSimulation(scene_geometry, sim_parameters=sim_parameters)
+    crowd = None
     try:
+        crowd = CrowdSimulation(scene_geometry, sim_parameters=sim_parameters)
+        await _send_simulation_state(websocket, "running")
         tick = 0
         while not crowd.is_finished():
             crowd.step()
@@ -63,10 +70,32 @@ async def _run_simulation(websocket) -> None:
                     "agents": crowd.snapshot()}))
                 await asyncio.sleep(crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS)
         print("All agents exited")
+    except asyncio.CancelledError:
+        raise
+    except Exception as error:
+        print(f"Simulation failed: {error}")
+        if websocket.close_code is None:
+            await _send_simulation_state(websocket, "error", str(error))
     finally:
-        crowd.close()
+        if crowd is not None:
+            crowd.close()
+        if websocket.close_code is None:
+            await _send_simulation_state(websocket, "idle")
 
-async def _route_message(raw_message: str, websocket) -> asyncio.Task | None:
+async def _send_simulation_state(
+    websocket, state: str, message: str | None = None
+) -> None:
+    """Tell Godot the server-authoritative simulation state."""
+    payload = {"cmd": "simulation_state", "state": state}
+    if message is not None:
+        payload["message"] = message
+    await websocket.send(json.dumps(payload))
+
+async def _route_message(
+    raw_message: str,
+    websocket,
+    active_simulation: asyncio.Task | None = None,
+) -> asyncio.Task | None:
     """Routes the needed command from Godot to whatever it needs to do"""
     data = json.loads(raw_message)
     cmd = data.get("cmd")
@@ -89,9 +118,18 @@ async def _route_message(raw_message: str, websocket) -> asyncio.Task | None:
                 print("Ignoring entry_rate: it must be greater than 0 agents/second")
         
     elif cmd == "start_simulation":
+        if active_simulation is not None and not active_simulation.done():
+            await _send_simulation_state(
+                websocket, "running", "A simulation is already running"
+            )
+            return
         if not scene_geometry.is_ready():
             print("Cannot start: geometry not fully received yet")
+            await _send_simulation_state(
+                websocket, "error", "Geometry is not ready"
+            )
             return
+        await _send_simulation_state(websocket, "starting")
         return asyncio.create_task(_run_simulation(websocket))
         
     else:
