@@ -8,7 +8,9 @@ const STATE_STARTING := "starting"
 const STATE_RUNNING := "running"
 
 @export var geometry_exporter : GeometryExporter
-@export var agent_manager: Node
+@export var agent_manager: AgentManager
+@export var stats_manager: StatisticsManager
+
 @onready var start_simulation_button: Button = $"../CanvasLayer/StartSimulationButton"
 
 var socket := WebSocketPeer.new()
@@ -59,6 +61,7 @@ func _parse_server_message(data: Dictionary) -> void:
 		"tick":
 			var inv_scale := 1.0 / geometry_exporter.world_scale
 			agent_manager.apply_snapshot(data["agents"], inv_scale, data["dt"])
+			stats_manager.apply_snapshot(data["statistics"], data["dt"])
 		"simulation_state":
 			var state := String(data.get("state", STATE_IDLE))
 			if state == "error":

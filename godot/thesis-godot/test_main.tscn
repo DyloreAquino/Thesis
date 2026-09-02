@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://b2ivfbf11cg61" path="res://agent.tscn" id="4_nuuvo"]
 [ext_resource type="Script" uid="uid://ccsi6j6kq5ey5" path="res://parameters_manager.gd" id="5_aueqv"]
 [ext_resource type="Script" uid="uid://bwcro5ae67kla" path="res://journey_switch.gd" id="6_saih3"]
+[ext_resource type="Script" uid="uid://dux7koxg0f6fo" path="res://statistics_manager.gd" id="6_soafa"]
+[ext_resource type="Script" uid="uid://cfrtainw3mj4h" path="res://resize_handle.gd" id="9_nedis"]
+[ext_resource type="Script" uid="uid://cfaysggxyuyo8" path="res://stat_chart.gd" id="9_xbli7"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_7ti3p"]
 radius = 3.0
@@ -13,10 +16,11 @@ height = 3.0
 
 [node name="TestMain" type="Node2D" unique_id=347431086]
 
-[node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager")]
+[node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager", "stats_manager")]
 script = ExtResource("1_b6ro0")
 geometry_exporter = NodePath("../GeometryExporter")
 agent_manager = NodePath("../AgentManager")
+stats_manager = NodePath("../StatisticsManager")
 
 [node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("walkable_area", "entry_areas", "exit_areas", "obstacles", "switches", "initial_switch", "sim_client")]
 script = ExtResource("2_tcanr")
@@ -35,6 +39,10 @@ agent_scene = ExtResource("4_nuuvo")
 [node name="ParametersManager" type="Node" parent="." unique_id=336944035 node_paths=PackedStringArray("sim_client")]
 script = ExtResource("5_aueqv")
 sim_client = NodePath("../SimClient")
+
+[node name="StatisticsManager" type="Node" parent="." unique_id=579915066 node_paths=PackedStringArray("density_chart")]
+script = ExtResource("6_soafa")
+density_chart = NodePath("../CanvasLayer/DensityChart")
 
 [node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
 position = Vector2(-62, 41)
@@ -155,7 +163,25 @@ layout_mode = 2
 step = 0.01
 value = 1.0
 
+[node name="DensityChart" type="PanelContainer" parent="CanvasLayer" unique_id=176673334]
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 291.0
+offset_bottom = 208.0
+theme_type_variation = &"TauPlot"
+script = ExtResource("9_xbli7")
+series_name = "Density"
+y_axis_title = "agents/m^2"
+legend_enabled = false
+metadata/_custom_type_script = "uid://dnhvsf2wip771"
+
+[node name="ResizeHandle" type="Control" parent="CanvasLayer/DensityChart" unique_id=2032078239 node_paths=PackedStringArray("target")]
+layout_mode = 2
+script = ExtResource("9_nedis")
+target = NodePath("..")
+
 [connection signal="button_up" from="CanvasLayer/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]
 [connection signal="value_changed" from="CanvasLayer/VBoxContainer/HBoxContainer/AgentCountInput" to="ParametersManager" method="_on_agent_count_input_value_changed"]
 [connection signal="value_changed" from="CanvasLayer/VBoxContainer/HBoxContainer2/EntryRateInput" to="ParametersManager" method="_on_entry_rate_input_value_changed"]
+[connection signal="resized" from="CanvasLayer/DensityChart/ResizeHandle" to="CanvasLayer/DensityChart/ResizeHandle" method="_on_resized"]

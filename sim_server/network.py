@@ -67,7 +67,9 @@ async def _run_simulation(websocket) -> None:
                     "cmd": "tick",
                     "t": tick,
                     "dt": crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS,
-                    "agents": crowd.snapshot()}))
+                    "agents": crowd.snapshot(),
+                    "statistics": crowd.get_statistics()
+                }))
                 await asyncio.sleep(crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS)
         print("All agents exited")
     except asyncio.CancelledError:

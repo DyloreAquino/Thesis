@@ -7,6 +7,7 @@ import jupedsim as jps
 from geometry import SceneGeometry
 import routing
 import spawning
+import sim_stats
 
 class CrowdSimulation:
     def __init__(self, 
@@ -22,6 +23,8 @@ class CrowdSimulation:
         
         if scene.walkable_area is None:
             raise ValueError("Geometry cannot be none")
+        
+        self.geometry = scene
         
         self._trajectory_writer = jps.SqliteTrajectoryWriter(
             output_file=pathlib.Path(trajectory_file)
@@ -74,3 +77,8 @@ class CrowdSimulation:
             {"id": a.id, "x": a.position[0], "y": a.position[1]}
             for a in self.sim.agents()
         ]
+    
+    def get_statistics(self) -> dict:
+        return {
+            "density": sim_stats.compute_density(self.sim, self.geometry.walkable_area)
+        }
