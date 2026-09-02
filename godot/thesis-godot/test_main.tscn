@@ -7,6 +7,10 @@
 [ext_resource type="Script" uid="uid://ccsi6j6kq5ey5" path="res://parameters_manager.gd" id="5_aueqv"]
 [ext_resource type="Script" uid="uid://bwcro5ae67kla" path="res://journey_switch.gd" id="6_saih3"]
 
+[sub_resource type="SphereMesh" id="SphereMesh_7ti3p"]
+radius = 3.0
+height = 3.0
+
 [node name="TestMain" type="Node2D" unique_id=347431086]
 
 [node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager")]
@@ -63,11 +67,19 @@ script = ExtResource("6_saih3")
 switch_id = "switch_c"
 target_exits = [NodePath("../ExitPoint")]
 
+[node name="MeshInstance2D" type="MeshInstance2D" parent="JourneySwitch3" unique_id=154269977]
+scale = Vector2(1.6685566, 3.3333333)
+mesh = SubResource("SphereMesh_7ti3p")
+
 [node name="JourneySwitch2" type="Marker2D" parent="." unique_id=1227249041 node_paths=PackedStringArray("target_exits")]
 position = Vector2(644, 549)
 script = ExtResource("6_saih3")
 switch_id = "switch_b"
 target_exits = [NodePath("../ExitPoint2")]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="JourneySwitch2" unique_id=412853809]
+scale = Vector2(1.6685566, 3.3333333)
+mesh = SubResource("SphereMesh_7ti3p")
 
 [node name="JourneySwitch1" type="Marker2D" parent="." unique_id=1155639863 node_paths=PackedStringArray("target_switches")]
 position = Vector2(436, 341)
@@ -75,6 +87,10 @@ script = ExtResource("6_saih3")
 switch_id = "switch_a"
 target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
 transition_type = "least_targeted"
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="JourneySwitch1" unique_id=1091922043]
+scale = Vector2(1.6685566, 3.3333333)
+mesh = SubResource("SphereMesh_7ti3p")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=675606304]
 
