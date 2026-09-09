@@ -47,9 +47,9 @@ script = ExtResource("6_soafa")
 density_chart = NodePath("../CanvasLayer/DensityChart")
 
 [node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
-position = Vector2(-62, 41)
+position = Vector2(-16, 40)
 color = Color(0.5211406, 0.5211406, 0.5211405, 1)
-polygon = PackedVector2Array(97, 18, 590, 26, 1033, 22, 1032, 251, 1038, 578, 107, 576)
+polygon = PackedVector2Array(58, 10, 590, 26, 1033, 22, 1032, 251, 1038, 578, 46, 578)
 
 [node name="EntryPoint" type="Polygon2D" parent="." unique_id=2021540900]
 position = Vector2(-95, 290)
@@ -62,97 +62,111 @@ color = Color(0.4147725, 0.60473317, 0.28495726, 1)
 polygon = PackedVector2Array(199, 254, 199, 370, 298, 377, 300, 256)
 
 [node name="ExitPoint" type="Polygon2D" parent="." unique_id=1589285996]
-position = Vector2(150, -56)
+position = Vector2(236, -53)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="ExitPoint2" type="Polygon2D" parent="." unique_id=965333159]
-position = Vector2(147, 327)
+position = Vector2(233, 330)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="Obstacle" type="Polygon2D" parent="." unique_id=2051941769]
-position = Vector2(-320, 13)
+position = Vector2(-113, 20)
+scale = Vector2(0.48739496, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(532, 275, 530, 398, 413, 396, 419, 273)
 
 [node name="Obstacle2" type="Polygon2D" parent="." unique_id=1851588077]
 position = Vector2(-12, -255)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(508, 294, 498, 444, 447, 438, 443, 298)
+polygon = PackedVector2Array(588, 303, 588, 439, 396, 439, 396, 303)
 
 [node name="Obstacle3" type="Polygon2D" parent="." unique_id=724134235]
 position = Vector2(-14, 213)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(508, 294, 498, 444, 447, 438, 443, 298)
+polygon = PackedVector2Array(590, 299, 590, 435, 398, 435, 398, 299)
 
 [node name="Obstacle4" type="Polygon2D" parent="." unique_id=171247616]
-position = Vector2(-12, -70)
+position = Vector2(282, -70)
+scale = Vector2(0.5, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(538, 300, 539, 326, 443, 328, 440, 302)
+polygon = PackedVector2Array(588, 302, 588, 326, 492, 326, 492, 312.96173, 492, 302)
 
 [node name="Obstacle5" type="Polygon2D" parent="." unique_id=796443968]
-position = Vector2(-11, 4)
+position = Vector2(-8, 8)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(539, 307, 543, 330, 443, 328, 445, 300)
+polygon = PackedVector2Array(584, 296, 584, 320, 536, 320, 536, 296)
 
 [node name="Obstacle6" type="Polygon2D" parent="." unique_id=1864427876]
-position = Vector2(-13, 73)
+position = Vector2(281.50018, 73)
+scale = Vector2(0.4999997, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(542, 304, 544, 329, 446, 327, 442, 303)
+polygon = PackedVector2Array(589, 303, 589, 327, 493, 327, 492.99994, 315.3581, 493, 303)
 
 [node name="Obstacle7" type="Polygon2D" parent="." unique_id=1016146132]
-position = Vector2(-13, 143)
+position = Vector2(428.75, 143)
+scale = Vector2(0.25, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(545, 303, 547, 329, 443, 328, 446, 302)
+polygon = PackedVector2Array(589, 305, 589, 321, 397, 321, 397, 305)
 
-[node name="QueueLine" type="Line2D" parent="." unique_id=1139622068 node_paths=PackedStringArray("target_exit")]
+[node name="QueueLine" type="Line2D" parent="." unique_id=1139622068 node_paths=PackedStringArray("target_switches", "target_exits")]
 position = Vector2(-101, 56)
-points = PackedVector2Array(613, 149, 518, 148)
+points = PackedVector2Array(669, 152, 485, 152)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("7_nedis")
-target_exit = NodePath("../ExitPoint")
+target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
+target_exits = [NodePath("../ExitPoint"), NodePath("../ExitPoint2")]
+transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine2" type="Line2D" parent="." unique_id=1550022296 node_paths=PackedStringArray("target_exit")]
-position = Vector2(-101, 135)
-points = PackedVector2Array(613, 149, 518, 148)
+[node name="QueueLine2" type="Line2D" parent="." unique_id=431844337 node_paths=PackedStringArray("target_switches", "target_exits")]
+position = Vector2(-101, 133)
+points = PackedVector2Array(677, 147, 485, 147)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("7_nedis")
-target_exit = NodePath("../ExitPoint")
+target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
+target_exits = [NodePath("../ExitPoint"), NodePath("../ExitPoint2")]
+transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine3" type="Line2D" parent="." unique_id=1791341884 node_paths=PackedStringArray("target_exit")]
-position = Vector2(-99, 208)
-points = PackedVector2Array(613, 149, 518, 148)
+[node name="QueueLine3" type="Line2D" parent="." unique_id=1523155163 node_paths=PackedStringArray("target_switches", "target_exits")]
+position = Vector2(-100, 209)
+points = PackedVector2Array(676, 143, 484, 143)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("7_nedis")
-target_exit = NodePath("../ExitPoint")
+target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
+target_exits = [NodePath("../ExitPoint"), NodePath("../ExitPoint2")]
+transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine4" type="Line2D" parent="." unique_id=1764380363 node_paths=PackedStringArray("target_exit")]
-position = Vector2(-100, 271)
-points = PackedVector2Array(613, 149, 518, 148)
+[node name="QueueLine4" type="Line2D" parent="." unique_id=1065396825 node_paths=PackedStringArray("target_switches", "target_exits")]
+position = Vector2(-100, 276)
+points = PackedVector2Array(676, 148, 484, 148)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("7_nedis")
-target_exit = NodePath("../ExitPoint")
+target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
+target_exits = [NodePath("../ExitPoint"), NodePath("../ExitPoint2")]
+transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine5" type="Line2D" parent="." unique_id=149029886 node_paths=PackedStringArray("target_exit")]
-position = Vector2(-101, 339)
-points = PackedVector2Array(613, 149, 518, 148)
+[node name="QueueLine5" type="Line2D" parent="." unique_id=1336792386 node_paths=PackedStringArray("target_switches", "target_exits")]
+position = Vector2(-103, 340)
+points = PackedVector2Array(679, 148, 487, 148)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("7_nedis")
-target_exit = NodePath("../ExitPoint")
+target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
+target_exits = [NodePath("../ExitPoint"), NodePath("../ExitPoint2")]
+transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="JourneySwitch3" type="Marker2D" parent="." unique_id=1490291367 node_paths=PackedStringArray("target_exits")]
-position = Vector2(684, 166)
+position = Vector2(768, 128)
 script = ExtResource("6_saih3")
 switch_id = "switch_c"
 target_exits = [NodePath("../ExitPoint")]
@@ -162,7 +176,7 @@ scale = Vector2(1.6685566, 3.3333333)
 mesh = SubResource("SphereMesh_7ti3p")
 
 [node name="JourneySwitch2" type="Marker2D" parent="." unique_id=1227249041 node_paths=PackedStringArray("target_exits")]
-position = Vector2(666, 569)
+position = Vector2(768, 512)
 script = ExtResource("6_saih3")
 switch_id = "switch_b"
 target_exits = [NodePath("../ExitPoint2")]
@@ -177,7 +191,7 @@ script = ExtResource("6_saih3")
 switch_id = "switch_a"
 radius_m = 3.0
 target_queues = [NodePath("../QueueLine"), NodePath("../QueueLine2"), NodePath("../QueueLine3"), NodePath("../QueueLine4"), NodePath("../QueueLine5")]
-transition_type = "round_robin"
+transition_type = "least_targeted"
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="JourneySwitch1" unique_id=1091922043]
 scale = Vector2(1.6685566, 3.3333333)

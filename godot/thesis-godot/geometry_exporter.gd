@@ -79,18 +79,25 @@ func _switch_to_message(journey_switch: JourneySwitch) -> Dictionary:
 	}
 
 func _queue_to_message(journey_queue: JourneyQueue) -> Dictionary:
-	var target_exit_index := exit_areas.find(journey_queue.target_exit)
-	if target_exit_index < 0:
-		push_error(
-			"Queue '%s' targets an exit not registered in exit_areas"
-			% journey_queue.name
-		)
-		return {}
+	var target_switch_ids: Array[String] = []
+	var target_exit_indices: Array[int] = []
+
+	for target_switch in journey_queue.target_switches:
+		target_switch_ids.append(target_switch.switch_id)
+
+	for target_exit in journey_queue.target_exits:
+		var exit_index := exit_areas.find(target_exit)
+		if exit_index < 0:
+			push_error("Queue '%s' targets an exit not registered in exit_areas" % journey_queue.name)
+			continue
+		target_exit_indices.append(exit_index)
 
 	return {
 		"path": _line_to_scaled_points(journey_queue),
-		"target_exit_index": target_exit_index,
 		"release_interval_seconds": journey_queue.release_interval_seconds,
+		"target_switch_ids": target_switch_ids,
+		"target_exit_indices": target_exit_indices,
+		"transition": journey_queue.transition_type,
 	}
 
 func _on_fix_geometry_button_button_up():

@@ -34,10 +34,9 @@ def build_journeys(
         )
     
     for i, queue in enumerate(scene.queues):
-        journey.set_transition_for_stage(
-            queue_ids[i],
-            jps.Transition.create_fixed_transition(exit_ids[queue.target_exit_index]),
-        )
+        target_stage_ids = [switch_stage_ids[t] for t in queue.target_switch_ids]
+        target_stage_ids.extend(exit_ids[j] for j in queue.target_exit_indices)
+        journey.set_transition_for_stage(queue_ids[i], _build_transition(queue.transition, target_stage_ids))
 
     journey_id = sim.add_journey(journey)
 

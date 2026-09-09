@@ -21,8 +21,10 @@ class SwitchDefinition:
 @dataclass(frozen=True)
 class QueueDefinition:
     path: tuple[tuple[float, float], ...]
-    target_exit_index: int
     release_interval_seconds: float = 10.0
+    target_switch_ids: tuple[str, ...] = ()
+    target_exit_indices: tuple[int, ...] = ()
+    transition: str = "fixed"
 
 
 class SceneGeometry:
@@ -57,6 +59,10 @@ class SceneGeometry:
         self.queues = [
             self._parse_queue(raw_queue) for raw_queue in data.get("queues", [])
         ]
+        
+        for i in range(len(self.queues)):
+            if not self._queue_reaches_an_exit(i, frozenset()):
+                raise ValueError(f"Queue #{i} has a cycle or a path without an exit")
 
         initial_switch_id = str(data.get("initial_switch_id", "")).strip()
         self.initial_switch_id = initial_switch_id or None
@@ -106,14 +112,12 @@ class SceneGeometry:
         if len(raw_path) < 2:
             raise ValueError("A queue must have at least 2 points to define a path")
 
-        target_exit_index = data.get("target_exit_index")
-        if target_exit_index is None:
-            raise ValueError("A queue must declare which exit_index it leads to")
-
         return QueueDefinition(
             path=tuple((float(p[0]), float(p[1])) for p in raw_path),
-            target_exit_index=int(target_exit_index),
             release_interval_seconds=float(data.get("release_interval_seconds", 10.0)),
+            target_switch_ids=tuple(str(t).strip() for t in data.get("target_switch_ids", [])),
+            target_exit_indices=tuple(int(i) for i in data.get("target_exit_indices", [])),
+            transition=str(data.get("transition", "fixed")),
         )
 
     def _build_obstacles(self) -> None:
@@ -131,13 +135,24 @@ class SceneGeometry:
                 f"Initial switch '{self.initial_switch_id}' does not exist"
             )
         
+        valid_transitions = {"fixed", "least_targeted", "round_robin"}
         for i, queue in enumerate(self.queues):
-            if queue.target_exit_index < 0 or queue.target_exit_index >= len(self.exit_areas):
-                raise ValueError(f"Queue #{i} targets invalid exit index: {queue.target_exit_index}")
             if not math.isfinite(queue.release_interval_seconds) or queue.release_interval_seconds <= 0:
                 raise ValueError(f"Queue #{i} must have a positive release_interval_seconds")
-
-        valid_transitions = {"fixed", "least_targeted", "round_robin"}
+            if queue.transition not in valid_transitions:
+                raise ValueError(f"Queue #{i} has unknown transition '{queue.transition}'")
+            unknown_targets = set(queue.target_switch_ids) - self.switches.keys()
+            if unknown_targets:
+                raise ValueError(f"Queue #{i} targets unknown switches: {sorted(unknown_targets)}")
+            invalid_exit_indices = [j for j in queue.target_exit_indices if j < 0 or j >= len(self.exit_areas)]
+            if invalid_exit_indices:
+                raise ValueError(f"Queue #{i} targets invalid exit indices: {invalid_exit_indices}")
+            target_count = len(queue.target_switch_ids) + len(queue.target_exit_indices)
+            if target_count == 0:
+                raise ValueError(f"Queue #{i} must target at least one switch or exit")
+            if queue.transition == "fixed" and target_count != 1:
+                raise ValueError(f"Fixed queue #{i} must have exactly one target")
+        
         for switch in self.switches.values():
             if not switch.switch_id:
                 raise ValueError("Every journey switch must have a non-empty id")
@@ -203,13 +218,19 @@ class SceneGeometry:
     def _all_paths_reach_an_exit(self, switch_id: str, visiting: frozenset[str]) -> bool:
         if switch_id in visiting:
             return False
-
         switch = self.switches[switch_id]
         next_visiting = visiting | {switch_id}
-        has_any_target = bool(
-            switch.target_exit_indices or switch.target_switch_ids or switch.target_queue_indices
+        if not (switch.target_exit_indices or switch.target_switch_ids or switch.target_queue_indices):
+            return False
+        return (
+            all(self._all_paths_reach_an_exit(t, next_visiting) for t in switch.target_switch_ids)
+            and all(self._queue_reaches_an_exit(i, next_visiting) for i in switch.target_queue_indices)
         )
+
+    def _queue_reaches_an_exit(self, queue_index: int, visiting: frozenset[str]) -> bool:
+        queue = self.queues[queue_index]
+        has_any_target = bool(queue.target_exit_indices or queue.target_switch_ids)
         return has_any_target and all(
-            self._all_paths_reach_an_exit(target_id, next_visiting)
-            for target_id in switch.target_switch_ids
+            self._all_paths_reach_an_exit(switch_id, visiting)
+            for switch_id in queue.target_switch_ids
         )
