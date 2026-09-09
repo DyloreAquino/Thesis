@@ -6,8 +6,8 @@ import pathlib
 import jupedsim as jps
 from geometry import SceneGeometry
 
+from queues import QueueController
 import routing
-from queues import resample_path
 import spawning
 import sim_stats
 
@@ -38,7 +38,18 @@ class CrowdSimulation:
             trajectory_writer=self._trajectory_writer,
         )
         self._entry_areas = scene.entry_areas
-        self._journey_starts = routing.build_journeys(self.sim, scene)
+        self._journey_starts, queue_stage_ids = routing.build_journeys(self.sim, scene)
+        
+        delta_time = self.sim.delta_time()
+        self._queue_controllers = [
+            QueueController(
+                stage=self.sim.get_stage(stage_id),
+                release_interval_seconds=queue_def.release_interval_seconds,
+                delta_time=delta_time,
+            )
+            for stage_id, queue_def in zip(queue_stage_ids, scene.queues)
+        ]
+        
         self._agents_left_to_spawn = max(
             0, int(self.sim_parameters.get("agent_count", 20))
         )
@@ -56,6 +67,11 @@ class CrowdSimulation:
                 break
             self._agents_left_to_spawn -= 1
             self._next_spawn_time += self._spawn_interval
+        
+        current_iteration = self.sim.iteration_count()
+        for controller in self._queue_controllers:
+            controller.update(current_iteration)
+        
         self.sim.iterate()
         
     def delta_time(self) -> float:
@@ -84,10 +100,3 @@ class CrowdSimulation:
         return {
             "density": sim_stats.compute_density(self.sim, self.geometry.walkable_area)
         }
-
-    def _build_queue_stages(self, scene: SceneGeometry) -> list[int]:
-        QUEUE_SPACING_METERS = 1.0
-        return [
-            self.sim.add_queue_stage(resample_path(raw_path, QUEUE_SPACING_METERS))
-            for raw_path in scene.queues
-        ]

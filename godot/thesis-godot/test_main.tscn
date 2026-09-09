@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ccsi6j6kq5ey5" path="res://parameters_manager.gd" id="5_aueqv"]
 [ext_resource type="Script" uid="uid://bwcro5ae67kla" path="res://journey_switch.gd" id="6_saih3"]
 [ext_resource type="Script" uid="uid://dux7koxg0f6fo" path="res://statistics_manager.gd" id="6_soafa"]
+[ext_resource type="Script" uid="uid://bv5ty2ta6to7e" path="res://journey_queue.gd" id="7_nedis"]
 [ext_resource type="Script" uid="uid://cfrtainw3mj4h" path="res://resize_handle.gd" id="9_nedis"]
 [ext_resource type="Script" uid="uid://cfaysggxyuyo8" path="res://stat_chart.gd" id="9_xbli7"]
 
@@ -22,14 +23,15 @@ geometry_exporter = NodePath("../GeometryExporter")
 agent_manager = NodePath("../AgentManager")
 stats_manager = NodePath("../StatisticsManager")
 
-[node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("walkable_area", "entry_areas", "exit_areas", "obstacles", "switches", "initial_switch", "sim_client")]
+[node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("walkable_area", "entry_areas", "exit_areas", "obstacles", "switches", "initial_switch", "queues", "sim_client")]
 script = ExtResource("2_tcanr")
 walkable_area = NodePath("../WalkableArea")
-entry_areas = [NodePath("../EntryPoint")]
+entry_areas = [NodePath("../EntryPoint"), NodePath("../EntryPoint2")]
 exit_areas = [NodePath("../ExitPoint"), NodePath("../ExitPoint2")]
-obstacles = [NodePath("../Obstacle")]
+obstacles = [NodePath("../Obstacle"), NodePath("../Obstacle2"), NodePath("../Obstacle3"), NodePath("../Obstacle4"), NodePath("../Obstacle5"), NodePath("../Obstacle6"), NodePath("../Obstacle7")]
 switches = [NodePath("../JourneySwitch1"), NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
 initial_switch = NodePath("../JourneySwitch1")
+queues = [NodePath("../QueueLine"), NodePath("../QueueLine2"), NodePath("../QueueLine3"), NodePath("../QueueLine4"), NodePath("../QueueLine5")]
 sim_client = NodePath("../SimClient")
 
 [node name="AgentManager" type="Node" parent="." unique_id=826777606]
@@ -50,27 +52,107 @@ color = Color(0.5211406, 0.5211406, 0.5211405, 1)
 polygon = PackedVector2Array(97, 18, 590, 26, 1033, 22, 1032, 251, 1038, 578, 107, 576)
 
 [node name="EntryPoint" type="Polygon2D" parent="." unique_id=2021540900]
-position = Vector2(-116, 46)
+position = Vector2(-95, 290)
 color = Color(0.4147725, 0.60473317, 0.28495726, 1)
-polygon = PackedVector2Array(185, 175, 199, 370, 346, 459, 401, 190)
+polygon = PackedVector2Array(199, 254, 199, 370, 298, 377, 300, 256)
+
+[node name="EntryPoint2" type="Polygon2D" parent="." unique_id=554408330]
+position = Vector2(-89, -223)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(199, 254, 199, 370, 298, 377, 300, 256)
 
 [node name="ExitPoint" type="Polygon2D" parent="." unique_id=1589285996]
-position = Vector2(169, -49)
+position = Vector2(150, -56)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="ExitPoint2" type="Polygon2D" parent="." unique_id=965333159]
-position = Vector2(184, 332)
+position = Vector2(147, 327)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
 polygon = PackedVector2Array(705, 149, 687, 222, 741, 249, 753, 141)
 
 [node name="Obstacle" type="Polygon2D" parent="." unique_id=2051941769]
-position = Vector2(134, 7)
+position = Vector2(-320, 13)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(519, 221, 560, 395, 444, 473, 432, 351, 411, 231)
+polygon = PackedVector2Array(532, 275, 530, 398, 413, 396, 419, 273)
+
+[node name="Obstacle2" type="Polygon2D" parent="." unique_id=1851588077]
+position = Vector2(-12, -255)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(508, 294, 498, 444, 447, 438, 443, 298)
+
+[node name="Obstacle3" type="Polygon2D" parent="." unique_id=724134235]
+position = Vector2(-14, 213)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(508, 294, 498, 444, 447, 438, 443, 298)
+
+[node name="Obstacle4" type="Polygon2D" parent="." unique_id=171247616]
+position = Vector2(-12, -70)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(538, 300, 539, 326, 443, 328, 440, 302)
+
+[node name="Obstacle5" type="Polygon2D" parent="." unique_id=796443968]
+position = Vector2(-11, 4)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(539, 307, 543, 330, 443, 328, 445, 300)
+
+[node name="Obstacle6" type="Polygon2D" parent="." unique_id=1864427876]
+position = Vector2(-13, 73)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(542, 304, 544, 329, 446, 327, 442, 303)
+
+[node name="Obstacle7" type="Polygon2D" parent="." unique_id=1016146132]
+position = Vector2(-13, 143)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(545, 303, 547, 329, 443, 328, 446, 302)
+
+[node name="QueueLine" type="Line2D" parent="." unique_id=1139622068 node_paths=PackedStringArray("target_exit")]
+position = Vector2(-101, 56)
+points = PackedVector2Array(613, 149, 518, 148)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("7_nedis")
+target_exit = NodePath("../ExitPoint")
+release_interval_seconds = 4.0
+
+[node name="QueueLine2" type="Line2D" parent="." unique_id=1550022296 node_paths=PackedStringArray("target_exit")]
+position = Vector2(-101, 135)
+points = PackedVector2Array(613, 149, 518, 148)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("7_nedis")
+target_exit = NodePath("../ExitPoint")
+release_interval_seconds = 4.0
+
+[node name="QueueLine3" type="Line2D" parent="." unique_id=1791341884 node_paths=PackedStringArray("target_exit")]
+position = Vector2(-99, 208)
+points = PackedVector2Array(613, 149, 518, 148)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("7_nedis")
+target_exit = NodePath("../ExitPoint")
+release_interval_seconds = 4.0
+
+[node name="QueueLine4" type="Line2D" parent="." unique_id=1764380363 node_paths=PackedStringArray("target_exit")]
+position = Vector2(-100, 271)
+points = PackedVector2Array(613, 149, 518, 148)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("7_nedis")
+target_exit = NodePath("../ExitPoint")
+release_interval_seconds = 4.0
+
+[node name="QueueLine5" type="Line2D" parent="." unique_id=149029886 node_paths=PackedStringArray("target_exit")]
+position = Vector2(-101, 339)
+points = PackedVector2Array(613, 149, 518, 148)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("7_nedis")
+target_exit = NodePath("../ExitPoint")
+release_interval_seconds = 4.0
 
 [node name="JourneySwitch3" type="Marker2D" parent="." unique_id=1490291367 node_paths=PackedStringArray("target_exits")]
-position = Vector2(599, 167)
+position = Vector2(684, 166)
 script = ExtResource("6_saih3")
 switch_id = "switch_c"
 target_exits = [NodePath("../ExitPoint")]
@@ -80,7 +162,7 @@ scale = Vector2(1.6685566, 3.3333333)
 mesh = SubResource("SphereMesh_7ti3p")
 
 [node name="JourneySwitch2" type="Marker2D" parent="." unique_id=1227249041 node_paths=PackedStringArray("target_exits")]
-position = Vector2(644, 549)
+position = Vector2(666, 569)
 script = ExtResource("6_saih3")
 switch_id = "switch_b"
 target_exits = [NodePath("../ExitPoint2")]
@@ -89,22 +171,17 @@ target_exits = [NodePath("../ExitPoint2")]
 scale = Vector2(1.6685566, 3.3333333)
 mesh = SubResource("SphereMesh_7ti3p")
 
-[node name="JourneySwitch1" type="Marker2D" parent="." unique_id=1155639863 node_paths=PackedStringArray("target_switches")]
-position = Vector2(436, 341)
+[node name="JourneySwitch1" type="Marker2D" parent="." unique_id=1155639863 node_paths=PackedStringArray("target_queues")]
+position = Vector2(303, 348)
 script = ExtResource("6_saih3")
 switch_id = "switch_a"
-target_switches = [NodePath("../JourneySwitch2"), NodePath("../JourneySwitch3")]
-transition_type = "least_targeted"
+radius_m = 3.0
+target_queues = [NodePath("../QueueLine"), NodePath("../QueueLine2"), NodePath("../QueueLine3"), NodePath("../QueueLine4"), NodePath("../QueueLine5")]
+transition_type = "round_robin"
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="JourneySwitch1" unique_id=1091922043]
 scale = Vector2(1.6685566, 3.3333333)
 mesh = SubResource("SphereMesh_7ti3p")
-
-[node name="QueueLine" type="Line2D" parent="." unique_id=1139622068]
-position = Vector2(12, -42)
-points = PackedVector2Array(449, 228, 583, 185, 695, 209)
-width = 4.0
-default_color = Color(1, 1, 0.36078432, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=675606304]
 

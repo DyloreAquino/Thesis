@@ -14,6 +14,8 @@ class_name JourneySwitch
 ## Exit polygons that may be targeted after this switch is reached.
 @export var target_exits: Array[Polygon2D] = []
 
+@export var target_queues: Array[JourneyQueue] = []
+
 ## Types of switch modes
 @export_enum(
 	"fixed",

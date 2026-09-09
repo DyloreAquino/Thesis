@@ -2,6 +2,31 @@
 # evenly-spaced JuPedSim queue waiting positions.
 import math
 
+class QueueController:
+    """Owns release timing for one queue stage: releases one agent from the
+    front every `release_interval_seconds`, but only starts the clock once
+    someone is actually waiting in it.
+    """
+    def __init__(self, stage, release_interval_seconds: float, delta_time: float):
+        self._stage = stage
+        self._release_every_n_iterations = max(1, round(release_interval_seconds / delta_time))
+        self._is_active = False
+        self._started_at_iteration = 0
+
+    def update(self, current_iteration: int) -> None:
+        if self._stage.count_enqueued() == 0:
+            self._is_active = False
+            return
+
+        if not self._is_active:
+            self._is_active = True
+            self._started_at_iteration = current_iteration
+            return
+
+        elapsed = current_iteration - self._started_at_iteration
+        if elapsed % self._release_every_n_iterations == 0:
+            self._stage.pop(1)
+
 def resample_path(points: list[tuple[float, float]], spacing: float) -> list[tuple[float, float]]:
     if len(points) < 2:
         return points

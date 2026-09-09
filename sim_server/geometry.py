@@ -16,6 +16,13 @@ class SwitchDefinition:
     target_switch_ids: tuple[str, ...]
     target_exit_indices: tuple[int, ...]
     transition: str
+    target_queue_indices: tuple[int, ...]
+
+@dataclass(frozen=True)
+class QueueDefinition:
+    path: tuple[tuple[float, float], ...]
+    target_exit_index: int
+    release_interval_seconds: float = 10.0
 
 
 class SceneGeometry:
@@ -24,10 +31,10 @@ class SceneGeometry:
         self.entry_areas: list[Polygon] = []
         self.exit_areas: list[Polygon] = []
         self.obstacles: list[Polygon] = []
-        self.queues = list[tuple] = []
         self.switches: dict[str, SwitchDefinition] = {}
         self.initial_switch_id: str | None = None
         self._routing_valid = False
+        self.queues: list[QueueDefinition] = []
 
     def set_from_message(self, data: dict) -> None:
         self._routing_valid = False
@@ -35,7 +42,6 @@ class SceneGeometry:
         self.entry_areas = [Polygon(pts) for pts in data["entry_areas"]]
         self.exit_areas = [Polygon(pts) for pts in data["exit_areas"]]
         self.obstacles = [Polygon(pts) for pts in data["obstacles"]]
-        self.queues = [[tuple(p) for p in path] for path in data.get("queues", [])]
         self._build_obstacles()
 
         switch_definitions = [
@@ -47,6 +53,10 @@ class SceneGeometry:
         }
         if len(self.switches) != len(switch_definitions):
             raise ValueError("Every journey switch must have a unique id")
+    
+        self.queues = [
+            self._parse_queue(raw_queue) for raw_queue in data.get("queues", [])
+        ]
 
         initial_switch_id = str(data.get("initial_switch_id", "")).strip()
         self.initial_switch_id = initial_switch_id or None
@@ -85,6 +95,25 @@ class SceneGeometry:
                 for exit_index in data.get("target_exit_indices", [])
             ),
             transition=str(data.get("transition", "fixed")),
+            target_queue_indices=tuple(
+                int(queue_index) for queue_index in data.get("target_queue_indices", [])
+            ),
+        )
+    
+    @staticmethod
+    def _parse_queue(data: dict) -> QueueDefinition:
+        raw_path = data.get("path", [])
+        if len(raw_path) < 2:
+            raise ValueError("A queue must have at least 2 points to define a path")
+
+        target_exit_index = data.get("target_exit_index")
+        if target_exit_index is None:
+            raise ValueError("A queue must declare which exit_index it leads to")
+
+        return QueueDefinition(
+            path=tuple((float(p[0]), float(p[1])) for p in raw_path),
+            target_exit_index=int(target_exit_index),
+            release_interval_seconds=float(data.get("release_interval_seconds", 10.0)),
         )
 
     def _build_obstacles(self) -> None:
@@ -101,6 +130,12 @@ class SceneGeometry:
             raise ValueError(
                 f"Initial switch '{self.initial_switch_id}' does not exist"
             )
+        
+        for i, queue in enumerate(self.queues):
+            if queue.target_exit_index < 0 or queue.target_exit_index >= len(self.exit_areas):
+                raise ValueError(f"Queue #{i} targets invalid exit index: {queue.target_exit_index}")
+            if not math.isfinite(queue.release_interval_seconds) or queue.release_interval_seconds <= 0:
+                raise ValueError(f"Queue #{i} must have a positive release_interval_seconds")
 
         valid_transitions = {"fixed", "least_targeted", "round_robin"}
         for switch in self.switches.values():
@@ -141,19 +176,23 @@ class SceneGeometry:
                     f"Switch '{switch.switch_id}' targets invalid exit indices: "
                     f"{invalid_exit_indices}"
                 )
+            
+            invalid_queue_indices = [
+                index for index in switch.target_queue_indices
+                if index < 0 or index >= len(self.queues)
+            ]
+            if invalid_queue_indices:
+                raise ValueError(f"Switch '{switch.switch_id}' targets invalid queue indices: {invalid_queue_indices}")
 
             target_count = (
                 len(switch.target_switch_ids)
                 + len(switch.target_exit_indices)
+                + len(switch.target_queue_indices)
             )
             if target_count == 0:
-                raise ValueError(
-                    f"Switch '{switch.switch_id}' must target a switch or exit"
-                )
+                raise ValueError(f"Switch '{switch.switch_id}' must target a switch, exit, or queue")
             if switch.transition == "fixed" and target_count != 1:
-                raise ValueError(
-                    f"Fixed switch '{switch.switch_id}' must have exactly one target"
-                )
+                raise ValueError(f"Fixed switch '{switch.switch_id}' must have exactly one target")
 
         for switch_id in self.switches:
             if not self._all_paths_reach_an_exit(switch_id, frozenset()):
@@ -167,7 +206,10 @@ class SceneGeometry:
 
         switch = self.switches[switch_id]
         next_visiting = visiting | {switch_id}
-        return bool(switch.target_exit_indices or switch.target_switch_ids) and all(
+        has_any_target = bool(
+            switch.target_exit_indices or switch.target_switch_ids or switch.target_queue_indices
+        )
+        return has_any_target and all(
             self._all_paths_reach_an_exit(target_id, next_visiting)
             for target_id in switch.target_switch_ids
         )

@@ -1,15 +1,17 @@
 import jupedsim as jps
 
 from geometry import SceneGeometry
+from queues import resample_path
 
 # pipeline is: 
 # exits -> switches -> parse to journey -> expand each switch to their targets ->
 # build array with all journeys and init switch
 def build_journeys(
     sim: jps.Simulation, scene: SceneGeometry
-) -> list[tuple[int, int]]:
+) -> tuple[list[tuple[int, int]], list[int]]:
     """Build the Godot-authored switch graph as one JuPedSim journey."""
     exit_ids = _build_exit_stages(sim, scene)
+    queue_ids = _build_queue_stages(sim, scene)
     switch_stage_ids = {
         switch.switch_id: sim.add_waypoint_stage(
             switch.position, switch.radius
@@ -18,26 +20,30 @@ def build_journeys(
     }
 
     journey = jps.JourneyDescription(
-        [*switch_stage_ids.values(), *exit_ids]
+        [*switch_stage_ids.values(), *exit_ids, *queue_ids]
     )
+    
     for switch in scene.switches.values():
-        target_stage_ids = [
-            switch_stage_ids[target_id]
-            for target_id in switch.target_switch_ids
-        ]
-        target_stage_ids.extend(
-            exit_ids[index] for index in switch.target_exit_indices
-        )
+        target_stage_ids = [switch_stage_ids[t] for t in switch.target_switch_ids]
+        target_stage_ids.extend(queue_ids[i] for i in switch.target_queue_indices)
+        target_stage_ids.extend(exit_ids[i] for i in switch.target_exit_indices)
+
         journey.set_transition_for_stage(
             switch_stage_ids[switch.switch_id],
             _build_transition(switch.transition, target_stage_ids),
+        )
+    
+    for i, queue in enumerate(scene.queues):
+        journey.set_transition_for_stage(
+            queue_ids[i],
+            jps.Transition.create_fixed_transition(exit_ids[queue.target_exit_index]),
         )
 
     journey_id = sim.add_journey(journey)
 
     if scene.initial_switch_id is None:
         raise ValueError("An initial journey switch is required")
-    return [(journey_id, switch_stage_ids[scene.initial_switch_id])]
+    return [(journey_id, switch_stage_ids[scene.initial_switch_id])], queue_ids
 
 # determine transition type from attrib
 def _build_transition(
@@ -59,4 +65,13 @@ def _build_exit_stages(
 ) -> list[int]:
     return [
         sim.add_exit_stage(exit_area) for exit_area in scene.exit_areas
+    ]
+
+def _build_queue_stages(
+    sim: jps.Simulation, scene: SceneGeometry
+) -> list[int]:
+    QUEUE_SPACING_METERS = 1.0
+    return [
+        sim.add_queue_stage(resample_path(list(queue.path), QUEUE_SPACING_METERS))
+        for queue in scene.queues
     ]

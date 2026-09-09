@@ -8,7 +8,7 @@ class_name GeometryExporter
 @export var obstacles: Array[Polygon2D] = []
 @export var switches: Array[JourneySwitch] = []
 @export var initial_switch: JourneySwitch
-@export var queues: Array[Line2D] = []
+@export var queues: Array[JourneyQueue] = []
 @export var sim_client: SimClient
 
 func send_geometry() -> void:
@@ -19,7 +19,8 @@ func send_geometry() -> void:
 		"exit_areas": exit_areas.map(_polygon_to_scaled_points),
 		"obstacles": obstacles.map(_polygon_to_scaled_points),
 		"switches": switches.map(_switch_to_message),
-		"initial_switch_id": initial_switch.switch_id if initial_switch else ""
+		"initial_switch_id": initial_switch.switch_id if initial_switch else "",
+		"queues": queues.map(_queue_to_message).filter(func(q): return not q.is_empty()),
 	}
 	sim_client.send_message(JSON.stringify(message))
 
@@ -42,6 +43,7 @@ func _switch_to_message(journey_switch: JourneySwitch) -> Dictionary:
 	var world_point := journey_switch.global_position * world_scale
 	var target_switch_ids: Array[String] = []
 	var target_exit_indices: Array[int] = []
+	var target_queue_indices: Array[int] = []
 
 	for target_switch in journey_switch.target_switches:
 		target_switch_ids.append(target_switch.switch_id)
@@ -55,7 +57,17 @@ func _switch_to_message(journey_switch: JourneySwitch) -> Dictionary:
 			)
 			continue
 		target_exit_indices.append(exit_index)
-
+	
+	for target_queue in journey_switch.target_queues:
+		var queue_index := queues.find(target_queue)
+		if queue_index < 0:
+			push_error(
+				"Switch '%s' targets a queue not registered in queues"
+				% journey_switch.switch_id
+			)
+			continue
+		target_queue_indices.append(queue_index)
+	
 	return {
 		"id": journey_switch.switch_id,
 		"position": [world_point.x, world_point.y],
@@ -63,7 +75,22 @@ func _switch_to_message(journey_switch: JourneySwitch) -> Dictionary:
 		"target_switch_ids": target_switch_ids,
 		"target_exit_indices": target_exit_indices,
 		"transition": journey_switch.transition_type,
-		"queues" : queues.map(_line_to_scaled_points)
+		"target_queue_indices": target_queue_indices
+	}
+
+func _queue_to_message(journey_queue: JourneyQueue) -> Dictionary:
+	var target_exit_index := exit_areas.find(journey_queue.target_exit)
+	if target_exit_index < 0:
+		push_error(
+			"Queue '%s' targets an exit not registered in exit_areas"
+			% journey_queue.name
+		)
+		return {}
+
+	return {
+		"path": _line_to_scaled_points(journey_queue),
+		"target_exit_index": target_exit_index,
+		"release_interval_seconds": journey_queue.release_interval_seconds,
 	}
 
 func _on_fix_geometry_button_button_up():
