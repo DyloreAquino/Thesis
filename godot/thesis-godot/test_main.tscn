@@ -100,6 +100,12 @@ transition_type = "least_targeted"
 scale = Vector2(1.6685566, 3.3333333)
 mesh = SubResource("SphereMesh_7ti3p")
 
+[node name="QueueLine" type="Line2D" parent="." unique_id=1139622068]
+position = Vector2(12, -42)
+points = PackedVector2Array(449, 228, 583, 185, 695, 209)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=675606304]
 
 [node name="FixGeometryButton" type="Button" parent="CanvasLayer" unique_id=192037072]

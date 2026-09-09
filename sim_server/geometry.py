@@ -24,6 +24,7 @@ class SceneGeometry:
         self.entry_areas: list[Polygon] = []
         self.exit_areas: list[Polygon] = []
         self.obstacles: list[Polygon] = []
+        self.queues = list[tuple] = []
         self.switches: dict[str, SwitchDefinition] = {}
         self.initial_switch_id: str | None = None
         self._routing_valid = False
@@ -34,6 +35,7 @@ class SceneGeometry:
         self.entry_areas = [Polygon(pts) for pts in data["entry_areas"]]
         self.exit_areas = [Polygon(pts) for pts in data["exit_areas"]]
         self.obstacles = [Polygon(pts) for pts in data["obstacles"]]
+        self.queues = [[tuple(p) for p in path] for path in data.get("queues", [])]
         self._build_obstacles()
 
         switch_definitions = [

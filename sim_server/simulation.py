@@ -5,7 +5,9 @@ import pathlib
 
 import jupedsim as jps
 from geometry import SceneGeometry
+
 import routing
+from queues import resample_path
 import spawning
 import sim_stats
 
@@ -82,3 +84,10 @@ class CrowdSimulation:
         return {
             "density": sim_stats.compute_density(self.sim, self.geometry.walkable_area)
         }
+
+    def _build_queue_stages(self, scene: SceneGeometry) -> list[int]:
+        QUEUE_SPACING_METERS = 1.0
+        return [
+            self.sim.add_queue_stage(resample_path(raw_path, QUEUE_SPACING_METERS))
+            for raw_path in scene.queues
+        ]

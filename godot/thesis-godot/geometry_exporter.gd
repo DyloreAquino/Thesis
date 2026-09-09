@@ -8,6 +8,7 @@ class_name GeometryExporter
 @export var obstacles: Array[Polygon2D] = []
 @export var switches: Array[JourneySwitch] = []
 @export var initial_switch: JourneySwitch
+@export var queues: Array[Line2D] = []
 @export var sim_client: SimClient
 
 func send_geometry() -> void:
@@ -28,7 +29,14 @@ func _polygon_to_scaled_points(poly: Polygon2D) -> Array:
 		var world_point: Vector2 = poly.to_global(local_point) * world_scale
 		points.append([world_point.x, world_point.y])
 	return points
-	
+
+func _line_to_scaled_points(line: Line2D) -> Array:
+	var points := []
+	for local_point in line.points:
+		var world_point: Vector2 = line.to_global(local_point) * world_scale
+		points.append([world_point.x, world_point.y])
+	return points
+
 ## parse the switch attribs of each switch into JSON
 func _switch_to_message(journey_switch: JourneySwitch) -> Dictionary:
 	var world_point := journey_switch.global_position * world_scale
@@ -54,7 +62,8 @@ func _switch_to_message(journey_switch: JourneySwitch) -> Dictionary:
 		"radius": journey_switch.radius_m,
 		"target_switch_ids": target_switch_ids,
 		"target_exit_indices": target_exit_indices,
-		"transition": journey_switch.transition_type
+		"transition": journey_switch.transition_type,
+		"queues" : queues.map(_line_to_scaled_points)
 	}
 
 func _on_fix_geometry_button_button_up():
