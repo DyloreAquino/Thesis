@@ -40,9 +40,11 @@ def build_journeys(
 
     journey_id = sim.add_journey(journey)
 
-    if scene.initial_switch_id is None:
-        raise ValueError("An initial journey switch is required")
-    return [(journey_id, switch_stage_ids[scene.initial_switch_id])], queue_ids
+    # Keep starts aligned with entry_areas: each entrance owns its starting stage.
+    return [
+        (journey_id, switch_stage_ids[switch_id])
+        for switch_id in scene.entry_start_switch_ids
+    ], queue_ids
 
 # determine transition type from attrib
 def _build_transition(

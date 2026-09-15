@@ -9,9 +9,12 @@ SPEED_STD_DEV = 0.2
 SPAWN_POSITION_ATTEMPTS = 20
 
 def spawn_random_agent(sim: jps.Simulation, entry_areas: list[Polygon], journey_starts: list[tuple[int, int]]) -> bool:
-    """Try to spawn one agent at a random entry and journey start."""
+    """Choose an entrance and use that entrance's assigned journey start."""
+    if len(entry_areas) != len(journey_starts):
+        raise ValueError("Each entry area must have exactly one journey start")
     for _ in range(SPAWN_POSITION_ATTEMPTS):
-        entry_area = random.choice(entry_areas)
+        entry_index = random.randrange(len(entry_areas))
+        entry_area = entry_areas[entry_index]
         try:
             positions = jps.distribute_by_number(
                 polygon=entry_area,
@@ -26,7 +29,7 @@ def spawn_random_agent(sim: jps.Simulation, entry_areas: list[Polygon], journey_
         if not positions:
             continue
 
-        journey_id, initial_stage_id = random.choice(journey_starts)
+        journey_id, initial_stage_id = journey_starts[entry_index]
         desired_speed = max(
             0.1, float(normal(MEAN_DESIRED_SPEED, SPEED_STD_DEV))
         )

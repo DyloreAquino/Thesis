@@ -29,6 +29,7 @@ class SceneGeometry:
     def __init__(self):
         self.walkable_area: Polygon | None = None
         self.entry_areas: list[Polygon] = []
+        self.entry_start_switch_ids: list[str] = []
         self.exit_areas: list[Polygon] = []
         self.obstacles: list[Polygon] = []
         self.switches: dict[str, SwitchDefinition] = {}
@@ -39,7 +40,18 @@ class SceneGeometry:
     def set_from_message(self, data: dict) -> None:
         self._routing_valid = False
         self.walkable_area = Polygon(data["walkable_area"])
-        self.entry_areas = [Polygon(pts) for pts in data["entry_areas"]]
+        # Accept legacy polygon-only entries as well as per-entry routing.
+        raw_entries = data["entry_areas"]
+        fallback = str(data.get("initial_switch_id", "")).strip()
+        self.entry_areas = [
+            Polygon(entry["polygon"] if isinstance(entry, dict) else entry)
+            for entry in raw_entries
+        ]
+        self.entry_start_switch_ids = [
+            (str(entry.get("starting_switch_id", "")).strip() or fallback)
+            if isinstance(entry, dict) else fallback
+            for entry in raw_entries
+        ]
         self.exit_areas = [Polygon(pts) for pts in data["exit_areas"]]
         self.obstacles = [Polygon(pts) for pts in data["obstacles"]]
         self._build_obstacles()
@@ -74,7 +86,6 @@ class SceneGeometry:
             and self.entry_areas
             and self.exit_areas
             and self.switches
-            and self.initial_switch_id
             and self._routing_valid
         )
 
@@ -128,10 +139,16 @@ class SceneGeometry:
             raise ValueError("Walkable geometry is required")
         if not self.switches:
             raise ValueError("At least one journey switch is required")
-        if self.initial_switch_id not in self.switches:
+        if self.initial_switch_id is not None and self.initial_switch_id not in self.switches:
             raise ValueError(
                 f"Initial switch '{self.initial_switch_id}' does not exist"
             )
+        for i, switch_id in enumerate(self.entry_start_switch_ids):
+            if switch_id not in self.switches:
+                raise ValueError(
+                    f"Entry #{i} starting switch '{switch_id}' does not exist; "
+                    "assign a starting switch or an initial switch fallback"
+                )
         
         valid_transitions = {"fixed", "least_targeted", "round_robin"}
         for i, queue in enumerate(self.queues):

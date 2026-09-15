@@ -15,7 +15,7 @@ func send_geometry() -> void:
 	var message := {
 		"cmd": "setup_geometry",
 		"walkable_area": _polygon_to_scaled_points(walkable_area),
-		"entry_areas": entry_areas.map(_polygon_to_scaled_points),
+		"entry_areas": entry_areas.map(_entry_to_message),
 		"exit_areas": exit_areas.map(_polygon_to_scaled_points),
 		"obstacles": obstacles.map(_polygon_to_scaled_points),
 		"switches": switches.map(_switch_to_message),
@@ -23,6 +23,15 @@ func send_geometry() -> void:
 		"queues": queues.map(_queue_to_message).filter(func(q): return not q.is_empty()),
 	}
 	sim_client.send_message(JSON.stringify(message))
+
+func _entry_to_message(entry: Polygon2D) -> Dictionary:
+	var start: JourneySwitch = initial_switch
+	if entry is JourneyEntry and entry.starting_switch != null:
+		start = entry.starting_switch
+	return {
+		"polygon": _polygon_to_scaled_points(entry),
+		"starting_switch_id": start.switch_id if start else "",
+	}
 
 func _polygon_to_scaled_points(poly: Polygon2D) -> Array:
 	var points := []
