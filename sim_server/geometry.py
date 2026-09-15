@@ -5,7 +5,6 @@ from dataclasses import dataclass
 
 from shapely import Point, Polygon
 
-
 @dataclass(frozen=True)
 class SwitchDefinition:
     """A Godot-authored waypoint and its outgoing routing connections."""
@@ -21,11 +20,10 @@ class SwitchDefinition:
 @dataclass(frozen=True)
 class QueueDefinition:
     path: tuple[tuple[float, float], ...]
-    release_interval_seconds: float = 10.0
+    release_interval_seconds: float = 5.0
     target_switch_ids: tuple[str, ...] = ()
     target_exit_indices: tuple[int, ...] = ()
     transition: str = "fixed"
-
 
 class SceneGeometry:
     def __init__(self):

@@ -81,7 +81,6 @@ func _switch_to_message(journey_switch: JourneySwitch) -> Dictionary:
 func _queue_to_message(journey_queue: JourneyQueue) -> Dictionary:
 	var target_switch_ids: Array[String] = []
 	var target_exit_indices: Array[int] = []
-
 	for target_switch in journey_queue.target_switches:
 		target_switch_ids.append(target_switch.switch_id)
 

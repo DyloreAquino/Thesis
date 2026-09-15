@@ -2,8 +2,8 @@ extends Node
 class_name ParametersManager
 
 @export var sim_client: SimClient
-@onready var agent_count_input = $"../CanvasLayer/VBoxContainer/HBoxContainer/AgentCountInput"
-@onready var entry_rate_input = $"../CanvasLayer/VBoxContainer/HBoxContainer2/EntryRateInput"
+@onready var agent_count_input = $"../CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer/AgentCountInput"
+@onready var entry_rate_input = $"../CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2/EntryRateInput"
 
 func update_parameters() -> void:
 	var message := {

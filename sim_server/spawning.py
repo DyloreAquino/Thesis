@@ -37,6 +37,9 @@ def spawn_random_agent(sim: jps.Simulation, entry_areas: list[Polygon], journey_
                     stage_id=initial_stage_id,
                     position=positions[0],
                     desired_speed=desired_speed,
+                    # Keep body-radius clearance without an extra wall buffer:
+                    # the station's narrow lanes otherwise leave agents stalled.
+                    wall_buffer_distance=0.0,
                 )
             )
             return True

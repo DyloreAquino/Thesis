@@ -111,8 +111,9 @@ async def _route_message(
             return
         print(f"Geometry received: {len(scene_geometry.entry_areas)} entry areas, "
               f"{len(scene_geometry.exit_areas)} exit areas, "
-              f"{len(scene_geometry.obstacles)} obstacles, and "
-              f"{len(scene_geometry.switches)} switches.")
+              f"{len(scene_geometry.obstacles)} obstacles, "
+              f"{len(scene_geometry.switches)} switches, and "
+              f"{len(scene_geometry.queues)} queues.")
         
     elif cmd == "update_sim_parameters":
         if "agent_count" in data:

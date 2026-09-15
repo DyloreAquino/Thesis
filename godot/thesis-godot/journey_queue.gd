@@ -9,4 +9,4 @@ class_name JourneyQueue
 	"round_robin",
 	"least_targeted"
 ) var transition_type: String = "fixed"
-@export var release_interval_seconds: float = 10.0
+@export var release_interval_seconds: float = 5.0

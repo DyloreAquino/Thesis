@@ -11,7 +11,7 @@ const STATE_RUNNING := "running"
 @export var agent_manager: AgentManager
 @export var stats_manager: StatisticsManager
 
-@onready var start_simulation_button: Button = $"../CanvasLayer/StartSimulationButton"
+@onready var start_simulation_button: Button = $"../CanvasLayer/UI/BottomRight/StartSimulationButton"
 
 var socket := WebSocketPeer.new()
 var simulation_state := STATE_IDLE

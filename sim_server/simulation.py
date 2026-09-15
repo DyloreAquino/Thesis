@@ -87,7 +87,7 @@ class CrowdSimulation:
     def close(self) -> None:
         """Flush and close the trajectory database."""
         if not self._closed:
-            self._trajectory_writer.close()
+            self._trajectory_writer.connection().close()
             self._closed = True
 
     def snapshot(self) -> list[dict]:
