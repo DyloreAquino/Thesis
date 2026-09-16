@@ -2,14 +2,34 @@ extends Node
 class_name GeometryExporter
 
 @export var world_scale: float = 0.01875 # agent shoulder-to-shoulder = 0.6m, 64 pixels each, 0.6/32
-@export var walkable_area: Polygon2D
-@export var entry_areas: Array[Polygon2D] = []
-@export var exit_areas: Array[Polygon2D] = []
-@export var obstacles: Array[Polygon2D] = []
-@export var switches: Array[JourneySwitch] = []
-@export var initial_switch: JourneySwitch
-@export var queues: Array[JourneyQueue] = []
 @export var sim_client: SimClient
+var walkable_area: Polygon2D
+var entry_areas: Array[Polygon2D] = []
+var exit_areas: Array[Polygon2D] = []
+var obstacles: Array[Polygon2D] = []
+var switches: Array[JourneySwitch] = []
+var initial_switch: JourneySwitch
+var queues: Array[JourneyQueue] = []
+
+func _ready():
+	walkable_area = $"../WalkableArea"
+	for child in $"../EntryPoints".get_children():
+		if child is Polygon2D:
+			entry_areas.append(child)
+	for child in $"../ExitPoints".get_children():
+		if child is Polygon2D:
+			exit_areas.append(child)
+	for child in $"../Obstacles".get_children():
+		if child is Polygon2D:
+			obstacles.append(child)
+	for child in $"../QueueLines".get_children():
+		if child is JourneyQueue:
+			queues.append(child)
+	for child in $"../JourneySwitches".get_children():
+		if child is JourneySwitch:
+			switches.append(child)
+	var initial_child = $"../JourneySwitches".get_child(0) as JourneySwitch
+	initial_switch = initial_child
 
 func send_geometry() -> void:
 	var message := {

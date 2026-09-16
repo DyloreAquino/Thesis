@@ -10,3 +10,7 @@ class_name JourneyQueue
 	"least_targeted"
 ) var transition_type: String = "fixed"
 @export var release_interval_seconds: float = 5.0
+
+func _ready():
+	## create a journey switch on this dude's last point type shit
+	pass

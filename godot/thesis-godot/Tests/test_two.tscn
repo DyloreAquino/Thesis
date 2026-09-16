@@ -1,0 +1,448 @@
+[gd_scene format=3 uid="uid://ce5xkp35wyn67"]
+
+[ext_resource type="Script" uid="uid://bk5r86begjmk5" path="res://sim_client.gd" id="1_txcjb"]
+[ext_resource type="Script" uid="uid://dtjk70nvb6i7e" path="res://geometry_exporter.gd" id="2_uh153"]
+[ext_resource type="Script" uid="uid://dh8f5ldmmhsr8" path="res://agent_manager.gd" id="3_4btr5"]
+[ext_resource type="PackedScene" uid="uid://b2ivfbf11cg61" path="res://agent.tscn" id="4_53jim"]
+[ext_resource type="Script" uid="uid://ccsi6j6kq5ey5" path="res://parameters_manager.gd" id="5_4oj0d"]
+[ext_resource type="Script" uid="uid://dux7koxg0f6fo" path="res://statistics_manager.gd" id="6_4k05u"]
+[ext_resource type="Script" uid="uid://bdcaq7jlyld0p" path="res://journey_entry.gd" id="7_7v6o7"]
+[ext_resource type="Script" uid="uid://bv5ty2ta6to7e" path="res://journey_queue.gd" id="8_li7tx"]
+[ext_resource type="Script" uid="uid://bwcro5ae67kla" path="res://journey_switch.gd" id="9_rg3h1"]
+[ext_resource type="Script" uid="uid://cfaysggxyuyo8" path="res://stat_chart.gd" id="10_ng6wi"]
+[ext_resource type="Script" uid="uid://cfrtainw3mj4h" path="res://resize_handle.gd" id="11_oeqnr"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_7ti3p"]
+radius = 3.0
+height = 3.0
+
+[node name="TestMain" type="Node2D" unique_id=347431086]
+
+[node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager", "stats_manager")]
+script = ExtResource("1_txcjb")
+geometry_exporter = NodePath("../GeometryExporter")
+agent_manager = NodePath("../AgentManager")
+stats_manager = NodePath("../StatisticsManager")
+
+[node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("sim_client")]
+script = ExtResource("2_uh153")
+sim_client = NodePath("../SimClient")
+
+[node name="AgentManager" type="Node" parent="." unique_id=826777606]
+script = ExtResource("3_4btr5")
+agent_scene = ExtResource("4_53jim")
+
+[node name="ParametersManager" type="Node" parent="." unique_id=336944035 node_paths=PackedStringArray("sim_client")]
+script = ExtResource("5_4oj0d")
+sim_client = NodePath("../SimClient")
+
+[node name="StatisticsManager" type="Node" parent="." unique_id=579915066 node_paths=PackedStringArray("density_chart")]
+script = ExtResource("6_4k05u")
+density_chart = NodePath("../CanvasLayer/UI/DensityChart")
+
+[node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
+position = Vector2(-662, 136)
+scale = Vector2(2.2883062, 0.83978873)
+color = Color(0.5211406, 0.5211406, 0.5211405, 1)
+polygon = PackedVector2Array(177.4238, -9.526199, 401.2534, -9.526184, 401.17007, -161.94548, 457.10663, -85.73584, 457.6737, -9.526184, 680.8529, -9.526199, 680.8529, 600.15094, 492.067, 600.15094, 492.067, 676.36053, 492.067, 866.8847, 366.20972, 866.8847, 345.2335, 866.8847, 345.2335, 790.675, 366.20972, 790.675, 366.20972, 600.15094, 177.4238, 600.15094)
+
+[node name="EntryPoints" type="Node2D" parent="." unique_id=1166556985]
+position = Vector2(0, 1.5258789e-05)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="EntryPoint2" type="Polygon2D" parent="EntryPoints" unique_id=213030164 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(-80, 672.00006)
+scale = Vector2(1, 0.44444448)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(207.99998, 288, 207.99998, 432, 335.99997, 431.99976, 335.99997, 287.99976)
+script = ExtResource("7_7v6o7")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitchBottom")
+
+[node name="EntryPoint" type="Polygon2D" parent="EntryPoints" unique_id=554408330 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(48, -176.00002)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(208, 264, 208, 360, 336, 360, 336, 264)
+script = ExtResource("7_7v6o7")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitchTop")
+
+[node name="ExitPoints" type="Node2D" parent="." unique_id=1733010538]
+position = Vector2(0, 9.094947e-13)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="ExitPoint4" type="Polygon2D" parent="ExitPoints" unique_id=406766890]
+position = Vector2(0, 496)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(768, 80, 768, 144, 896, 144, 896, 80)
+
+[node name="ExitPoint" type="Polygon2D" parent="ExitPoints" unique_id=1589285996]
+position = Vector2(0, 48)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(768, 80, 768, 144, 896, 144, 896, 80)
+
+[node name="ExitPoint3" type="Polygon2D" parent="ExitPoints" unique_id=554726544]
+position = Vector2(-1024, 496)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(768, 80, 768, 144, 896, 144, 896, 80)
+
+[node name="ExitPoint2" type="Polygon2D" parent="ExitPoints" unique_id=287074033]
+position = Vector2(-1024, 48)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(768, 80, 768, 144, 896, 144, 896, 80)
+
+[node name="Obstacles" type="Node2D" parent="." unique_id=977659920]
+position = Vector2(0, 5.421011e-20)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="Obstacle5" type="Polygon2D" parent="Obstacles" unique_id=303609174]
+position = Vector2(688, 224)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(875.5908, 336, 875.5908, 352, 336.76563, 352, 336.76563, 336)
+
+[node name="Obstacle" type="Polygon2D" parent="Obstacles" unique_id=2051941769]
+position = Vector2(560, -112)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(689.3793, 304, 689.3793, 320, 492.41382, 320, 426.75867, 320, 426.75867, 304)
+
+[node name="Obstacle4" type="Polygon2D" parent="Obstacles" unique_id=632733584]
+position = Vector2(-336, 224)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(875.5908, 336, 875.5908, 352, 269.4126, 352, 269.4126, 336)
+
+[node name="Obstacle3" type="Polygon2D" parent="Obstacles" unique_id=983951365]
+position = Vector2(-464, -112)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(689.3793, 304, 689.3793, 320, 492.41382, 320, 393.93103, 320, 393.93103, 304)
+
+[node name="Obstacle6" type="Polygon2D" parent="Obstacles" unique_id=951211388]
+position = Vector2(-192, -176)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.8966, 304, 590.89655, 432, 492.4138, 432, 492.41382, 304)
+
+[node name="Obstacle10" type="Polygon2D" parent="Obstacles" unique_id=735336186]
+position = Vector2(-192, -16)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.8966, 304, 590.89655, 320, 492.4138, 320, 492.41382, 304)
+
+[node name="Obstacle14" type="Polygon2D" parent="Obstacles" unique_id=1094439753]
+position = Vector2(304, -16)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.8966, 304, 590.89655, 320, 492.4138, 320, 492.41382, 304, 518.00104, 304)
+
+[node name="Obstacle15" type="Polygon2D" parent="Obstacles" unique_id=1747312812]
+position = Vector2(304.00003, 32)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.8966, 304, 590.89655, 320, 492.4138, 320, 492.41382, 304, 518.00104, 304)
+
+[node name="Obstacle16" type="Polygon2D" parent="Obstacles" unique_id=1771703316]
+position = Vector2(304.00003, 80)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.8966, 304, 590.89655, 320, 492.4138, 320, 492.41382, 304, 518.00104, 304)
+
+[node name="Obstacle17" type="Polygon2D" parent="Obstacles" unique_id=1549822586]
+position = Vector2(304.00003, 128)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.8966, 304, 590.89655, 320, 492.4138, 320, 492.41382, 304, 518.00104, 304)
+
+[node name="Obstacle7" type="Polygon2D" parent="Obstacles" unique_id=1757260832]
+position = Vector2(-192, 208)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.89655, 272, 590.89655, 432, 492.4138, 432, 492.4138, 272)
+
+[node name="Obstacle8" type="Polygon2D" parent="Obstacles" unique_id=412304685]
+position = Vector2(304, -176)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.8966, 304, 590.89655, 432, 492.4138, 432, 492.41382, 304)
+
+[node name="Obstacle9" type="Polygon2D" parent="Obstacles" unique_id=565962341]
+position = Vector2(304, 208)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(590.89655, 272, 590.89655, 432, 492.4138, 432, 492.41376, 272)
+
+[node name="Obstacle2" type="Polygon2D" parent="Obstacles" unique_id=344528104]
+position = Vector2(48, 112)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(689.37933, 208, 689.3793, 336, 426.75864, 336, 426.75867, 208)
+
+[node name="Obstacle11" type="Polygon2D" parent="Obstacles" unique_id=443385123]
+position = Vector2(-188, 32)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(582.6897, 304, 582.6897, 320, 484.2069, 320, 484.2069, 304)
+
+[node name="Obstacle12" type="Polygon2D" parent="Obstacles" unique_id=1268428626]
+position = Vector2(-176, 80)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(558.069, 304, 558.069, 320, 459.5862, 320, 459.5862, 304)
+
+[node name="Obstacle13" type="Polygon2D" parent="Obstacles" unique_id=1707333913]
+position = Vector2(-176.00002, 128)
+scale = Vector2(0.48739496, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(558.069, 304, 558.069, 320, 459.5862, 320, 459.5862, 304)
+
+[node name="QueueLines" type="Node2D" parent="." unique_id=720233618]
+position = Vector2(0, 5.421011e-20)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="QueueLine" type="Line2D" parent="QueueLines" unique_id=1139622068 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-376, 89)
+points = PackedVector2Array(728, 551, 728, 647)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint"), NodePath("")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine2" type="Line2D" parent="QueueLines" unique_id=136018809 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 96)
+points = PackedVector2Array(688, 544, 688, 640)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint"), NodePath("")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine3" type="Line2D" parent="QueueLines" unique_id=718878401 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 96)
+points = PackedVector2Array(448, 176, 624, 176)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint2"), NodePath("../../ExitPoints/ExitPoint3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine8" type="Line2D" parent="QueueLines" unique_id=321984750 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 96)
+points = PackedVector2Array(992, 176, 816, 176)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint4"), NodePath("../../ExitPoints/ExitPoint")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine9" type="Line2D" parent="QueueLines" unique_id=8465935 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 96)
+points = PackedVector2Array(992, 224, 816, 224)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint4"), NodePath("../../ExitPoints/ExitPoint")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine10" type="Line2D" parent="QueueLines" unique_id=1609734156 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 96)
+points = PackedVector2Array(992, 272, 816, 272)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint4"), NodePath("../../ExitPoints/ExitPoint")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine11" type="Line2D" parent="QueueLines" unique_id=699306006 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 96)
+points = PackedVector2Array(992, 320, 816, 320)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint4"), NodePath("../../ExitPoints/ExitPoint")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine12" type="Line2D" parent="QueueLines" unique_id=1201195142 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 96)
+points = PackedVector2Array(992, 368, 816, 368)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint4"), NodePath("../../ExitPoints/ExitPoint")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine4" type="Line2D" parent="QueueLines" unique_id=207834894 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 144)
+points = PackedVector2Array(448, 176, 624, 176)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint2"), NodePath("../../ExitPoints/ExitPoint3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine5" type="Line2D" parent="QueueLines" unique_id=741430970 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-396, 192)
+points = PackedVector2Array(444, 176, 620, 176)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint2"), NodePath("../../ExitPoints/ExitPoint3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine6" type="Line2D" parent="QueueLines" unique_id=748502518 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-400, 240)
+points = PackedVector2Array(448, 176, 624, 176)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint2"), NodePath("../../ExitPoints/ExitPoint3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine7" type="Line2D" parent="QueueLines" unique_id=1161930758 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-396, 288)
+points = PackedVector2Array(444, 176, 620, 176)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_li7tx")
+target_exits = [NodePath("../../ExitPoints/ExitPoint2"), NodePath("../../ExitPoints/ExitPoint3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="JourneySwitches" type="Node2D" parent="." unique_id=360295954]
+position = Vector2(0, 5.421011e-20)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="JourneySwitchTop" type="Marker2D" parent="JourneySwitches" unique_id=1155639863 node_paths=PackedStringArray("target_queues")]
+position = Vector2(320, 128)
+script = ExtResource("9_rg3h1")
+switch_id = "switch_a"
+radius_m = 2.0
+target_queues = [NodePath("../../QueueLines/QueueLine7"), NodePath("../../QueueLines/QueueLine6"), NodePath("../../QueueLines/QueueLine5"), NodePath("../../QueueLines/QueueLine4"), NodePath("../../QueueLines/QueueLine12"), NodePath("../../QueueLines/QueueLine11"), NodePath("../../QueueLines/QueueLine10"), NodePath("../../QueueLines/QueueLine9"), NodePath("../../QueueLines/QueueLine8"), NodePath("../../QueueLines/QueueLine3")]
+transition_type = "least_targeted"
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="JourneySwitches/JourneySwitchTop" unique_id=1091922043]
+position = Vector2(-3.0517578e-05, 0)
+scale = Vector2(1.6685566, 3.3333333)
+mesh = SubResource("SphereMesh_7ti3p")
+
+[node name="JourneySwitchBottom" type="Marker2D" parent="JourneySwitches" unique_id=1468033449 node_paths=PackedStringArray("target_queues")]
+position = Vector2(320, 784)
+script = ExtResource("9_rg3h1")
+switch_id = "switch_b"
+radius_m = 3.0
+target_queues = [NodePath("../../QueueLines/QueueLine2"), NodePath("../../QueueLines/QueueLine")]
+transition_type = "least_targeted"
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="JourneySwitches/JourneySwitchBottom" unique_id=487872615]
+position = Vector2(-3.0517578e-05, 0)
+scale = Vector2(1.6685566, 3.3333333)
+mesh = SubResource("SphereMesh_7ti3p")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1164766382]
+position = Vector2(581, 334)
+zoom = Vector2(0.475, 0.475)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1918654229]
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1098456132]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DensityChart" type="PanelContainer" parent="CanvasLayer/UI" unique_id=1480988235]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 314.0
+offset_bottom = 124.0
+theme_type_variation = &"TauPlot"
+script = ExtResource("10_ng6wi")
+series_name = "Density"
+y_axis_title = "agents/m^2"
+legend_enabled = false
+metadata/_custom_type_script = "uid://dnhvsf2wip771"
+
+[node name="ResizeHandle" type="Control" parent="CanvasLayer/UI/DensityChart" unique_id=209088956 node_paths=PackedStringArray("target")]
+layout_mode = 2
+script = ExtResource("11_oeqnr")
+target = NodePath("..")
+
+[node name="TopRight" type="VBoxContainer" parent="CanvasLayer/UI" unique_id=787178218]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -196.0
+offset_bottom = 66.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/TopRight" unique_id=80752454]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/TopRight/VBoxContainer" unique_id=1133717368]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer" unique_id=568267898]
+layout_mode = 2
+text = "Agent Count: "
+
+[node name="AgentCountInput" type="SpinBox" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer" unique_id=1390459533]
+layout_mode = 2
+value = 20.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/UI/TopRight/VBoxContainer" unique_id=363271584]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2" unique_id=307505619]
+layout_mode = 2
+text = "Entry Rate / s"
+
+[node name="EntryRateInput" type="SpinBox" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2" unique_id=1489319540]
+layout_mode = 2
+step = 0.01
+value = 1.0
+
+[node name="BottomRight" type="VBoxContainer" parent="CanvasLayer/UI" unique_id=416506383]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -263.0
+offset_top = -71.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="StartSimulationButton" type="Button" parent="CanvasLayer/UI/BottomRight" unique_id=1143825185]
+layout_mode = 2
+text = "Start Simulation"
+
+[node name="FixGeometryButton" type="Button" parent="CanvasLayer/UI/BottomRight" unique_id=1971247401]
+layout_mode = 2
+text = "Fix Geometry"
+
+[connection signal="resized" from="CanvasLayer/UI/DensityChart/ResizeHandle" to="CanvasLayer/UI/DensityChart/ResizeHandle" method="_on_resized"]
+[connection signal="value_changed" from="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer/AgentCountInput" to="ParametersManager" method="_on_agent_count_input_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2/EntryRateInput" to="ParametersManager" method="_on_entry_rate_input_value_changed"]
+[connection signal="button_up" from="CanvasLayer/UI/BottomRight/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/UI/BottomRight/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
