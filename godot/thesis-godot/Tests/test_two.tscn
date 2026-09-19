@@ -16,7 +16,11 @@
 radius = 3.0
 height = 3.0
 
-[node name="TestMain" type="Node2D" unique_id=347431086]
+[node name="TestTwo" type="Node2D" unique_id=347431086]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1164766382]
+position = Vector2(581, 334)
+zoom = Vector2(0.475, 0.475)
 
 [node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager", "stats_manager")]
 script = ExtResource("1_txcjb")
@@ -206,7 +210,7 @@ points = PackedVector2Array(728, 551, 728, 647)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_li7tx")
-target_exits = [NodePath("../../ExitPoints/ExitPoint"), NodePath("")]
+target_exits = [NodePath("../../ExitPoints/ExitPoint"), null]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
@@ -216,7 +220,7 @@ points = PackedVector2Array(688, 544, 688, 640)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_li7tx")
-target_exits = [NodePath("../../ExitPoints/ExitPoint"), NodePath("")]
+target_exits = [NodePath("../../ExitPoints/ExitPoint"), null]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
@@ -349,10 +353,6 @@ transition_type = "least_targeted"
 position = Vector2(-3.0517578e-05, 0)
 scale = Vector2(1.6685566, 3.3333333)
 mesh = SubResource("SphereMesh_7ti3p")
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1164766382]
-position = Vector2(581, 334)
-zoom = Vector2(0.475, 0.475)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1918654229]
 
