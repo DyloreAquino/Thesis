@@ -21,7 +21,6 @@ visible = false
 position = Vector2(581, 334)
 zoom = Vector2(0.475, 0.475)
 script = ExtResource("1_ht8m4")
-pan_button = 3
 
 [node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager", "stats_manager")]
 script = ExtResource("1_btc27")
@@ -1026,6 +1025,7 @@ offset_left = -5.0
 offset_right = -5.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="DensityChart" type="PanelContainer" parent="CanvasLayer/UI" unique_id=1480988235]
 layout_mode = 0

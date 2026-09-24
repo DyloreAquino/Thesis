@@ -7,7 +7,7 @@ extends Camera2D
 @export var zoom_smoothness: float = 15.0
 
 @export_group("Pan Controls")
-@export var pan_button: MouseButton
+@export var pan_button: MouseButton = MOUSE_BUTTON_LEFT
 
 var target_zoom: Vector2 = Vector2.ONE
 var is_panning: bool = false
@@ -15,7 +15,7 @@ var is_panning: bool = false
 func _ready() -> void:
 	target_zoom = zoom
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	# Pan toggle
 	if event is InputEventMouseButton:
 		if event.button_index == pan_button:
