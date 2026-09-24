@@ -33,7 +33,7 @@ class CrowdSimulation:
             output_file=pathlib.Path(trajectory_file)
         )
         self._closed = False
-        model = jps.SocialForceModel()
+        model = jps.CollisionFreeSpeedModelV2()
         self._model_name = type(model).__name__
         self._run_statistics = sim_stats.RunStatistics(scene.walkable_area.area)
         self.sim = jps.Simulation(
