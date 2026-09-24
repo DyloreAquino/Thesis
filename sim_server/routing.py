@@ -71,7 +71,7 @@ def _build_exit_stages(
 def _build_queue_stages(
     sim: jps.Simulation, scene: SceneGeometry
 ) -> list[int]:
-    QUEUE_SPACING_METERS = 1.0
+    QUEUE_SPACING_METERS = 0.8
     return [
         sim.add_queue_stage(resample_path(list(queue.path), QUEUE_SPACING_METERS))
         for queue in scene.queues

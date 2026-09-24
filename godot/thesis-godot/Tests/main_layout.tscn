@@ -1,0 +1,268 @@
+[gd_scene format=3 uid="uid://cb5xiiy135316"]
+
+[ext_resource type="Script" uid="uid://bk5r86begjmk5" path="res://sim_client.gd" id="1_btc27"]
+[ext_resource type="Script" uid="uid://dtjk70nvb6i7e" path="res://geometry_exporter.gd" id="2_0nrb8"]
+[ext_resource type="Script" uid="uid://dh8f5ldmmhsr8" path="res://agent_manager.gd" id="3_ht8m4"]
+[ext_resource type="PackedScene" uid="uid://b2ivfbf11cg61" path="res://agent.tscn" id="4_6q2tj"]
+[ext_resource type="Script" uid="uid://ccsi6j6kq5ey5" path="res://parameters_manager.gd" id="5_3mxyk"]
+[ext_resource type="Script" uid="uid://dux7koxg0f6fo" path="res://statistics_manager.gd" id="6_o38hc"]
+[ext_resource type="Script" uid="uid://bdcaq7jlyld0p" path="res://journey_entry.gd" id="7_jjn71"]
+[ext_resource type="Script" uid="uid://bv5ty2ta6to7e" path="res://journey_queue.gd" id="8_gnm01"]
+[ext_resource type="Script" uid="uid://bwcro5ae67kla" path="res://journey_switch.gd" id="9_on656"]
+[ext_resource type="Script" uid="uid://csiw6i5n3rpoe" path="res://Tests/canvas_layer.gd" id="10_0nrb8"]
+[ext_resource type="Script" uid="uid://cfaysggxyuyo8" path="res://stat_chart.gd" id="10_02hj6"]
+[ext_resource type="Script" uid="uid://cfrtainw3mj4h" path="res://resize_handle.gd" id="11_hrlbt"]
+
+[node name="MainLayout" type="Node2D" unique_id=347431086]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1164766382]
+position = Vector2(581, 334)
+zoom = Vector2(0.475, 0.475)
+
+[node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager", "stats_manager")]
+script = ExtResource("1_btc27")
+geometry_exporter = NodePath("../GeometryExporter")
+agent_manager = NodePath("../AgentManager")
+stats_manager = NodePath("../StatisticsManager")
+
+[node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("sim_client")]
+script = ExtResource("2_0nrb8")
+sim_client = NodePath("../SimClient")
+
+[node name="AgentManager" type="Node" parent="." unique_id=826777606]
+script = ExtResource("3_ht8m4")
+agent_scene = ExtResource("4_6q2tj")
+
+[node name="ParametersManager" type="Node" parent="." unique_id=336944035 node_paths=PackedStringArray("sim_client")]
+script = ExtResource("5_3mxyk")
+sim_client = NodePath("../SimClient")
+
+[node name="StatisticsManager" type="Node" parent="." unique_id=579915066 node_paths=PackedStringArray("density_chart")]
+script = ExtResource("6_o38hc")
+density_chart = NodePath("../CanvasLayer/UI/DensityChart")
+
+[node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
+position = Vector2(-662, 136)
+scale = Vector2(2.2883062, 0.83978873)
+color = Color(0.5211406, 0.5211406, 0.5211405, 1)
+polygon = PackedVector2Array(177.4238, -161.94548, 401.17007, -161.94548, 457.10663, -161.94548, 764.75775, -161.94548, 764.75775, 695.41296, 624.9163, 695.41296, 624.9163, 600.15094, 527.02734, 600.15094, 527.02734, 1000.2515, 317.26523, 1000.2515, 317.26523, 752.5702, 366.20972, 752.5702, 366.20972, 600.15094, 177.4238, 600.15094)
+
+[node name="EntryPoints" type="Node2D" parent="." unique_id=1166556985]
+position = Vector2(0, 1.5258789e-05)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="EntryPoint" type="Polygon2D" parent="EntryPoints" unique_id=554408330 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(-80.00001, 592.0001)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(144.00002, 263.99994, 144.00002, 575.99994, 256.00003, 575.99994, 336.00003, 575.99994, 336.00003, 455.99994, 256.00003, 455.99994, 256.00003, 263.99994)
+script = ExtResource("7_jjn71")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitch1")
+
+[node name="ExitPoints" type="Node2D" parent="." unique_id=1733010538]
+position = Vector2(0, 9.094947e-13)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="ExitPoint" type="Polygon2D" parent="ExitPoints" unique_id=1589285996]
+position = Vector2(192, 560)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(704, 80.00006, 704, 160.00006, 896, 160.00006, 896, 80)
+
+[node name="Obstacles" type="Node2D" parent="." unique_id=977659920]
+position = Vector2(0, 5.421011e-20)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="Obstacle" type="Polygon2D" parent="Obstacles" unique_id=303609174]
+position = Vector2(688, 224)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0.00048828125, 336, 0.00048828125, 432, -471.47168, 432, -471.47168, 336)
+
+[node name="Obstacle6" type="Polygon2D" parent="Obstacles" unique_id=372147957]
+position = Vector2(1088.0001, 224.00002)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 384, 0.00048828125, 416, -808.2378, 416, -808.2378, 384)
+
+[node name="Obstacle2" type="Polygon2D" parent="Obstacles" unique_id=359802987]
+position = Vector2(688.0001, 112.00001)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle3" type="Polygon2D" parent="Obstacles" unique_id=1381993589]
+position = Vector2(688.0001, 64.00001)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle4" type="Polygon2D" parent="Obstacles" unique_id=447625738]
+position = Vector2(688.0001, 16.000008)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle5" type="Polygon2D" parent="Obstacles" unique_id=535174295]
+position = Vector2(688.0001, -32)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 336, -202.05981, 416, -471.47168, 416, -471.47205, 370.20667, -471.4724, 336)
+
+[node name="QueueLines" type="Node2D" parent="." unique_id=720233618]
+position = Vector2(0, 5.421011e-20)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="QueueLine" type="Line2D" parent="QueueLines" unique_id=1139622068 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(947.99994, 450.99994, 739.99994, 450.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine2" type="Line2D" parent="QueueLines" unique_id=249091878 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(947.99994, 402.99994, 739.99994, 402.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine3" type="Line2D" parent="QueueLines" unique_id=1784416832 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(947.99994, 354.99994, 739.99994, 354.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine4" type="Line2D" parent="QueueLines" unique_id=1388178965 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(947.99994, 306.99994, 739.99994, 306.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="JourneySwitches" type="Node2D" parent="." unique_id=360295954]
+position = Vector2(0, 5.421011e-20)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="JourneySwitch1" type="Marker2D" parent="JourneySwitches" unique_id=1468033449 node_paths=PackedStringArray("target_queues")]
+position = Vector2(384.00003, 704.00006)
+script = ExtResource("9_on656")
+switch_id = "switch_a"
+radius_m = 3.0
+target_queues = [NodePath("../../QueueLines/QueueLine"), NodePath("../../QueueLines/QueueLine2"), NodePath("../../QueueLines/QueueLine3"), NodePath("../../QueueLines/QueueLine4")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch2" type="Marker2D" parent="JourneySwitches" unique_id=1085386894 node_paths=PackedStringArray("target_exits")]
+position = Vector2(800.00006, 464.00003)
+script = ExtResource("9_on656")
+switch_id = "switch_b"
+radius_m = 2.0
+target_exits = [NodePath("../../ExitPoints/ExitPoint")]
+transition_type = "least_targeted"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1918654229]
+visible = false
+script = ExtResource("10_0nrb8")
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1098456132]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DensityChart" type="PanelContainer" parent="CanvasLayer/UI" unique_id=1480988235]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 314.0
+offset_bottom = 124.0
+theme_type_variation = &"TauPlot"
+script = ExtResource("10_02hj6")
+series_name = "Density"
+y_axis_title = "agents/m^2"
+legend_enabled = false
+metadata/_custom_type_script = "uid://dnhvsf2wip771"
+
+[node name="ResizeHandle" type="Control" parent="CanvasLayer/UI/DensityChart" unique_id=209088956 node_paths=PackedStringArray("target")]
+layout_mode = 2
+script = ExtResource("11_hrlbt")
+target = NodePath("..")
+
+[node name="TopRight" type="VBoxContainer" parent="CanvasLayer/UI" unique_id=787178218]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -196.0
+offset_bottom = 66.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/TopRight" unique_id=80752454]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/UI/TopRight/VBoxContainer" unique_id=1133717368]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer" unique_id=568267898]
+layout_mode = 2
+text = "Agent Count: "
+
+[node name="AgentCountInput" type="SpinBox" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer" unique_id=1390459533]
+layout_mode = 2
+value = 20.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/UI/TopRight/VBoxContainer" unique_id=363271584]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2" unique_id=307505619]
+layout_mode = 2
+text = "Entry Rate / s"
+
+[node name="EntryRateInput" type="SpinBox" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2" unique_id=1489319540]
+layout_mode = 2
+step = 0.01
+value = 1.0
+
+[node name="BottomRight" type="VBoxContainer" parent="CanvasLayer/UI" unique_id=416506383]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -263.0
+offset_top = -71.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="StartSimulationButton" type="Button" parent="CanvasLayer/UI/BottomRight" unique_id=1143825185]
+layout_mode = 2
+text = "Start Simulation"
+
+[node name="FixGeometryButton" type="Button" parent="CanvasLayer/UI/BottomRight" unique_id=1971247401]
+layout_mode = 2
+text = "Fix Geometry"
+
+[connection signal="resized" from="CanvasLayer/UI/DensityChart/ResizeHandle" to="CanvasLayer/UI/DensityChart/ResizeHandle" method="_on_resized"]
+[connection signal="value_changed" from="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer/AgentCountInput" to="ParametersManager" method="_on_agent_count_input_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2/EntryRateInput" to="ParametersManager" method="_on_entry_rate_input_value_changed"]
+[connection signal="button_up" from="CanvasLayer/UI/BottomRight/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/UI/BottomRight/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
