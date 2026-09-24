@@ -4,7 +4,7 @@ import jupedsim as jps
 from numpy.random import normal
 from shapely import Polygon
 
-MEAN_DESIRED_SPEED = 1.34   # m/s, standard pedestrian walking speed
+MEAN_DESIRED_SPEED = 1.34*2   # m/s, standard pedestrian walking speed
 SPEED_STD_DEV = 0.2
 SPAWN_POSITION_ATTEMPTS = 20
 

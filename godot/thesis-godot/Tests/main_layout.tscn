@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cb5xiiy135316"]
 
 [ext_resource type="Script" uid="uid://bk5r86begjmk5" path="res://sim_client.gd" id="1_btc27"]
+[ext_resource type="Script" uid="uid://cicoahbhcok75" path="res://Tests/camera_2d.gd" id="1_ht8m4"]
 [ext_resource type="Script" uid="uid://dtjk70nvb6i7e" path="res://geometry_exporter.gd" id="2_0nrb8"]
 [ext_resource type="Script" uid="uid://dh8f5ldmmhsr8" path="res://agent_manager.gd" id="3_ht8m4"]
 [ext_resource type="PackedScene" uid="uid://b2ivfbf11cg61" path="res://agent.tscn" id="4_6q2tj"]
@@ -16,8 +17,11 @@
 [node name="MainLayout" type="Node2D" unique_id=347431086]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1164766382]
+visible = false
 position = Vector2(581, 334)
 zoom = Vector2(0.475, 0.475)
+script = ExtResource("1_ht8m4")
+pan_button = 3
 
 [node name="SimClient" type="Node" parent="." unique_id=1687148984 node_paths=PackedStringArray("geometry_exporter", "agent_manager", "stats_manager")]
 script = ExtResource("1_btc27")
@@ -27,6 +31,7 @@ stats_manager = NodePath("../StatisticsManager")
 
 [node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("sim_client")]
 script = ExtResource("2_0nrb8")
+world_scale = 0.031
 sim_client = NodePath("../SimClient")
 
 [node name="AgentManager" type="Node" parent="." unique_id=826777606]
@@ -42,71 +47,528 @@ script = ExtResource("6_o38hc")
 density_chart = NodePath("../CanvasLayer/UI/DensityChart")
 
 [node name="WalkableArea" type="Polygon2D" parent="." unique_id=1777796086]
-position = Vector2(-662, 136)
+position = Vector2(-624, 112)
 scale = Vector2(2.2883062, 0.83978873)
 color = Color(0.5211406, 0.5211406, 0.5211405, 1)
-polygon = PackedVector2Array(177.4238, -161.94548, 401.17007, -161.94548, 457.10663, -161.94548, 764.75775, -161.94548, 764.75775, 695.41296, 624.9163, 695.41296, 624.9163, 600.15094, 527.02734, 600.15094, 527.02734, 1000.2515, 317.26523, 1000.2515, 317.26523, 752.5702, 366.20972, 752.5702, 366.20972, 600.15094, 177.4238, 600.15094)
+polygon = PackedVector2Array(-370.57974, -876.4109, 230.73834, -876.4109, 230.73834, -1200.3018, 314.6432, -1200.3018, 314.6432, -876.4109, 811.0802, -876.4109, 811.0802, 628.7295, 454.48462, 628.7295, 454.48462, 990.72534, 503.42908, 990.72534, 503.42908, 1295.564, 202.77005, 1295.564, 202.77005, 990.72534, 251.71455, 990.72534, 251.71455, 628.7295, -370.57974, 628.72955)
 
 [node name="EntryPoints" type="Node2D" parent="." unique_id=1166556985]
 position = Vector2(0, 1.5258789e-05)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="EntryPoint" type="Polygon2D" parent="EntryPoints" unique_id=554408330 node_paths=PackedStringArray("starting_switch")]
-position = Vector2(-80.00001, 592.0001)
+position = Vector2(-336.00003, 768.0001)
 scale = Vector2(1, 0.6666667)
 color = Color(0.4147725, 0.60473317, 0.28495726, 1)
-polygon = PackedVector2Array(144.00002, 263.99994, 144.00002, 575.99994, 256.00003, 575.99994, 336.00003, 575.99994, 336.00003, 455.99994, 256.00003, 455.99994, 256.00003, 263.99994)
+polygon = PackedVector2Array(176.00002, 263.99988, 176.00002, 575.9999, 256.00003, 575.99994, 752.0001, 576, 864.0001, 576, 864.0001, 264, 752.0001, 264, 752.0001, 456, 288.00003, 455.99988, 288.00003, 263.99988)
 script = ExtResource("7_jjn71")
 starting_switch = NodePath("../../JourneySwitches/JourneySwitch1")
+
+[node name="EntryPoint2" type="Polygon2D" parent="EntryPoints" unique_id=1102766789 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(368.00003, 160)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(672.0001, 600.00006, 864.0001, 600.00006, 864.0001, 503.99994, 672.0001, 503.99994)
+script = ExtResource("7_jjn71")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitch4")
+
+[node name="EntryPoint4" type="Polygon2D" parent="EntryPoints" unique_id=161504675 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(-1568.0001, 160)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(672.0001, 600.00006, 864.0002, 600.00006, 864.0001, 503.99994, 672.0001, 503.99994)
+script = ExtResource("7_jjn71")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitch23")
+
+[node name="EntryPoint5" type="Polygon2D" parent="EntryPoints" unique_id=1843142321 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(-2144.0002, 160.00003)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(672.0001, 600.00006, 864.0002, 600.00006, 864.0001, 503.99994, 672.0001, 503.99994)
+script = ExtResource("7_jjn71")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitch23")
+
+[node name="EntryPoint6" type="Polygon2D" parent="EntryPoints" unique_id=1995407254 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(-2144.0002, -960)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(672.0001, 600.00006, 864.0002, 600.00006, 864.0001, 503.99994, 672.0001, 503.99994)
+script = ExtResource("7_jjn71")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitch24")
+
+[node name="EntryPoint3" type="Polygon2D" parent="EntryPoints" unique_id=1406390136 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(368.00003, -864.00006)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(672.0001, 575.99994, 864.0001, 575.99994, 864.0001, 480.00006, 672.0001, 480.00006)
+script = ExtResource("7_jjn71")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitch11")
+
+[node name="EntryPoint7" type="Polygon2D" parent="EntryPoints" unique_id=2029707122 node_paths=PackedStringArray("starting_switch")]
+position = Vector2(-768.0001, -1152.0001)
+scale = Vector2(1, 0.6666667)
+color = Color(0.4147725, 0.60473317, 0.28495726, 1)
+polygon = PackedVector2Array(672.0002, 648, 864.0002, 648, 864.0001, 480.00006, 672.0001, 480.00006)
+script = ExtResource("7_jjn71")
+starting_switch = NodePath("../../JourneySwitches/JourneySwitch8")
 
 [node name="ExitPoints" type="Node2D" parent="." unique_id=1733010538]
 position = Vector2(0, 9.094947e-13)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="ExitPoint" type="Polygon2D" parent="ExitPoints" unique_id=1589285996]
-position = Vector2(192, 560)
+position = Vector2(335.9998, 298.66653)
+scale = Vector2(1.0000004, 1.3333342)
 color = Color(0.88471675, 0.32588568, 0.3139469, 1)
-polygon = PackedVector2Array(704, 80.00006, 704, 160.00006, 896, 160.00006, 896, 80)
+polygon = PackedVector2Array(704, 208, 704, 255.99997, 896, 255.99997, 896, 208)
+
+[node name="ExitPoint3" type="Polygon2D" parent="ExitPoints" unique_id=1063822669]
+position = Vector2(-1599.9999, 384.00006)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(703.99976, 191.99997, 704, 255.99997, 896, 255.99997, 895.99976, 191.99997)
+
+[node name="ExitPoint4" type="Polygon2D" parent="ExitPoints" unique_id=929656752]
+position = Vector2(-2176, 384.0001)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(703.99976, 191.99997, 704, 255.99997, 896, 255.99997, 895.99976, 191.99997)
+
+[node name="ExitPoint5" type="Polygon2D" parent="ExitPoints" unique_id=165090275]
+position = Vector2(-2176, -735.99976)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(703.99976, 191.99997, 704, 255.99997, 896, 255.99997, 895.99976, 191.99997)
+
+[node name="ExitPoint2" type="Polygon2D" parent="ExitPoints" unique_id=914369828]
+position = Vector2(336, -832.00006)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(704, 208, 704, 272, 896, 272, 896, 208)
+
+[node name="ExitPoint6" type="Polygon2D" parent="ExitPoints" unique_id=215684698]
+position = Vector2(-800, -1104)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(704, 208, 704, 272, 896, 272, 896, 208)
+
+[node name="ExitPoint7" type="Polygon2D" parent="ExitPoints" unique_id=199771289]
+position = Vector2(-864.00006, 928.00006)
+color = Color(0.88471675, 0.32588568, 0.3139469, 1)
+polygon = PackedVector2Array(704, 224, 704, 272, 1392, 272, 1392, 224)
 
 [node name="Obstacles" type="Node2D" parent="." unique_id=977659920]
 position = Vector2(0, 5.421011e-20)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="Obstacle" type="Polygon2D" parent="Obstacles" unique_id=303609174]
-position = Vector2(688, 224)
+position = Vector2(688.0001, 224.00002)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(0.00048828125, 336, 0.00048828125, 432, -471.47168, 432, -471.47168, 336)
+polygon = PackedVector2Array(336.76538, 336, 336.76538, 448, -471.4724, 448, -471.47168, 336, -471.4724, 304, -202.05908, 304, -202.05981, 336)
+
+[node name="Obstacle25" type="Polygon2D" parent="Obstacles" unique_id=1711849328]
+position = Vector2(688.00006, -944)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(336.76563, 319.99994, 336.76563, 479.99994, -471.47217, 479.99994, -471.47217, 319.99994)
+
+[node name="Obstacle30" type="Polygon2D" parent="Obstacles" unique_id=511090419]
+position = Vector2(-176, -944.00006)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(336.7657, 304, 336.7657, 560, -1145.0037, 560, -1145.0037, 304)
+
+[node name="Obstacle45" type="Polygon2D" parent="Obstacles" unique_id=355111200]
+position = Vector2(-720, -944.00006)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(336.76538, 304, 336.76538, 736, 202.05908, 736, 202.05908, 304)
+
+[node name="Obstacle14" type="Polygon2D" parent="Obstacles" unique_id=1658317481]
+position = Vector2(528.00006, -448.00003)
+scale = Vector2(0.2545219, 1.0714285)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(565.7665, 298.66672, 754.35535, 343.4667, 754.35535, 477.86673, 565.7665, 522.66675, -0.00012207031, 522.66675, -188.58911, 477.86673, -188.58911, 343.4667, 0, 298.66672)
 
 [node name="Obstacle6" type="Polygon2D" parent="Obstacles" unique_id=372147957]
-position = Vector2(1088.0001, 224.00002)
+position = Vector2(1232.0001, 80.00001)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(0, 384, 0.00048828125, 416, -808.2378, 416, -808.2378, 384)
 
+[node name="Obstacle17" type="Polygon2D" parent="Obstacles" unique_id=1579928866]
+position = Vector2(1232.0001, 160.00002)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 400, 0.00048828125, 416, -875.5908, 416, -875.5908, 400)
+
+[node name="Obstacle64" type="Polygon2D" parent="Obstacles" unique_id=430437432]
+position = Vector2(-704.00006, 80.00001)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 384, 0.00048828125, 416, -808.2378, 416, -808.2378, 384, -404.1189, 384)
+
+[node name="Obstacle65" type="Polygon2D" parent="Obstacles" unique_id=1160896701]
+position = Vector2(-704.00006, 160.00002)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 400, 0.00048828125, 416, -875.5908, 416, -875.5908, 400)
+
+[node name="Obstacle66" type="Polygon2D" parent="Obstacles" unique_id=292321114]
+position = Vector2(-1280.0001, 80.00004)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 384, 0.00048828125, 416, -808.2378, 416, -808.2378, 384, -404.1189, 384)
+
+[node name="Obstacle67" type="Polygon2D" parent="Obstacles" unique_id=1972186043]
+position = Vector2(-1264.0001, 160.00002)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 400, 0.00048828125, 416, -875.5908, 416, -875.5908, 400)
+
+[node name="Obstacle68" type="Polygon2D" parent="Obstacles" unique_id=1115395725]
+position = Vector2(-1280.0001, -863.99994)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 384, 0.00048828125, 416, -808.2378, 416, -808.2378, 384, -404.1189, 384)
+
+[node name="Obstacle69" type="Polygon2D" parent="Obstacles" unique_id=405749557]
+position = Vector2(-1264.0001, -959.9999)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 400, 0.00048828125, 416, -875.5908, 416, -875.5908, 400)
+
+[node name="Obstacle62" type="Polygon2D" parent="Obstacles" unique_id=880827662]
+position = Vector2(1232.0001, -864.00006)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 384, 0.00048828125, 416, -808.2378, 416, -808.2378, 384)
+
+[node name="Obstacle63" type="Polygon2D" parent="Obstacles" unique_id=1609493679]
+position = Vector2(1232.0001, -960.00006)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(0, 400, 0.00048828125, 416, -875.5908, 416, -875.5908, 400)
+
+[node name="Obstacle10" type="Polygon2D" parent="Obstacles" unique_id=883826585]
+position = Vector2(960, 160.00002)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.17847, 352.00006, -606.17847, 400.00006, -808.2383, 400.00006, -808.23804, 352.00006)
+
+[node name="Obstacle12" type="Polygon2D" parent="Obstacles" unique_id=60969059]
+position = Vector2(352.00003, 304.00003)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-740.88525, 352, -740.88525, 512.00006, -808.23834, 512.00006, -808.23804, 352.00006)
+
+[node name="Obstacle13" type="Polygon2D" parent="Obstacles" unique_id=86645225]
+position = Vector2(448.00003, 304.00003)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-538.82556, 352.00003, -538.82556, 384.00003, -740.88513, 384.00003, -740.88513, 352.00003)
+
+[node name="Obstacle11" type="Polygon2D" parent="Obstacles" unique_id=1752957369]
+position = Vector2(960, -16.000027)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1787, 352.00006, -606.1787, 400.00006, -808.2383, 400.00006, -808.23804, 352.00006)
+
+[node name="Obstacle26" type="Polygon2D" parent="Obstacles" unique_id=51323727]
+position = Vector2(960.00006, -608.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1787, 352.00006, -606.1787, 400.00006, -808.2383, 400.00006, -808.23804, 352.00006)
+
+[node name="Obstacle27" type="Polygon2D" parent="Obstacles" unique_id=2059835350]
+position = Vector2(960.00006, -816.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1787, 352.00006, -606.1787, 400.00006, -808.2383, 400.00006, -808.23804, 352.00006)
+
+[node name="Obstacle15" type="Polygon2D" parent="Obstacles" unique_id=1953292213]
+position = Vector2(320.00006, 160.00008)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.17883, 352.00006, -606.17883, 400.00006, -808.2384, 400.00006, -808.23804, 352.00006)
+
+[node name="Obstacle28" type="Polygon2D" parent="Obstacles" unique_id=1220138938]
+position = Vector2(320, -15.999981)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.17883, 352.00006, -606.17883, 400.00006, -808.2384, 400.00006, -808.23804, 352.00006)
+
+[node name="Obstacle39" type="Polygon2D" parent="Obstacles" unique_id=1541305471]
+position = Vector2(-240, -16.000034)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.17883, 352.00006, -606.17883, 400.00006, -808.2384, 400.00006, -808.23804, 352.00006)
+
+[node name="Obstacle46" type="Polygon2D" parent="Obstacles" unique_id=1783340252]
+position = Vector2(-288.00003, -304.00003)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(67.35315, 384.00006, 67.35315, 400.00006, -649.0399, 400.00006, -808.2384, 400.00006, -808.2384, 384.00006)
+
+[node name="Obstacle16" type="Polygon2D" parent="Obstacles" unique_id=1533095391]
+position = Vector2(320.00006, -608)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 400.00003, -808.23816, 400.00003, -808.23804, 352.00006)
+
+[node name="Obstacle38" type="Polygon2D" parent="Obstacles" unique_id=1342421218]
+position = Vector2(-240.00002, -608.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 400.00003, -808.23816, 400.00003, -808.23804, 352.00006)
+
+[node name="Obstacle40" type="Polygon2D" parent="Obstacles" unique_id=1665406058]
+position = Vector2(-160.00002, -528.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(1077.6511, 352.00006, 1077.6511, 848.0001, -269.41272, 848.0001, -269.41272, 352.00006)
+
+[node name="Obstacle29" type="Polygon2D" parent="Obstacles" unique_id=535120210]
+position = Vector2(320.00006, -816.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 400.00003, -808.23816, 400.00003, -808.23804, 352.00006)
+
+[node name="Obstacle31" type="Polygon2D" parent="Obstacles" unique_id=1231251592]
+position = Vector2(464.00003, -976.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle36" type="Polygon2D" parent="Obstacles" unique_id=710848552]
+position = Vector2(400.00003, -976.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle37" type="Polygon2D" parent="Obstacles" unique_id=1211854583]
+position = Vector2(336, -976.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle32" type="Polygon2D" parent="Obstacles" unique_id=1699533441]
+position = Vector2(528.00006, -976.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle41" type="Polygon2D" parent="Obstacles" unique_id=1617902286]
+position = Vector2(-48.000015, 256.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle42" type="Polygon2D" parent="Obstacles" unique_id=578198954]
+position = Vector2(-112.000015, 256.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle43" type="Polygon2D" parent="Obstacles" unique_id=395164621]
+position = Vector2(-176.00005, 256.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle44" type="Polygon2D" parent="Obstacles" unique_id=346982319]
+position = Vector2(16.00003, 256.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle33" type="Polygon2D" parent="Obstacles" unique_id=528946815]
+position = Vector2(592.00006, -976.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle34" type="Polygon2D" parent="Obstacles" unique_id=1364348022]
+position = Vector2(656.00006, -976.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
+[node name="Obstacle35" type="Polygon2D" parent="Obstacles" unique_id=970011126]
+position = Vector2(720.00006, -976.00006)
+scale = Vector2(0.2375537, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
+
 [node name="Obstacle2" type="Polygon2D" parent="Obstacles" unique_id=359802987]
-position = Vector2(688.0001, 112.00001)
+position = Vector2(688.0001, 80.00001)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle47" type="Polygon2D" parent="Obstacles" unique_id=851302277]
+position = Vector2(-592.0001, 16.000008)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle61" type="Polygon2D" parent="Obstacles" unique_id=1269018414]
+position = Vector2(-592.0001, 64)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05908, 592, -471.47168, 592, -471.4724, 400)
+
+[node name="Obstacle48" type="Polygon2D" parent="Obstacles" unique_id=511935706]
+position = Vector2(-592.0001, -32)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle49" type="Polygon2D" parent="Obstacles" unique_id=1862550588]
+position = Vector2(-592.0001, -80)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle50" type="Polygon2D" parent="Obstacles" unique_id=962383712]
+position = Vector2(-592.0001, -128)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle51" type="Polygon2D" parent="Obstacles" unique_id=1003504733]
+position = Vector2(-592.0001, -176)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle52" type="Polygon2D" parent="Obstacles" unique_id=300378075]
+position = Vector2(-592.0001, -224.00002)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle53" type="Polygon2D" parent="Obstacles" unique_id=1586431499]
+position = Vector2(-592.0001, -272)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle54" type="Polygon2D" parent="Obstacles" unique_id=1631744496]
+position = Vector2(-592.0001, -320.00003)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle55" type="Polygon2D" parent="Obstacles" unique_id=1185124884]
+position = Vector2(-592.0001, -368.00003)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle56" type="Polygon2D" parent="Obstacles" unique_id=570341123]
+position = Vector2(-592.0001, -416.00003)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle57" type="Polygon2D" parent="Obstacles" unique_id=646637102]
+position = Vector2(-592.0001, -464.00003)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle58" type="Polygon2D" parent="Obstacles" unique_id=1322473846]
+position = Vector2(-592.0001, -512)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle59" type="Polygon2D" parent="Obstacles" unique_id=1909852262]
+position = Vector2(-592.0001, -560)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle60" type="Polygon2D" parent="Obstacles" unique_id=542616933]
+position = Vector2(-592.0001, -608.00006)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
 
 [node name="Obstacle3" type="Polygon2D" parent="Obstacles" unique_id=1381993589]
-position = Vector2(688.0001, 64.00001)
+position = Vector2(688.0001, 32.000008)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
 
 [node name="Obstacle4" type="Polygon2D" parent="Obstacles" unique_id=447625738]
-position = Vector2(688.0001, 16.000008)
+position = Vector2(688.0001, -16)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
 
 [node name="Obstacle5" type="Polygon2D" parent="Obstacles" unique_id=535174295]
-position = Vector2(688.0001, -32)
+position = Vector2(688.0001, -64)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
-polygon = PackedVector2Array(-202.05981, 336, -202.05981, 416, -471.47168, 416, -471.47205, 370.20667, -471.4724, 336)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle7" type="Polygon2D" parent="Obstacles" unique_id=1375290896]
+position = Vector2(688.0001, -112)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle8" type="Polygon2D" parent="Obstacles" unique_id=477184002]
+position = Vector2(688.0001, -160)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle9" type="Polygon2D" parent="Obstacles" unique_id=1292236399]
+position = Vector2(688.0001, -208.00002)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle18" type="Polygon2D" parent="Obstacles" unique_id=670228212]
+position = Vector2(688.0002, -544)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle19" type="Polygon2D" parent="Obstacles" unique_id=2041248117]
+position = Vector2(688.0002, -592)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle20" type="Polygon2D" parent="Obstacles" unique_id=478635067]
+position = Vector2(688.0002, -640)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle21" type="Polygon2D" parent="Obstacles" unique_id=253671266]
+position = Vector2(688.0002, -688)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle22" type="Polygon2D" parent="Obstacles" unique_id=1231136584]
+position = Vector2(688.0001, -736.00006)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle23" type="Polygon2D" parent="Obstacles" unique_id=328891654]
+position = Vector2(688.0001, -784.00006)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
+
+[node name="Obstacle24" type="Polygon2D" parent="Obstacles" unique_id=1462217236]
+position = Vector2(688.0001, -832.00006)
+scale = Vector2(0.23755385, 1)
+color = Color(0.27531895, 0.27096286, 0.2501598, 1)
+polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, -471.4724, 400)
 
 [node name="QueueLines" type="Node2D" parent="." unique_id=720233618]
 position = Vector2(0, 5.421011e-20)
@@ -114,27 +576,299 @@ scale = Vector2(0.99999994, 0.99999994)
 
 [node name="QueueLine" type="Line2D" parent="QueueLines" unique_id=1139622068 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(947.99994, 450.99994, 739.99994, 450.99994)
+points = PackedVector2Array(947.99994, 418.99994, 739.99994, 418.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine18" type="Line2D" parent="QueueLines" unique_id=1542024900 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-396.00006, 354.99994, -220.00006, 354.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch14"), NodePath("../../JourneySwitches/JourneySwitch15")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine19" type="Line2D" parent="QueueLines" unique_id=637253521 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-396.00006, 162.99994, -220.00006, 162.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch14"), NodePath("../../JourneySwitches/JourneySwitch15")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine20" type="Line2D" parent="QueueLines" unique_id=196917738 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-396.00006, 114.99995, -220.00006, 114.99995)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch14"), NodePath("../../JourneySwitches/JourneySwitch15")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine21" type="Line2D" parent="QueueLines" unique_id=1395593791 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-396.00006, 66.99995, -220.00006, 66.99995)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch14"), NodePath("../../JourneySwitches/JourneySwitch15")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine22" type="Line2D" parent="QueueLines" unique_id=1092305101 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-396.00006, -269.00006, -220.00006, -269.00006)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch14"), NodePath("../../JourneySwitches/JourneySwitch15")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine24" type="Line2D" parent="QueueLines" unique_id=1000297321 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, -173.00006, -508.00006, -173.00006)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine25" type="Line2D" parent="QueueLines" unique_id=284370422 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, -125.00005, -508.00006, -125.00005)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine26" type="Line2D" parent="QueueLines" unique_id=44128950 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, -77.00005, -508.00006, -77.00005)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine27" type="Line2D" parent="QueueLines" unique_id=1894524512 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, -29.000053, -508.00006, -29.000053)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine28" type="Line2D" parent="QueueLines" unique_id=1548122931 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, 18.999947, -508.00006, 18.999947)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine29" type="Line2D" parent="QueueLines" unique_id=1559364885 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, 210.99994, -508.00006, 210.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine30" type="Line2D" parent="QueueLines" unique_id=1092191723 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, 258.99994, -508.00006, 258.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine31" type="Line2D" parent="QueueLines" unique_id=50464734 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-332.00006, 306.99994, -508.00006, 306.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20"), NodePath("../../JourneySwitches/JourneySwitch21")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine23" type="Line2D" parent="QueueLines" unique_id=1717492854 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(-396.00006, -221.00006, -220.00006, -221.00006)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch14"), NodePath("../../JourneySwitches/JourneySwitch15")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine2" type="Line2D" parent="QueueLines" unique_id=249091878 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(947.99994, 402.99994, 739.99994, 402.99994)
+points = PackedVector2Array(947.99994, 370.99994, 739.99994, 370.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch3")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine3" type="Line2D" parent="QueueLines" unique_id=1784416832 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(947.99994, 354.99994, 739.99994, 354.99994)
+points = PackedVector2Array(947.99994, 322.99994, 739.99994, 322.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine4" type="Line2D" parent="QueueLines" unique_id=1388178965 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(947.99994, 274.99994, 739.99994, 274.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch3")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine5" type="Line2D" parent="QueueLines" unique_id=163120055 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-289.54837, 93.00006)
+scale = Vector2(0.983871, 1)
+points = PackedVector2Array(879.7377, 226.99994, 1058.6229, 226.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine6" type="Line2D" parent="QueueLines" unique_id=1476430865 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(883.99994, 178.99994, 1060, 178.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine7" type="Line2D" parent="QueueLines" unique_id=1705668833 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(883.99994, 130.99994, 1060, 130.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine8" type="Line2D" parent="QueueLines" unique_id=182999263 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 93.00006)
+points = PackedVector2Array(883.99994, 82.99995, 1060, 82.99995)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine11" type="Line2D" parent="QueueLines" unique_id=1490459077 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-289.5483, -386.99997)
+scale = Vector2(0.983871, 1)
+points = PackedVector2Array(879.7377, 226.99994, 1029.9445, 226.99991, 1058.6228, 226.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine12" type="Line2D" parent="QueueLines" unique_id=2118075787 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.9999, -386.99997)
+points = PackedVector2Array(883.99994, 178.99994, 1060, 178.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine13" type="Line2D" parent="QueueLines" unique_id=1347048751 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.9999, -386.99997)
+points = PackedVector2Array(883.99994, 130.99994, 1060, 130.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine14" type="Line2D" parent="QueueLines" unique_id=1308310774 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.9999, -386.99997)
+points = PackedVector2Array(883.99994, 82.99995, 1026.3201, 82.99994, 1059.9999, 82.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine15" type="Line2D" parent="QueueLines" unique_id=230802736 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.9999, -386.99997)
+points = PackedVector2Array(883.9999, 34.99994, 1059.9999, 34.99994)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine16" type="Line2D" parent="QueueLines" unique_id=1246896472 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.9999, -386.99997)
+points = PackedVector2Array(883.9999, -13.000061, 1059.9999, -13.000061)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch21"), NodePath("../../JourneySwitches/JourneySwitch20")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine17" type="Line2D" parent="QueueLines" unique_id=1477802620 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.9999, -386.99997)
+points = PackedVector2Array(947.9999, -61.00006, 787.9999, -61.00006)
+width = 4.0
+default_color = Color(1, 1, 0.36078432, 1)
+script = ExtResource("8_gnm01")
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch10")]
+transition_type = "least_targeted"
+release_interval_seconds = 4.0
+
+[node name="QueueLine9" type="Line2D" parent="QueueLines" unique_id=2030477295 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-307.99997, 49.000122)
+points = PackedVector2Array(659.99994, 610.99994, 659.99994, 866.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -142,9 +876,9 @@ target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine4" type="Line2D" parent="QueueLines" unique_id=1388178965 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(947.99994, 306.99994, 739.99994, 306.99994)
+[node name="QueueLine10" type="Line2D" parent="QueueLines" unique_id=879277969 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-256.00003, 48.000004)
+points = PackedVector2Array(483.99994, 610.99994, 483.99994, 866.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -156,18 +890,165 @@ release_interval_seconds = 4.0
 position = Vector2(0, 5.421011e-20)
 scale = Vector2(0.99999994, 0.99999994)
 
-[node name="JourneySwitch1" type="Marker2D" parent="JourneySwitches" unique_id=1468033449 node_paths=PackedStringArray("target_queues")]
-position = Vector2(384.00003, 704.00006)
+[node name="JourneySwitch1" type="Marker2D" parent="JourneySwitches" unique_id=1169946764 node_paths=PackedStringArray("target_queues")]
+position = Vector2(288.00003, 976.00006)
+scale = Vector2(0.99999994, 0.99999994)
 script = ExtResource("9_on656")
-switch_id = "switch_a"
 radius_m = 3.0
+target_queues = [NodePath("../../QueueLines/QueueLine10"), NodePath("../../QueueLines/QueueLine9")]
+transition_type = "round_robin"
+
+[node name="JourneySwitch2" type="Marker2D" parent="JourneySwitches" unique_id=1468033449 node_paths=PackedStringArray("target_switches", "target_queues")]
+position = Vector2(288.00003, 448.00003)
+script = ExtResource("9_on656")
+target_switches = [NodePath("../JourneySwitch5"), NodePath("../JourneySwitch7")]
 target_queues = [NodePath("../../QueueLines/QueueLine"), NodePath("../../QueueLines/QueueLine2"), NodePath("../../QueueLines/QueueLine3"), NodePath("../../QueueLines/QueueLine4")]
 transition_type = "least_targeted"
 
-[node name="JourneySwitch2" type="Marker2D" parent="JourneySwitches" unique_id=1085386894 node_paths=PackedStringArray("target_exits")]
-position = Vector2(800.00006, 464.00003)
+[node name="JourneySwitch7" type="Marker2D" parent="JourneySwitches" unique_id=1397018713 node_paths=PackedStringArray("target_switches")]
+position = Vector2(384.00003, -304.00003)
 script = ExtResource("9_on656")
-switch_id = "switch_b"
+radius_m = 2.0
+target_switches = [NodePath("../JourneySwitch9"), NodePath("../JourneySwitch20")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch5" type="Marker2D" parent="JourneySwitches" unique_id=485784035 node_paths=PackedStringArray("target_switches", "target_queues")]
+position = Vector2(-383.99997, 464.00003)
+script = ExtResource("9_on656")
+target_switches = [NodePath("../JourneySwitch22"), NodePath("../JourneySwitch2")]
+target_queues = [NodePath("../../QueueLines/QueueLine18")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch22" type="Marker2D" parent="JourneySwitches" unique_id=188338708 node_paths=PackedStringArray("target_switches", "target_queues")]
+position = Vector2(-384.00003, 208.00003)
+script = ExtResource("9_on656")
+target_switches = [NodePath("../JourneySwitch6"), NodePath("../JourneySwitch5")]
+target_queues = [NodePath("../../QueueLines/QueueLine21"), NodePath("../../QueueLines/QueueLine20"), NodePath("../../QueueLines/QueueLine19")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch12" type="Marker2D" parent="JourneySwitches" unique_id=881587184 node_paths=PackedStringArray("target_queues")]
+position = Vector2(-944, 336.00003)
+script = ExtResource("9_on656")
+target_queues = [NodePath("../../QueueLines/QueueLine29"), NodePath("../../QueueLines/QueueLine30"), NodePath("../../QueueLines/QueueLine31")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch23" type="Marker2D" parent="JourneySwitches" unique_id=1407959192 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-1088, 528)
+script = ExtResource("9_on656")
+target_switches = [NodePath("../JourneySwitch12"), NodePath("../JourneySwitch13")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch13" type="Marker2D" parent="JourneySwitches" unique_id=670184525 node_paths=PackedStringArray("target_queues")]
+position = Vector2(-944.00006, 16.000002)
+script = ExtResource("9_on656")
+target_queues = [NodePath("../../QueueLines/QueueLine24"), NodePath("../../QueueLines/QueueLine25"), NodePath("../../QueueLines/QueueLine26"), NodePath("../../QueueLines/QueueLine27"), NodePath("../../QueueLines/QueueLine28")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch14" type="Marker2D" parent="JourneySwitches" unique_id=2074058366 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-1088.0001, 608.00006)
+script = ExtResource("9_on656")
+target_exits = [NodePath("../../ExitPoints/ExitPoint3"), NodePath("../../ExitPoints/ExitPoint4")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch15" type="Marker2D" parent="JourneySwitches" unique_id=98610224 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-1168.0001, -512.00006)
+script = ExtResource("9_on656")
+target_exits = [NodePath("../../ExitPoints/ExitPoint5")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch24" type="Marker2D" parent="JourneySwitches" unique_id=1978021656 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-1168.0001, -592.00006)
+script = ExtResource("9_on656")
+target_switches = [NodePath("../JourneySwitch13"), NodePath("../JourneySwitch12")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch6" type="Marker2D" parent="JourneySwitches" unique_id=490055641 node_paths=PackedStringArray("target_switches", "target_queues")]
+position = Vector2(-384.00003, -128)
+script = ExtResource("9_on656")
+target_switches = [NodePath("../JourneySwitch8"), NodePath("../JourneySwitch22"), NodePath("../JourneySwitch5")]
+target_queues = [NodePath("../../QueueLines/QueueLine22"), NodePath("../../QueueLines/QueueLine23")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch8" type="Marker2D" parent="JourneySwitches" unique_id=1957045146 node_paths=PackedStringArray("target_switches")]
+position = Vector2(-5.421011e-20, -448.00003)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_switches = [NodePath("../JourneySwitch7"), NodePath("../JourneySwitch6")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch20" type="Marker2D" parent="JourneySwitches" unique_id=1725503830 node_paths=PackedStringArray("target_exits")]
+position = Vector2(-1.92593e-34, -624.00006)
+script = ExtResource("9_on656")
+radius_m = 3.0
+target_exits = [NodePath("../../ExitPoints/ExitPoint6")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch21" type="Marker2D" parent="JourneySwitches" unique_id=241308167 node_paths=PackedStringArray("target_exits")]
+position = Vector2(48.000004, 640.00006)
+script = ExtResource("9_on656")
+radius_m = 3.0
+target_exits = [NodePath("../../ExitPoints/ExitPoint7")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch9" type="Marker2D" parent="JourneySwitches" unique_id=763639631 node_paths=PackedStringArray("target_queues")]
+position = Vector2(384.00003, -448.00003)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_queues = [NodePath("../../QueueLines/QueueLine17")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch10" type="Marker2D" parent="JourneySwitches" unique_id=628477020 node_paths=PackedStringArray("target_switches")]
+position = Vector2(800.00006, -352.00003)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_switches = [NodePath("../JourneySwitch19")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch18" type="Marker2D" parent="JourneySwitches" unique_id=1614683869 node_paths=PackedStringArray("target_queues")]
+position = Vector2(864.00006, -288.00003)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_queues = [NodePath("../../QueueLines/QueueLine16"), NodePath("../../QueueLines/QueueLine15"), NodePath("../../QueueLines/QueueLine14"), NodePath("../../QueueLines/QueueLine13"), NodePath("../../QueueLines/QueueLine12"), NodePath("../../QueueLines/QueueLine11")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch11" type="Marker2D" parent="JourneySwitches" unique_id=960018023 node_paths=PackedStringArray("target_switches")]
+position = Vector2(928.00006, -512.00006)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_switches = [NodePath("../JourneySwitch18")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch19" type="Marker2D" parent="JourneySwitches" unique_id=405012741 node_paths=PackedStringArray("target_exits")]
+position = Vector2(928.00006, -592.00006)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_exits = [NodePath("../../ExitPoints/ExitPoint2")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch3" type="Marker2D" parent="JourneySwitches" unique_id=1085386894 node_paths=PackedStringArray("target_switches")]
+position = Vector2(832.00006, 448.00003)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_switches = [NodePath("../JourneySwitch16")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch4" type="Marker2D" parent="JourneySwitches" unique_id=1348178302 node_paths=PackedStringArray("target_switches")]
+position = Vector2(928.00006, 512.00006)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_switches = [NodePath("../JourneySwitch17")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch17" type="Marker2D" parent="JourneySwitches" unique_id=1897380710 node_paths=PackedStringArray("target_queues")]
+position = Vector2(832.00006, 256)
+script = ExtResource("9_on656")
+radius_m = 2.0
+target_queues = [NodePath("../../QueueLines/QueueLine8"), NodePath("../../QueueLines/QueueLine7"), NodePath("../../QueueLines/QueueLine6"), NodePath("../../QueueLines/QueueLine5")]
+transition_type = "least_targeted"
+
+[node name="JourneySwitch16" type="Marker2D" parent="JourneySwitches" unique_id=816510635 node_paths=PackedStringArray("target_exits")]
+position = Vector2(928.00006, 608.00006)
+script = ExtResource("9_on656")
 radius_m = 2.0
 target_exits = [NodePath("../../ExitPoints/ExitPoint")]
 transition_type = "least_targeted"

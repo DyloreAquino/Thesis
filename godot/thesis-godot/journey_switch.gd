@@ -3,7 +3,7 @@ extends Marker2D
 class_name JourneySwitch
 
 ## Stable routing identifier. It must be non-empty and unique in the scene.
-@export var switch_id: String = ""
+var switch_id: String
 
 ## Distance in metres at which JuPedSim considers this waypoint reached.
 @export_range(0.1, 10.0, 0.1) var radius_m: float = 0.5
@@ -22,3 +22,6 @@ class_name JourneySwitch
 	"round_robin",
 	"least_targeted"
 ) var transition_type: String = "fixed"
+
+func _enter_tree():
+	switch_id = self.name

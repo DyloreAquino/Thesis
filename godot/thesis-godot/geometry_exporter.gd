@@ -1,7 +1,7 @@
 extends Node
 class_name GeometryExporter
 
-@export var world_scale: float = 0.01875 # agent shoulder-to-shoulder = 0.6m, 64 pixels each, 0.6/32
+@export var world_scale: float = 0.01875 # agent shoulder-to-shoulder = 0.6m, 64 pixels wide, 0.6/32
 @export var sim_client: SimClient
 var walkable_area: Polygon2D
 var entry_areas: Array[Polygon2D] = []
