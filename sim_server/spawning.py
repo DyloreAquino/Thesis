@@ -35,14 +35,15 @@ def spawn_random_agent(sim: jps.Simulation, entry_areas: list[Polygon], journey_
         )
         try:
             sim.add_agent(
-                jps.AnticipationVelocityModelAgentParameters(
+                jps.SocialForceModelAgentParameters(
                     journey_id=journey_id,
                     stage_id=initial_stage_id,
                     position=positions[0],
                     desired_speed=desired_speed,
+                    radius=0.2,
                     # Keep body-radius clearance without an extra wall buffer:
                     # the station's narrow lanes otherwise leave agents stalled.
-                    wall_buffer_distance=0.0,
+                    # wall_buffer_distance=0.0,
                 )
             )
             return True

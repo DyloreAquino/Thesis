@@ -62,7 +62,7 @@ async def _run_simulation(websocket) -> None:
         while not crowd.is_finished():
             crowd.step()
             tick += 1
-            if tick % SNAPSHOT_EVERY_N_ITERATIONS == 0:
+            if tick % SNAPSHOT_EVERY_N_ITERATIONS == 0 or crowd.is_finished():
                 await websocket.send(json.dumps({
                     "cmd": "tick",
                     "t": tick,
@@ -72,6 +72,7 @@ async def _run_simulation(websocket) -> None:
                 }))
                 await asyncio.sleep(crowd.delta_time() * SNAPSHOT_EVERY_N_ITERATIONS)
         print("All agents exited")
+        crowd.print_run_summary()
     except asyncio.CancelledError:
         raise
     except Exception as error:

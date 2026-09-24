@@ -2,6 +2,7 @@
 
 import math
 import pathlib
+from time import perf_counter
 
 import jupedsim as jps
 from geometry import SceneGeometry
@@ -32,8 +33,11 @@ class CrowdSimulation:
             output_file=pathlib.Path(trajectory_file)
         )
         self._closed = False
+        model = jps.SocialForceModel()
+        self._model_name = type(model).__name__
+        self._run_statistics = sim_stats.RunStatistics(scene.walkable_area.area)
         self.sim = jps.Simulation(
-            model=jps.AnticipationVelocityModel(),
+            model=model,
             geometry=scene.walkable_area,
             trajectory_writer=self._trajectory_writer,
         )
@@ -57,6 +61,8 @@ class CrowdSimulation:
         self._next_spawn_time = 0
 
     def step(self) -> None:
+        compute_start = perf_counter()
+        start_time = self.sim.elapsed_time()
         while (
             self._agents_left_to_spawn > 0
             and self.sim.elapsed_time() >= self._next_spawn_time
@@ -72,7 +78,25 @@ class CrowdSimulation:
         for controller in self._queue_controllers:
             controller.update(current_iteration)
         
+        before = {agent.id: agent.position for agent in self.sim.agents()}
+        pre_step_seconds = perf_counter() - compute_start
+        iterate_start = perf_counter()
         self.sim.iterate()
+        compute_seconds = pre_step_seconds + perf_counter() - iterate_start
+        after = {agent.id: agent.position for agent in self.sim.agents()}
+        self._run_statistics.record_step(
+            start_time, self.sim.elapsed_time(), before, after, compute_seconds
+        )
+
+    def print_run_summary(self) -> None:
+        print(
+            f"\n--- Simulation summary: {self._model_name} ---\n"
+            f"Requested agents: {self.sim_parameters.get('agent_count', 20)} | "
+            f"Entry rate: {self.sim_parameters.get('entry_rate', 1.0)} agents/s\n"
+            f"Desired speed distribution: mean={spawning.MEAN_DESIRED_SPEED:.3f}, "
+            f"std={spawning.SPEED_STD_DEV:.3f} m/s\n"
+            f"{self._run_statistics.summary()}\n"
+        )
         
     def delta_time(self) -> float:
         return self.sim.delta_time()
