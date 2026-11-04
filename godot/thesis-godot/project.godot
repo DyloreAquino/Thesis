@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="thesis-godot"
-run/main_scene="uid://bnmefrpa6md73"
+run/main_scene="uid://c7l4s3l2e1c0t"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

@@ -1129,7 +1129,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -263.0
-offset_top = -71.0
+offset_top = -112.0
 grow_horizontal = 0
 grow_vertical = 0
 
@@ -1141,8 +1141,13 @@ text = "Start Simulation"
 layout_mode = 2
 text = "Fix Geometry"
 
+[node name="BackToLayoutSelectorButton" type="Button" parent="CanvasLayer/UI/BottomRight" unique_id=1945826103]
+layout_mode = 2
+text = "Back to Layout Selector"
+
 [connection signal="resized" from="CanvasLayer/UI/DensityChart/ResizeHandle" to="CanvasLayer/UI/DensityChart/ResizeHandle" method="_on_resized"]
 [connection signal="value_changed" from="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer/AgentCountInput" to="ParametersManager" method="_on_agent_count_input_value_changed"]
 [connection signal="value_changed" from="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2/EntryRateInput" to="ParametersManager" method="_on_entry_rate_input_value_changed"]
 [connection signal="button_up" from="CanvasLayer/UI/BottomRight/StartSimulationButton" to="SimClient" method="_on_start_simulation_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/UI/BottomRight/FixGeometryButton" to="GeometryExporter" method="_on_fix_geometry_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/UI/BottomRight/BackToLayoutSelectorButton" to="SimClient" method="_on_back_to_layout_selector_button_button_up"]

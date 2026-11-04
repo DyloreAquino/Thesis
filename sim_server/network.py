@@ -141,6 +141,13 @@ async def _route_message(
             return
         await _send_simulation_state(websocket, "starting")
         return asyncio.create_task(_run_simulation(websocket))
-        
+
+    elif cmd == "stop_simulation":
+        if active_simulation is not None and not active_simulation.done():
+            active_simulation.cancel()
+            await asyncio.gather(active_simulation, return_exceptions=True)
+        await _send_simulation_state(websocket, "idle")
+        return
+
     else:
         print(f"Unknown command: {cmd}")

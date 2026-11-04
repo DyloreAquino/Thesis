@@ -6,6 +6,7 @@ signal simulation_state_changed(state: String)
 const STATE_IDLE := "idle"
 const STATE_STARTING := "starting"
 const STATE_RUNNING := "running"
+const LAYOUT_SELECTOR_SCENE := "res://layout_selector.tscn"
 
 @export var geometry_exporter : GeometryExporter
 @export var agent_manager: AgentManager
@@ -100,3 +101,15 @@ func start_simulation() -> void:
 
 func _on_start_simulation_button_button_up():
 	start_simulation()
+
+## Ask the server to stop the active run, then return to layout selection.
+func stop_simulation() -> void:
+	if not is_simulation_active():
+		return
+	send_message(JSON.stringify({"cmd": "stop_simulation"}))
+	_set_simulation_state(STATE_IDLE)
+
+func _on_back_to_layout_selector_button_button_up() -> void:
+	stop_simulation()
+	await get_tree().create_timer(0.1).timeout
+	get_tree().change_scene_to_file(LAYOUT_SELECTOR_SCENE)

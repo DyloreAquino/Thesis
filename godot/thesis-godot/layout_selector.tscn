@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://c7l4s3l2e1c0t"]
+
+[ext_resource type="Script" uid="uid://dip0gg7cvh01n" path="res://layout_selector.gd" id="1_selector"]
+
+[node name="LayoutSelector" type="Control" unique_id=1367911117]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_selector")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=182639330]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=331360672]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1710253792]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Cubao Station Layouts"
+horizontal_alignment = 1
+
+[node name="MainLayoutButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1105214309]
+custom_minimum_size = Vector2(360, 44)
+layout_mode = 2
+text = "Main Layout (O1T1)"
+
+[node name="O2T1Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1555725146]
+custom_minimum_size = Vector2(360, 44)
+layout_mode = 2
+text = "O2T1 — Smaller Central Obstacle"
+
+[node name="O1T2Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1991520179]
+custom_minimum_size = Vector2(360, 44)
+layout_mode = 2
+text = "O1T2 — Alternating Queue Orientations"
