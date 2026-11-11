@@ -37,9 +37,9 @@ text = "Main Layout (O1T1)"
 [node name="O2T1Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1555725146]
 custom_minimum_size = Vector2(360, 44)
 layout_mode = 2
-text = "O2T1 — Smaller Central Obstacle"
+text = "O2T1"
 
 [node name="O1T2Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1991520179]
 custom_minimum_size = Vector2(360, 44)
 layout_mode = 2
-text = "O1T2 — Alternating Queue Orientations"
+text = "O1T2"
