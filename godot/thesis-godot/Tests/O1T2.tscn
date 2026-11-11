@@ -573,46 +573,44 @@ polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -471.47168, 416, 
 position = Vector2(0, 5.421011e-20)
 scale = Vector2(0.99999994, 0.99999994)
 
-[node name="QueueLine" type="Line2D" parent="QueueLines" unique_id=1139622068 node_paths=PackedStringArray("target_exits")]
+[node name="QueueLine" type="Line2D" parent="QueueLines" unique_id=1139622068 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99997, 93.00006)
 points = PackedVector2Array(947.99994, 418.99994, 739.99994, 418.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_exits = [NodePath("../../ExitPoints/ExitPoint")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch25")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine2" type="Line2D" parent="QueueLines" unique_id=249091878 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99994, 93.00005)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(739.99994, 370.99994, 947.99994, 370.99994)
+position = Vector2(576, 464)
+points = PackedVector2Array(0, 0, 176, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch5")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine3" type="Line2D" parent="QueueLines" unique_id=1784416832 node_paths=PackedStringArray("target_exits")]
+[node name="QueueLine3" type="Line2D" parent="QueueLines" unique_id=1784416832 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99994, 93.00005)
 scale = Vector2(0.99999994, 0.99999994)
 points = PackedVector2Array(947.99994, 322.99994, 889.99994, 322.9999, 739.99994, 322.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_exits = [NodePath("../../ExitPoints/ExitPoint")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch25")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine4" type="Line2D" parent="QueueLines" unique_id=1388178965 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99994, 93.00005)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(739.99994, 274.99994, 904.36365, 274.99994, 947.99994, 274.99994)
+position = Vector2(576, 368)
+points = PackedVector2Array(0, 0, 176, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch5")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
@@ -628,9 +626,8 @@ transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine6" type="Line2D" parent="QueueLines" unique_id=1476430865 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99994, 93.00005)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(1060, 178.99994, 883.99994, 178.99994)
+position = Vector2(640, 272)
+points = PackedVector2Array(0, 0, -208, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -650,9 +647,8 @@ transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine8" type="Line2D" parent="QueueLines" unique_id=182999263 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99994, 93.00005)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(1060, 82.99995, 883.99994, 82.99995)
+position = Vector2(640, 176)
+points = PackedVector2Array(0, 0, -208, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -660,22 +656,20 @@ target_switches = [NodePath("../../JourneySwitches/JourneySwitch25")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine9" type="Line2D" parent="QueueLines" unique_id=2030477295 node_paths=PackedStringArray("target_switches", "target_exits")]
+[node name="QueueLine9" type="Line2D" parent="QueueLines" unique_id=2030477295 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.9999, 49.000114)
 scale = Vector2(0.9999999, 0.9999999)
 points = PackedVector2Array(659.99994, 610.99994, 659.99994, 866.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch2"), NodePath("../../JourneySwitches/JourneySwitch9"), NodePath("../../JourneySwitches/JourneySwitch5"), NodePath("../../JourneySwitches/JourneySwitch22"), NodePath("../../JourneySwitches/JourneySwitch6")]
-target_exits = [NodePath("../../ExitPoints/ExitPoint6")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch2")]
 transition_type = "round_robin"
 release_interval_seconds = 2.0
 
 [node name="QueueLine10" type="Line2D" parent="QueueLines" unique_id=879277969 node_paths=PackedStringArray("target_exits")]
-position = Vector2(-255.99998, 47.999996)
-scale = Vector2(0.9999999, 0.9999999)
-points = PackedVector2Array(483.99994, 866.99994, 483.99994, 610.99994)
+position = Vector2(228, 915)
+points = PackedVector2Array(0, 0, 0, -256)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -683,21 +677,20 @@ target_exits = [NodePath("../../ExitPoints/ExitPoint7")]
 transition_type = "round_robin"
 release_interval_seconds = 2.0
 
-[node name="QueueLine11" type="Line2D" parent="QueueLines" unique_id=1490459077 node_paths=PackedStringArray("target_exits")]
+[node name="QueueLine11" type="Line2D" parent="QueueLines" unique_id=1490459077 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-289.54828, -386.99994)
 scale = Vector2(0.9838709, 0.99999994)
 points = PackedVector2Array(879.7377, 226.99994, 1058.6228, 226.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_exits = [NodePath("../../ExitPoints/ExitPoint6"), NodePath("../../ExitPoints/ExitPoint7")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine12" type="Line2D" parent="QueueLines" unique_id=2118075787 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99988, -386.99994)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(1060, 178.99994, 883.99994, 178.99994)
+position = Vector2(640, -208)
+points = PackedVector2Array(0, 0, -160, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -705,21 +698,20 @@ target_switches = [NodePath("../../JourneySwitches/JourneySwitch19")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine13" type="Line2D" parent="QueueLines" unique_id=1347048751 node_paths=PackedStringArray("target_exits")]
+[node name="QueueLine13" type="Line2D" parent="QueueLines" unique_id=1347048751 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99988, -386.99994)
 scale = Vector2(0.99999994, 0.99999994)
 points = PackedVector2Array(883.99994, 130.99994, 1060, 130.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_exits = [NodePath("../../ExitPoints/ExitPoint6"), NodePath("../../ExitPoints/ExitPoint7")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine14" type="Line2D" parent="QueueLines" unique_id=1308310774 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99988, -386.99994)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(1059.9999, 82.99994, 1026.3201, 82.99994, 883.99994, 82.99995)
+position = Vector2(640, -304)
+points = PackedVector2Array(0, 0, -160, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -727,21 +719,20 @@ target_switches = [NodePath("../../JourneySwitches/JourneySwitch19")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
-[node name="QueueLine15" type="Line2D" parent="QueueLines" unique_id=230802736 node_paths=PackedStringArray("target_exits")]
+[node name="QueueLine15" type="Line2D" parent="QueueLines" unique_id=230802736 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99988, -386.99994)
 scale = Vector2(0.99999994, 0.99999994)
 points = PackedVector2Array(883.9999, 34.99994, 1059.9999, 34.99994)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_exits = [NodePath("../../ExitPoints/ExitPoint6"), NodePath("../../ExitPoints/ExitPoint7")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch20")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine16" type="Line2D" parent="QueueLines" unique_id=1246896472 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99988, -386.99994)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(1059.9999, -13.000061, 883.9999, -13.000061)
+position = Vector2(640, -400)
+points = PackedVector2Array(0, 0, -160, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -771,12 +762,12 @@ transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine19" type="Line2D" parent="QueueLines" unique_id=637253521 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(-220.00006, 162.99994, -396.00006, 162.99994)
+position = Vector2(-640, 256)
+points = PackedVector2Array(-6.1035156e-05, 1.5258789e-05, -176.00006, 1.5258789e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch10")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch7")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
@@ -791,12 +782,12 @@ transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine21" type="Line2D" parent="QueueLines" unique_id=1395593791 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(-220.00006, 66.99995, -396.00006, 66.99995)
+position = Vector2(-640, 160)
+points = PackedVector2Array(0, 0, -176, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch10")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch7")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
@@ -811,13 +802,12 @@ transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine23" type="Line2D" parent="QueueLines" unique_id=1717492854 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99994, 93.00005)
-scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(-220.00006, -221.00006, -396.00006, -221.00006)
+position = Vector2(-640, -128)
+points = PackedVector2Array(0, 0, -176, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch7")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch10")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
@@ -832,8 +822,8 @@ transition_type = "least_targeted"
 release_interval_seconds = 2.0
 
 [node name="QueueLine25" type="Line2D" parent="QueueLines" unique_id=284370422 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(-508.00006, -125.00005, -332.00006, -125.00005)
+position = Vector2(-704, -32)
+points = PackedVector2Array(0, 0, 176, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -852,8 +842,8 @@ transition_type = "least_targeted"
 release_interval_seconds = 2.0
 
 [node name="QueueLine27" type="Line2D" parent="QueueLines" unique_id=1894524512 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(-508.00006, -29.000053, -332.00006, -29.000053)
+position = Vector2(-704, 64)
+points = PackedVector2Array(0, 0, 176, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -882,12 +872,12 @@ transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
 [node name="QueueLine30" type="Line2D" parent="QueueLines" unique_id=1092191723 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(-508.00006, 258.99994, -332.00006, 258.99994)
+position = Vector2(-704, 352)
+points = PackedVector2Array(0, 0, 176, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
-target_switches = [NodePath("../../JourneySwitches/JourneySwitch14")]
+target_switches = [NodePath("../../JourneySwitches/JourneySwitch16")]
 transition_type = "least_targeted"
 release_interval_seconds = 4.0
 
@@ -910,22 +900,21 @@ position = Vector2(288.00003, 976.00006)
 scale = Vector2(0.99999994, 0.99999994)
 script = ExtResource("9_on656")
 radius_m = 3.0
-target_queues = [NodePath("../../QueueLines/QueueLine10"), NodePath("../../QueueLines/QueueLine9")]
+target_queues = [NodePath("../../QueueLines/QueueLine9")]
 transition_type = "round_robin"
 
 [node name="JourneySwitch2" type="Marker2D" parent="JourneySwitches" unique_id=1468033449 node_paths=PackedStringArray("target_queues")]
 position = Vector2(288.00003, 448.00003)
 script = ExtResource("9_on656")
 radius_m = 1.0
-target_queues = [NodePath("../../QueueLines/QueueLine"), NodePath("../../QueueLines/QueueLine2"), NodePath("../../QueueLines/QueueLine3"), NodePath("../../QueueLines/QueueLine4")]
+target_queues = [NodePath("../../QueueLines/QueueLine"), NodePath("../../QueueLines/QueueLine3"), NodePath("../../QueueLines/QueueLine6"), NodePath("../../QueueLines/QueueLine8")]
 transition_type = "least_targeted"
 
-[node name="JourneySwitch5" type="Marker2D" parent="JourneySwitches" unique_id=485784035 node_paths=PackedStringArray("target_switches", "target_queues")]
+[node name="JourneySwitch5" type="Marker2D" parent="JourneySwitches" unique_id=485784035 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-383.99997, 464.00003)
 script = ExtResource("9_on656")
 radius_m = 1.0
 target_switches = [NodePath("../JourneySwitch22")]
-target_queues = [NodePath("../../QueueLines/QueueLine18")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch7" type="Marker2D" parent="JourneySwitches" unique_id=1616759943 node_paths=PackedStringArray("target_exits")]
@@ -939,7 +928,7 @@ transition_type = "least_targeted"
 position = Vector2(-384.00003, 208.00003)
 script = ExtResource("9_on656")
 radius_m = 1.0
-target_queues = [NodePath("../../QueueLines/QueueLine21"), NodePath("../../QueueLines/QueueLine20"), NodePath("../../QueueLines/QueueLine19")]
+target_queues = [NodePath("../../QueueLines/QueueLine18"), NodePath("../../QueueLines/QueueLine20"), NodePath("../../QueueLines/QueueLine22")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch12" type="Marker2D" parent="JourneySwitches" unique_id=881587184 node_paths=PackedStringArray("target_switches", "target_queues")]
@@ -947,7 +936,7 @@ position = Vector2(-944.00006, 256.00003)
 script = ExtResource("9_on656")
 radius_m = 4.0
 target_switches = [NodePath("../JourneySwitch13")]
-target_queues = [NodePath("../../QueueLines/QueueLine29"), NodePath("../../QueueLines/QueueLine30"), NodePath("../../QueueLines/QueueLine31"), NodePath("../../QueueLines/QueueLine28"), NodePath("../../QueueLines/QueueLine27")]
+target_queues = [NodePath("../../QueueLines/QueueLine10"), NodePath("../../QueueLines/QueueLine19"), NodePath("../../QueueLines/QueueLine21"), NodePath("../../QueueLines/QueueLine23"), NodePath("../../QueueLines/QueueLine29"), NodePath("../../QueueLines/QueueLine31")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch23" type="Marker2D" parent="JourneySwitches" unique_id=1407959192 node_paths=PackedStringArray("target_switches")]
@@ -961,7 +950,7 @@ transition_type = "least_targeted"
 position = Vector2(-944.00006, 16.000002)
 script = ExtResource("9_on656")
 radius_m = 2.0
-target_queues = [NodePath("../../QueueLines/QueueLine24"), NodePath("../../QueueLines/QueueLine25"), NodePath("../../QueueLines/QueueLine26"), NodePath("../../QueueLines/QueueLine27"), NodePath("../../QueueLines/QueueLine28")]
+target_queues = [NodePath("../../QueueLines/QueueLine24"), NodePath("../../QueueLines/QueueLine26"), NodePath("../../QueueLines/QueueLine28")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch14" type="Marker2D" parent="JourneySwitches" unique_id=2074058366 node_paths=PackedStringArray("target_exits")]
@@ -992,20 +981,18 @@ radius_m = 2.0
 target_switches = [NodePath("../JourneySwitch13")]
 transition_type = "least_targeted"
 
-[node name="JourneySwitch6" type="Marker2D" parent="JourneySwitches" unique_id=490055641 node_paths=PackedStringArray("target_switches", "target_queues")]
+[node name="JourneySwitch6" type="Marker2D" parent="JourneySwitches" unique_id=490055641 node_paths=PackedStringArray("target_queues")]
 position = Vector2(-384.00003, -128)
 script = ExtResource("9_on656")
 radius_m = 1.0
-target_switches = [NodePath("../JourneySwitch22")]
-target_queues = [NodePath("../../QueueLines/QueueLine22"), NodePath("../../QueueLines/QueueLine23")]
+target_queues = [NodePath("../../QueueLines/QueueLine25"), NodePath("../../QueueLines/QueueLine27"), NodePath("../../QueueLines/QueueLine30")]
 transition_type = "least_targeted"
 
-[node name="JourneySwitch10" type="Marker2D" parent="JourneySwitches" unique_id=427261282 node_paths=PackedStringArray("target_exits", "target_queues")]
+[node name="JourneySwitch10" type="Marker2D" parent="JourneySwitches" unique_id=427261282 node_paths=PackedStringArray("target_exits")]
 position = Vector2(-496, -3.0517578e-05)
 script = ExtResource("9_on656")
 radius_m = 2.0
 target_exits = [NodePath("../../ExitPoints/ExitPoint6"), NodePath("../../ExitPoints/ExitPoint7")]
-target_queues = [NodePath("../../QueueLines/QueueLine22"), NodePath("../../QueueLines/QueueLine23")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch8" type="Marker2D" parent="JourneySwitches" unique_id=1957045146 node_paths=PackedStringArray("target_switches")]
@@ -1019,14 +1006,14 @@ transition_type = "least_targeted"
 position = Vector2(384.00003, -448.00003)
 script = ExtResource("9_on656")
 radius_m = 1.0
-target_queues = [NodePath("../../QueueLines/QueueLine17")]
+target_queues = [NodePath("../../QueueLines/QueueLine12"), NodePath("../../QueueLines/QueueLine14"), NodePath("../../QueueLines/QueueLine16"), NodePath("../../QueueLines/QueueLine17")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch18" type="Marker2D" parent="JourneySwitches" unique_id=1614683869 node_paths=PackedStringArray("target_queues")]
 position = Vector2(864.00006, -288.00003)
 script = ExtResource("9_on656")
 radius_m = 2.0
-target_queues = [NodePath("../../QueueLines/QueueLine16"), NodePath("../../QueueLines/QueueLine15"), NodePath("../../QueueLines/QueueLine14"), NodePath("../../QueueLines/QueueLine13"), NodePath("../../QueueLines/QueueLine12"), NodePath("../../QueueLines/QueueLine11")]
+target_queues = [NodePath("../../QueueLines/QueueLine11"), NodePath("../../QueueLines/QueueLine13"), NodePath("../../QueueLines/QueueLine15")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch19" type="Marker2D" parent="JourneySwitches" unique_id=1817124484 node_paths=PackedStringArray("target_exits")]
@@ -1040,7 +1027,7 @@ transition_type = "least_targeted"
 position = Vector2(832.00006, 256)
 script = ExtResource("9_on656")
 radius_m = 2.0
-target_queues = [NodePath("../../QueueLines/QueueLine8"), NodePath("../../QueueLines/QueueLine7"), NodePath("../../QueueLines/QueueLine6"), NodePath("../../QueueLines/QueueLine5")]
+target_queues = [NodePath("../../QueueLines/QueueLine2"), NodePath("../../QueueLines/QueueLine4"), NodePath("../../QueueLines/QueueLine5"), NodePath("../../QueueLines/QueueLine7")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch20" type="Marker2D" parent="JourneySwitches" unique_id=1499965156 node_paths=PackedStringArray("target_exits")]
