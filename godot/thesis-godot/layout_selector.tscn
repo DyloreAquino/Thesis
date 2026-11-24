@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dip0gg7cvh01n" path="res://layout_selector.gd" id="1_selector"]
 
-[node name="LayoutSelector" type="Control" unique_id=1367911117]
+[node name="LayoutSelector" type="Control" unique_id=1501147273]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,35 +11,95 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_selector")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=182639330]
+[node name="Title" type="Label" parent="." unique_id=316957852]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Cubao Station Layouts"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=846542659]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 88.0
+offset_right = -32.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=331360672]
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer" unique_id=1409561536]
 layout_mode = 2
-theme_override_constants/separation = 16
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 20
+columns = 4
 
-[node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1710253792]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Cubao Station Layouts"
-horizontal_alignment = 1
-
-[node name="MainLayoutButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1105214309]
-custom_minimum_size = Vector2(360, 44)
+[node name="MainLayoutButton" type="Button" parent="ScrollContainer/GridContainer" unique_id=48592131]
+custom_minimum_size = Vector2(220, 64)
 layout_mode = 2
 text = "Main Layout (O1T1)"
 
-[node name="O2T1Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1555725146]
-custom_minimum_size = Vector2(360, 44)
+[node name="O1T2Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=625801711]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O1T2"
+
+[node name="O1T3Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=1430734775]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O1T3"
+
+[node name="O2T1Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=1985461259]
+custom_minimum_size = Vector2(220, 64)
 layout_mode = 2
 text = "O2T1"
 
-[node name="O1T2Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1991520179]
-custom_minimum_size = Vector2(360, 44)
+[node name="O2T2Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=771724633]
+custom_minimum_size = Vector2(220, 64)
 layout_mode = 2
-text = "O1T2"
+text = "O2T2"
+
+[node name="O2T3Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=103217656]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O2T3"
+
+[node name="O3T1Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=1633730802]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O3T1"
+
+[node name="O3T2Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=2100917085]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O3T2"
+
+[node name="O3T3Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=1591410728]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O3T3"
+
+[node name="O4T1Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=1866318363]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O4T1"
+
+[node name="O4T2Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=1451284876]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O4T2"
+
+[node name="O4T3Button" type="Button" parent="ScrollContainer/GridContainer" unique_id=1920102263]
+custom_minimum_size = Vector2(220, 64)
+layout_mode = 2
+text = "O4T3"

@@ -18,15 +18,24 @@ Snapshot date: 2026-11-23.
 | Layout | File | Meaning | Canonical use |
 |---|---|---|---|
 | Main / O1T1 | `res://Tests/main_layout.tscn` | Base station layout | Best default base for a new layout |
-| O2T1 | `res://Tests/O2T1.tscn` | Base layout with smaller central obstacle | Obstacle-size variant |
-| O1T2 | `res://Tests/O1T2.tscn` | Base layout with alternating queue orientations and stricter routing separation | Queue-orientation / routing variant |
+| O1T2 | `res://Tests/O1T2.tscn` | Alternating entry/exit gates and stricter routing separation | Turnstile-orientation / routing variant |
+| O1T3 | `res://Tests/O1T3.tscn` | Grouped entry/exit gates on left and right sides | Grouped-turnstile variant |
+| O2T1 | `res://Tests/O2T1.tscn` | Repositioned food stands | Obstacle-position variant |
+| O2T2 | `res://Tests/O2T2.tscn` | Repositioned food stands + alternating gates | Combined obstacle / turnstile variant |
+| O2T3 | `res://Tests/O2T3.tscn` | Repositioned food stands + grouped gates | Combined obstacle / turnstile variant |
+| O3T1 | `res://Tests/O3T1.tscn` | North entry/exit blocked off | Blocked-exit variant |
+| O3T2 | `res://Tests/O3T2.tscn` | North entry/exit blocked + alternating gates | Combined blocked-exit / turnstile variant |
+| O3T3 | `res://Tests/O3T3.tscn` | North entry/exit blocked + grouped gates | Combined blocked-exit / turnstile variant |
+| O4T1 | `res://Tests/O4T1.tscn` | South entry/exit blocked off | Blocked-exit variant |
+| O4T2 | `res://Tests/O4T2.tscn` | South entry/exit blocked + alternating gates | Combined blocked-exit / turnstile variant |
+| O4T3 | `res://Tests/O4T3.tscn` | South entry/exit blocked + grouped gates | Combined blocked-exit / turnstile variant |
 
 Legacy or experimental scenes such as `main_layout_new.tscn`, `test_main.tscn`,
 `test_two.tscn`, and `test_layout_1.tscn` are **not** canonical layout bases.
 Do not copy from them unless intentionally reviving an old experiment.
 
 The startup scene is `res://layout_selector.tscn`. It presents buttons for the
-three canonical layouts and uses `layout_selector.gd` to switch scenes.
+twelve canonical layouts and uses `layout_selector.gd` to switch scenes.
 
 ---
 
@@ -134,7 +143,7 @@ Current maximum names:
 |---|---|---|
 | Entry | `EntryPoint`, `EntryPoint2..7` | `EntryPoint7` |
 | Exit | `ExitPoint`, `ExitPoint2..8` | `ExitPoint8` |
-| Obstacle | `Obstacle`, `Obstacle2..74` | `Obstacle74` |
+| Obstacle | `Obstacle`, `Obstacle2..75` | `Obstacle75` |
 | Queue | `QueueLine`, `QueueLine2..35` | `QueueLine35` |
 | Switch | `JourneySwitch1..29`, with gaps | `JourneySwitch29` |
 
@@ -199,13 +208,14 @@ Important obstacle patterns:
 | Most remaining numbered obstacles | Smaller walls, partitions, and platform furniture |
 | `Obstacle64..69`, `Obstacle62..63` | Outer wall segments |
 | `Obstacle70..74` | Top-left turnstile barriers |
+| `Obstacle75` | Left-side station block added in the current base layout |
 
-### Central obstacle
+### Central food-stand block
 
-`Obstacle40` is the central rectangular obstacle.
+`Obstacle40` is the central food-stand block.
 
-- `main_layout` and `O1T2` use the full-size version.
-- `O2T1` uses the reduced-size version.
+- `O1` uses the normal placement.
+- `O2` uses the repositioned placement implemented in `O2T1`.
 
 When copying a layout, preserve this difference intentionally.
 
@@ -255,8 +265,10 @@ To elongate a queue:
 2. Extend the tail point along the existing tail direction.
 3. Keep the queue inside walkable geometry and clear of obstacles.
 
-In the current layouts, queues were elongated by about 50%, with a wall-aware
-cap so tails do not cross obstacles.
+In the current layouts, queue tails are intentionally kept moderate. They were
+reduced from an earlier long-queue experiment, then extended again by about
+**1.3x**. The resulting lengths are typically around **260–390 px**
+(~4.9–7.3 m), depending on nearby walls and obstacles.
 
 ### Release intervals
 
@@ -338,7 +350,7 @@ The station is organized into queue banks.
 - Feeder: `JourneySwitch28`.
 - Exit-side waypoint: `JourneySwitch29`.
 - Release interval: `3.8`.
-- Present identically in all three layouts.
+- Present identically in all current layouts.
 
 ---
 
@@ -440,19 +452,23 @@ avoid accidentally mixing flows unless that is the intended variant.
 
 ## 8. Layout-specific differences
 
-| Feature | `main_layout` | `O2T1` | `O1T2` |
+### Obstacle variants
+
+| Feature | `O1` | `O2` | `O3` | `O4` |
+|---|---|---|---|---|
+| Food-stand block | Normal placement | Repositioned | Normal | Normal |
+| North entry/exit | Present | Present | Removed | Present |
+| South entry/exit | Present | Present | Present | Removed |
+
+### Turnstile variants
+
+| Feature | `T1` | `T2` | `T3` |
 |---|---|---|---|
-| Central `Obstacle40` | Full size | Half width/height | Full size |
-| Queue orientations | Original bank pattern | Original bank pattern | Alternating by spatial bank order |
-| Routing strictness | Permissive | Permissive | Train/station separation |
-| Extra routing switches | None beyond shared bank | None beyond shared bank | `S25`, `S26` |
-| Top-left exit bank | Present | Present | Present |
-| Release intervals | Shared global rules | Shared global rules | Shared global rules |
-| Switch count | 22 | 22 | 24 |
-| Queue count | 35 | 35 | 35 |
-| Obstacle count | 73 | 73 | 73 |
-| Entry count | 7 | 7 | 7 |
-| Exit count | 8 | 8 | 8 |
+| Gate pattern | Normal | Alternating entry/exit | Grouped half entry / half exit |
+| Routing strictness | Permissive | Train/station separation | Preserves valid routing without alternating order |
+| Extra routing switches | None | `S25`, `S26` | Reuses `T2` destination switches |
+| Top-left bank | Present | Present | Present |
+| Bottom pair | Present | Present | Present |
 
 ---
 
@@ -462,8 +478,9 @@ avoid accidentally mixing flows unless that is the intended variant.
 
 1. Copy the closest canonical scene:
    - Use `main_layout.tscn` for a general layout.
-   - Use `O2T1.tscn` for a smaller central obstacle.
-   - Use `O1T2.tscn` for alternating queue orientation and stricter routing.
+   - Use `O2T1.tscn` for repositioned food stands.
+   - Use `O1T2.tscn` for alternating entry/exit gates.
+   - Use `O1T3.tscn` for grouped entry/exit gates.
 2. Save as `res://Tests/<NewLayout>.tscn`.
 3. Change the scene header UID so it does not collide with the source scene:
 
@@ -547,7 +564,7 @@ No script is needed on an exit polygon.
 ### 9.5 Add an obstacle
 
 1. Add a `Polygon2D` under `Obstacles`.
-2. Name it `Obstacle75` or the next free obstacle name.
+2. Name it `Obstacle76` or the next free obstacle name.
 3. Draw the polygon.
 4. Make sure it does not overlap a queue line or switch waypoint.
 5. Remember that the server subtracts it from the walkable area.
@@ -607,7 +624,7 @@ In `layout_selector.gd`, append:
 
 ```gdscript
 {
-    "button_path": "CenterContainer/VBoxContainer/<ButtonName>",
+    "button_path": "ScrollContainer/GridContainer/<ButtonName>",
     "scene_path": "res://Tests/<NewLayout>.tscn",
 },
 ```
@@ -619,8 +636,17 @@ Current selector entries:
 | Button | Scene |
 |---|---|
 | `MainLayoutButton` | `res://Tests/main_layout.tscn` |
-| `O2T1Button` | `res://Tests/O2T1.tscn` |
 | `O1T2Button` | `res://Tests/O1T2.tscn` |
+| `O1T3Button` | `res://Tests/O1T3.tscn` |
+| `O2T1Button` | `res://Tests/O2T1.tscn` |
+| `O2T2Button` | `res://Tests/O2T2.tscn` |
+| `O2T3Button` | `res://Tests/O2T3.tscn` |
+| `O3T1Button` | `res://Tests/O3T1.tscn` |
+| `O3T2Button` | `res://Tests/O3T2.tscn` |
+| `O3T3Button` | `res://Tests/O3T3.tscn` |
+| `O4T1Button` | `res://Tests/O4T1.tscn` |
+| `O4T2Button` | `res://Tests/O4T2.tscn` |
+| `O4T3Button` | `res://Tests/O4T3.tscn` |
 
 ### 9.10 Add an entry
 
@@ -697,7 +723,7 @@ Before considering a layout finished:
 
 ### Do not copy from `main_layout_new.tscn`
 
-It is legacy/experimental. Use one of the three canonical layouts.
+It is legacy/experimental. Use one of the canonical layouts.
 
 ### Do not mutate canonical layouts for throwaway experiments
 
@@ -866,8 +892,9 @@ Q35         -> S29
 
 ### A.2 O2T1.tscn
 
-`O2T1` currently has the same routing topology as `main_layout`. The only
-intended layout difference is the reduced size of `Obstacle40`.
+`O2T1` currently has the same routing topology as `main_layout`. The intended
+layout difference is the repositioned food-stand block represented by
+`Obstacle40`.
 
 Refer to the `main_layout.tscn` tables above for its current topology.
 
