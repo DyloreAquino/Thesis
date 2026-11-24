@@ -1,7 +1,7 @@
 extends Node
 class_name GeometryExporter
 
-@export var world_scale: float = 0.01875 # agent shoulder-to-shoulder = 0.6m, 64 pixels wide, 0.6/32
+@export var world_scale: float = 0.031 # 1 metre is about 32.3 Godot pixels in the canonical layouts
 @export var sim_client: SimClient
 var walkable_area: Polygon2D
 var entry_areas: Array[Polygon2D] = []
@@ -31,8 +31,8 @@ func _ready():
 	var initial_child = $"../JourneySwitches".get_child(0) as JourneySwitch
 	initial_switch = initial_child
 
-func send_geometry() -> void:
-	var message := {
+func build_message() -> Dictionary:
+	return {
 		"cmd": "setup_geometry",
 		"walkable_area": _polygon_to_scaled_points(walkable_area),
 		"entry_areas": entry_areas.map(_entry_to_message),
@@ -42,7 +42,9 @@ func send_geometry() -> void:
 		"initial_switch_id": initial_switch.switch_id if initial_switch else "",
 		"queues": queues.map(_queue_to_message).filter(func(q): return not q.is_empty()),
 	}
-	sim_client.send_message(JSON.stringify(message))
+
+func send_geometry() -> void:
+	sim_client.send_message(JSON.stringify(build_message()))
 
 func _entry_to_message(entry: Polygon2D) -> Dictionary:
 	var start: JourneySwitch = initial_switch

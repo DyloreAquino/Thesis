@@ -1,0 +1,180 @@
+[gd_scene format=3 uid="uid://e3q2d2oe02is"]
+
+[ext_resource type="Script" path="res://queue_approach_switch.gd" id="1_approach"]
+
+[node name="QueueApproaches" type="Node2D" unique_id=1692344449]
+
+[node name="QueueApproach1" type="Marker2D" parent="." unique_id=1570693047]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine")
+radius_m = 0.3
+
+[node name="QueueApproach2" type="Marker2D" parent="." unique_id=458836684]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine2")
+radius_m = 0.3
+
+[node name="QueueApproach3" type="Marker2D" parent="." unique_id=1581592860]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine3")
+radius_m = 0.3
+
+[node name="QueueApproach4" type="Marker2D" parent="." unique_id=361357458]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine4")
+radius_m = 0.3
+
+[node name="QueueApproach5" type="Marker2D" parent="." unique_id=1462171567]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine5")
+radius_m = 0.3
+
+[node name="QueueApproach6" type="Marker2D" parent="." unique_id=775864811]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine6")
+radius_m = 0.3
+
+[node name="QueueApproach7" type="Marker2D" parent="." unique_id=116421832]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine7")
+radius_m = 0.3
+
+[node name="QueueApproach8" type="Marker2D" parent="." unique_id=1012449287]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine8")
+radius_m = 0.3
+
+[node name="QueueApproach9" type="Marker2D" parent="." unique_id=75284421]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine9")
+radius_m = 0.3
+
+[node name="QueueApproach10" type="Marker2D" parent="." unique_id=431581536]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine10")
+radius_m = 0.3
+
+[node name="QueueApproach11" type="Marker2D" parent="." unique_id=1475265262]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine11")
+radius_m = 0.3
+
+[node name="QueueApproach12" type="Marker2D" parent="." unique_id=1679994867]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine12")
+radius_m = 0.3
+
+[node name="QueueApproach13" type="Marker2D" parent="." unique_id=166006077]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine13")
+radius_m = 0.3
+
+[node name="QueueApproach14" type="Marker2D" parent="." unique_id=406222015]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine14")
+radius_m = 0.3
+
+[node name="QueueApproach15" type="Marker2D" parent="." unique_id=2107895310]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine15")
+radius_m = 0.3
+
+[node name="QueueApproach16" type="Marker2D" parent="." unique_id=1408235310]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine16")
+radius_m = 0.3
+
+[node name="QueueApproach17" type="Marker2D" parent="." unique_id=486595921]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine17")
+radius_m = 0.3
+
+[node name="QueueApproach18" type="Marker2D" parent="." unique_id=2046138299]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine18")
+radius_m = 0.3
+
+[node name="QueueApproach19" type="Marker2D" parent="." unique_id=1826589334]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine19")
+radius_m = 0.3
+
+[node name="QueueApproach20" type="Marker2D" parent="." unique_id=667560220]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine20")
+radius_m = 0.3
+
+[node name="QueueApproach21" type="Marker2D" parent="." unique_id=61280393]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine21")
+radius_m = 0.3
+
+[node name="QueueApproach22" type="Marker2D" parent="." unique_id=390432470]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine22")
+radius_m = 0.3
+
+[node name="QueueApproach23" type="Marker2D" parent="." unique_id=1573298060]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine23")
+radius_m = 0.3
+
+[node name="QueueApproach24" type="Marker2D" parent="." unique_id=1077653035]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine24")
+radius_m = 0.3
+
+[node name="QueueApproach25" type="Marker2D" parent="." unique_id=1736398778]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine25")
+radius_m = 0.3
+
+[node name="QueueApproach26" type="Marker2D" parent="." unique_id=1905861533]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine26")
+radius_m = 0.3
+
+[node name="QueueApproach27" type="Marker2D" parent="." unique_id=471413189]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine27")
+radius_m = 0.3
+
+[node name="QueueApproach28" type="Marker2D" parent="." unique_id=197462480]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine28")
+radius_m = 0.3
+
+[node name="QueueApproach29" type="Marker2D" parent="." unique_id=41504292]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine29")
+radius_m = 0.3
+
+[node name="QueueApproach30" type="Marker2D" parent="." unique_id=1435150552]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine30")
+radius_m = 0.3
+
+[node name="QueueApproach31" type="Marker2D" parent="." unique_id=1849038956]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine31")
+radius_m = 0.3
+
+[node name="QueueApproach32" type="Marker2D" parent="." unique_id=1363004648]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine32")
+radius_m = 0.3
+
+[node name="QueueApproach33" type="Marker2D" parent="." unique_id=1944701294]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine33")
+radius_m = 0.3
+
+[node name="QueueApproach34" type="Marker2D" parent="." unique_id=423136827]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine34")
+radius_m = 0.3
+
+[node name="QueueApproach35" type="Marker2D" parent="." unique_id=1160456850]
+script = ExtResource("1_approach")
+queue_path = NodePath("../../../QueueLines/QueueLine35")
+radius_m = 0.3

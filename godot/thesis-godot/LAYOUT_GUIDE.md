@@ -9,7 +9,7 @@ The generated topology snapshot at the end is derived from the current
 `.tscn` files. Treat it as a snapshot, not as a live source of truth. If you
 change a layout, re-verify the affected section before editing further.
 
-Snapshot date: 2026-11-23.
+Snapshot date: 2026-11-24.
 
 ---
 
@@ -145,12 +145,14 @@ Current maximum names:
 | Exit | `ExitPoint`, `ExitPoint2..8` | `ExitPoint8` |
 | Obstacle | `Obstacle`, `Obstacle2..75` | `Obstacle75` |
 | Queue | `QueueLine`, `QueueLine2..35` | `QueueLine35` |
-| Switch | `JourneySwitch1..29`, with gaps | `JourneySwitch29` |
+| Switch | `JourneySwitch1..64`; `30..64` are queue approach switches | `JourneySwitch64` |
 
 Notes:
 
 - `QueueLine` is treated as the first queue, `QueueLine2` as the second, etc.
-- Switch numbering has gaps because old experimental switches were removed.
+- `JourneySwitch30..64` correspond one-to-one with `QueueLine`..`QueueLine35`.
+- Queue approach switches all use `radius_m = 1.0`.
+- Switch numbering has gaps below `30` because old experimental switches were removed.
 - When adding a new node, use the next free number to avoid confusing future
   agents.
 - Do not reuse a removed node number unless you are intentionally replacing
@@ -171,20 +173,20 @@ Notes:
 `GeometryExporter.world_scale` is:
 
 ```gdscript
-0.01875
+0.031
 ```
 
 So:
 
 ```text
-1 metre ≈ 53.333 Godot pixels
+1 metre is about 32.3 Godot pixels
 ```
 
 World geometry is calculated as:
 
 ```text
 world_point = node.to_global(local_point)
-meters      = world_point * 0.01875
+meters      = world_point * 0.031
 ```
 
 ### Obstacles
@@ -254,6 +256,11 @@ points = PackedVector2Array(0, 0, 176, 0)
 
 has its head at the node position and its tail extending to the right.
 
+Every queue also has exactly one queue approach switch under `JourneySwitches`.
+That switch sits just past `points[-1]` on the entry side, targets only that
+queue, and uses `radius_m = 1.0`. Feeder switches target approach switches,
+never queues directly.
+
 When reversing a queue direction, reverse the point order. Do not change only
 the node position.
 
@@ -265,10 +272,10 @@ To elongate a queue:
 2. Extend the tail point along the existing tail direction.
 3. Keep the queue inside walkable geometry and clear of obstacles.
 
-In the current layouts, queue tails are intentionally kept moderate. They were
-reduced from an earlier long-queue experiment, then extended again by about
-**1.3x**. The resulting lengths are typically around **260–390 px**
-(~4.9–7.3 m), depending on nearby walls and obstacles.
+All queues are capped at **160 px** (~5 m) so agents do not walk backward along
+long queues before reaching a turnstile. T3 keeps one length per gate group,
+limited either by that cap or by obstacle clearance: right exit `160 px`, right
+entry `112 px`, left exit `160 px`, left entry `160 px`.
 
 ### Release intervals
 
@@ -328,7 +335,8 @@ The station is organized into queue banks.
 #### Left bank
 
 - `QueueLine18..QueueLine31`
-- Feeder switches: `S5`, `S22`, `S6`, `S12`, `S13`, depending on layout.
+- Feeder switches: `S5`, `S22`, `S6`, `S13`, depending on layout; `S12` is
+  used only in `T1`, `T3`, and `main_layout`.
 - Downstream destinations:
   - `S14`, `S16` → left-side platform exits
   - `S7`, `S10` → station exits 6/7
@@ -373,11 +381,15 @@ reached.
 
 1. Every switch must target at least one switch, queue, or exit.
 2. Every queue must target at least one switch or exit.
-3. A `fixed` transition must have exactly one target.
-4. The routing graph must be acyclic.
-5. Every routing path must eventually reach an exit.
-6. Switch positions must remain inside the walkable area.
-7. Queue points should remain inside the walkable area.
+3. Every queue has exactly one queue approach switch.
+4. Only queue approach switches target queues; feeders target approach switches.
+5. A `fixed` transition must have exactly one target.
+6. The routing graph must be acyclic.
+7. Every routing path must eventually reach an exit.
+8. Switch positions must remain inside the walkable area.
+9. Queue points should remain inside the walkable area.
+10. Rewired switches must not be left orphaned; remove them or give them a
+   deliberate inbound edge.
 
 The Python server performs these checks when geometry is sent. If validation
 fails, Godot receives a simulation error state.
@@ -388,24 +400,31 @@ Most queue banks use a flanking pattern:
 
 ```text
 entry-side switch
-    ↓
+    
 feeder switch
-    ↓
-queue
-    ↓
+    
+queue approach switches
+    
+queues
+    
 destination switch
-    ↓
+    
 exit
 ```
 
 Example:
 
 ```text
-S24 → S28 → Q32/Q33/Q34/Q35 → S29 → ExitPoint8
+S24  S28  S61/S62/S63/S64  Q32/Q33/Q34/Q35  S29  ExitPoint8
 ```
 
-`S28` is the feeder. It sends agents into the queues.
+`S28` is the feeder. `S61`..`S64` are the one-per-queue approach switches.
+Each approach switch has a `fixed` transition into exactly one queue.
 `S29` is the destination-side waypoint. It sends released agents to the exit.
+
+An entry-side switch may target approach switches directly when an extra feeder
+would make agents detour backward. In T2, `S23` feeds `S49/S51/S53/S55/S57/S58/S60`
+directly; do not reintroduce `S12` as an intermediate hop.
 
 When adding a bank, use this pattern unless there is a deliberate reason not to.
 
@@ -465,10 +484,28 @@ avoid accidentally mixing flows unless that is the intended variant.
 | Feature | `T1` | `T2` | `T3` |
 |---|---|---|---|
 | Gate pattern | Normal | Alternating entry/exit | Grouped half entry / half exit |
+| Queue direction | Mixed | Alternating | Upper half in, lower half out per side section |
 | Routing strictness | Permissive | Train/station separation | Preserves valid routing without alternating order |
 | Extra routing switches | None | `S25`, `S26` | Reuses `T2` destination switches |
 | Top-left bank | Present | Present | Present |
 | Bottom pair | Present | Present | Present |
+
+In T3, upper/lower is evaluated **within each side section**, not across the
+whole map:
+
+- Right section: `Q11..Q17` are entry queues; `Q`..`Q8` are exit queues.
+- Left section: `Q22..Q28` are entry queues; `Q18..Q21` and `Q29..Q31` are exit
+  queues.
+- `Q5..Q8` and `Q11..Q14` are reversed from the T2 alternating pattern to match
+  this grouped flow.
+- `Q9/Q10` and `Q32..Q35` keep their existing direction.
+- Queue heads must line up with the turnstile obstacle end: right exit heads at
+  `x=640`, right entry heads at `x=576`, left entry heads at `x=-640`, left exit
+  heads at `x=-704`. Move only `points[0]`; translating the whole queue can push
+  the tail into an obstacle.
+- Queues in the same gate group share one length: right exit `160 px`, right
+  entry `112 px`, left exit `160 px`, left entry `160 px`. Do not keep the old
+  alternating tail positions.
 
 ---
 
@@ -511,6 +548,8 @@ avoid accidentally mixing flows unless that is the intended variant.
 9. If using `target_switches`, make sure the switch exists and can reach an exit.
 10. If adding `node_paths`, include only the properties actually used.
 11. Make sure the new queue does not intersect existing queues or obstacles.
+12. Add its queue approach switch and rewire every incoming feeder to that
+    switch instead of the queue.
 
 Example skeleton:
 
@@ -528,7 +567,7 @@ release_interval_seconds = 3.8
 
 ### 9.3 Add a switch
 
-1. Choose the next free switch name, currently `JourneySwitch30`.
+1. Choose the next free switch name, currently `JourneySwitch65`.
 2. Add a `Marker2D` under `JourneySwitches`.
 3. Attach `journey_switch.gd`.
 4. Place it inside walkable geometry.
@@ -544,12 +583,24 @@ release_interval_seconds = 3.8
 Example skeleton:
 
 ```text
-[node name="JourneySwitch30" type="Marker2D" parent="JourneySwitches" unique_id=<unique> node_paths=PackedStringArray("target_queues")]
+[node name="JourneySwitch65" type="Marker2D" parent="JourneySwitches" unique_id=<unique> node_paths=PackedStringArray("target_queues")]
 position = Vector2(x, y)
 script = ExtResource("9_on656")
-radius_m = 2.0
+radius_m = 1.0
 target_queues = [NodePath("../../QueueLines/QueueLine<id>")]
-transition_type = "least_targeted"
+transition_type = "fixed"
+```
+
+For a queue approach switch, use `radius_m = 1.0`, `transition_type = "fixed"`,
+one `target_queues` entry, and place it just past the queue tail:
+
+```text
+[node name="JourneySwitch<id>" type="Marker2D" parent="JourneySwitches" unique_id=<unique> node_paths=PackedStringArray("target_queues")]
+position = Vector2(x, y)
+script = ExtResource("9_on656")
+radius_m = 1.0
+target_queues = [NodePath("../../QueueLines/QueueLine<id>")]
+transition_type = "fixed"
 ```
 
 ### 9.4 Add an exit
@@ -587,19 +638,22 @@ Use the flanking pattern:
 
 ```text
 upstream switch
-    ↓
+    
 feeder switch
-    ↓
+    
+queue approach switches
+    
 queues
-    ↓
+    
 destination switch
-    ↓
+    
 exit
 ```
 
 Checklist:
 
-- The feeder switch targets the queues.
+- The feeder switch targets one approach switch per queue.
+- Each approach switch targets exactly one queue.
 - Each queue targets the destination switch or an exit.
 - The destination switch targets the exit or another legal downstream node.
 - The upstream switch is reachable from an entry.
@@ -704,6 +758,7 @@ Before considering a layout finished:
     - `1.1` only on `Q9/Q10`.
 
 12. **Queue heads face their destinations**
+    - In T3, heads align with the turnstile obstacle end for their section half.
 
 13. **Queue tails stay inside walkable geometry**
 
@@ -711,11 +766,16 @@ Before considering a layout finished:
 
 15. **Switches stay inside walkable geometry**
 
-16. **`O1T2` flow classes remain separated**
+16. **Exactly one approach switch exists per queue**
+    - Each approach switch uses `radius_m = 1.0`.
 
-17. **Back button still works**
+17. **Feeders target approach switches, not queues**
 
-18. **Fix Geometry still sends the layout**
+18. **`O1T2` flow classes remain separated**
+
+19. **Back button still works**
+
+20. **Fix Geometry still sends the layout**
 
 ---
 
@@ -807,7 +867,8 @@ If the server reports a geometry or routing error, fix the scene and press
 
 The following snapshot was generated from the current canonical `.tscn` files.
 It is intended for quick reference when editing routing. Do not hand-edit these
-tables unless you also re-verify the live scenes.
+tables unless you also re-verify the live scenes. Queue approach switches
+`JourneySwitch30..64` are not expanded here; each targets exactly one queue.
 
 ### A.1 main_layout.tscn
 
@@ -915,30 +976,29 @@ EntryPoint7  -> ExitPoint, ExitPoint2, ExitPoint3, ExitPoint4, ExitPoint5
 #### Switch targets
 
 ```text
-JourneySwitch1  -> Q9, Q10
-JourneySwitch2  -> Q2, Q4, Q6, Q8
-JourneySwitch5  -> Q18, Q30
-JourneySwitch6  -> Q23, Q25
-JourneySwitch7  -> ExitPoint6, ExitPoint7
-JourneySwitch8  -> S2, S5, S6, S9, S22
-JourneySwitch9  -> Q11, Q13, Q15, Q17
-JourneySwitch10 -> ExitPoint6, ExitPoint7
-JourneySwitch12 -> S13, Q20, Q29, Q31
-JourneySwitch13 -> Q22, Q24, Q26, Q28
-JourneySwitch14 -> ExitPoint3, ExitPoint4
-JourneySwitch15 -> ExitPoint5
-JourneySwitch16 -> S14, S15
-JourneySwitch17 -> Q1, Q3, Q5, Q7
-JourneySwitch18 -> Q12, Q14, Q16
-JourneySwitch19 -> ExitPoint2
-JourneySwitch20 -> ExitPoint6, ExitPoint7
-JourneySwitch22 -> Q19, Q21, Q27
-JourneySwitch23 -> S12
-JourneySwitch24 -> S13, S28
-JourneySwitch25 -> ExitPoint, ExitPoint2
-JourneySwitch26 -> ExitPoint6, ExitPoint7
-JourneySwitch28 -> Q32, Q33, Q34, Q35
-JourneySwitch29 -> ExitPoint8
+JourneySwitch1   -> Q9, Q10
+JourneySwitch2   -> Q2, Q4, Q6, Q8
+JourneySwitch5   -> Q18, Q30
+JourneySwitch6   -> Q23, Q25
+JourneySwitch7   -> ExitPoint6, ExitPoint7
+JourneySwitch8   -> S2, S9, S5, S22, S6
+JourneySwitch9   -> Q11, Q13, Q15, Q17
+JourneySwitch10  -> ExitPoint6, ExitPoint7
+JourneySwitch13  -> Q22, Q24, Q26, Q28
+JourneySwitch14  -> ExitPoint3, ExitPoint4
+JourneySwitch15  -> ExitPoint5
+JourneySwitch16  -> S15, S14
+JourneySwitch17  -> Q, Q3, Q5, Q7
+JourneySwitch18  -> Q12, Q14, Q16
+JourneySwitch19  -> ExitPoint2
+JourneySwitch20  -> ExitPoint6, ExitPoint7
+JourneySwitch22  -> Q19, Q21, Q27
+JourneySwitch23  -> Q20, Q22, Q24, Q26, Q28, Q29, Q31
+JourneySwitch24  -> S13, S28
+JourneySwitch25  -> ExitPoint, ExitPoint2
+JourneySwitch26  -> ExitPoint6, ExitPoint7
+JourneySwitch28  -> Q32, Q33, Q34, Q35
+JourneySwitch29  -> ExitPoint8
 ```
 
 #### Queue targets
@@ -994,39 +1054,39 @@ position. In `O1T2`, the alternating pattern follows spatial bank order.
 
 | Queue | Head | Tail | Head to Tail | Length (px) | Interval | Transition |
 |---|---:|---:|---|---:|---:|---|
-| Q | (640, 512) | (328, 512) | left | 312 | 3.8 | least_targeted |
-| Q2 | (640, 464) | (328, 464) | left | 312 | 3.8 | least_targeted |
-| Q3 | (640, 416) | (328, 416) | left | 312 | 3.8 | least_targeted |
-| Q4 | (640, 368) | (328, 368) | left | 312 | 3.8 | least_targeted |
-| Q5 | (576, 320) | (840, 320) | right | 264 | 3.8 | least_targeted |
-| Q6 | (576, 272) | (840, 272) | right | 264 | 3.8 | least_targeted |
-| Q7 | (576, 224) | (840, 224) | right | 264 | 3.8 | least_targeted |
-| Q8 | (576, 176) | (840, 176) | right | 264 | 3.8 | least_targeted |
-| Q9 | (352, 660) | (352, 1044) | down | 384 | 1.1 | round_robin |
-| Q10 | (228, 659) | (228, 1043) | down | 384 | 1.1 | round_robin |
-| Q11 | (576, -160) | (840, -160) | right | 264 | 3.8 | least_targeted |
-| Q12 | (576, -208) | (764, -208) | right | 188 | 3.8 | least_targeted |
-| Q13 | (576, -256) | (840, -256) | right | 264 | 3.8 | least_targeted |
-| Q14 | (576, -304) | (840, -304) | right | 264 | 3.8 | least_targeted |
-| Q15 | (576, -352) | (840, -352) | right | 264 | 3.8 | least_targeted |
-| Q16 | (576, -400) | (840, -400) | right | 264 | 3.8 | least_targeted |
-| Q17 | (640, -448) | (400, -448) | left | 240 | 3.8 | least_targeted |
-| Q18 | (-704, 448) | (-440, 448) | right | 264 | 3.8 | least_targeted |
-| Q19 | (-704, 256) | (-440, 256) | right | 264 | 3.8 | least_targeted |
-| Q20 | (-704, 208) | (-440, 208) | right | 264 | 3.8 | least_targeted |
-| Q21 | (-704, 160) | (-440, 160) | right | 264 | 3.8 | least_targeted |
-| Q22 | (-704, -176) | (-440, -176) | right | 264 | 3.8 | least_targeted |
-| Q23 | (-704, -128) | (-440, -128) | right | 264 | 3.8 | least_targeted |
-| Q24 | (-640, -80) | (-904, -80) | left | 264 | 3.8 | least_targeted |
-| Q25 | (-640, -32) | (-904, -32) | left | 264 | 3.8 | least_targeted |
-| Q26 | (-640, 16) | (-904, 16) | left | 264 | 3.8 | least_targeted |
-| Q27 | (-640, 64) | (-904, 64) | left | 264 | 3.8 | least_targeted |
-| Q28 | (-640, 112) | (-904, 112) | left | 264 | 3.8 | least_targeted |
-| Q29 | (-640, 304) | (-904, 304) | left | 264 | 3.8 | least_targeted |
-| Q30 | (-640, 352) | (-904, 352) | left | 264 | 3.8 | least_targeted |
-| Q31 | (-640, 400) | (-904, 400) | left | 264 | 3.8 | least_targeted |
+| Q | (640, 512) | (480, 512) | left | 160 | 3.8 | least_targeted |
+| Q2 | (640, 464) | (480, 464) | left | 160 | 3.8 | least_targeted |
+| Q3 | (640, 416) | (480, 416) | left | 160 | 3.8 | least_targeted |
+| Q4 | (640, 368) | (480, 368) | left | 160 | 3.8 | least_targeted |
+| Q5 | (576, 320) | (736, 320) | right | 160 | 3.8 | least_targeted |
+| Q6 | (576, 272) | (736, 272) | right | 160 | 3.8 | least_targeted |
+| Q7 | (576, 224) | (736, 224) | right | 160 | 3.8 | least_targeted |
+| Q8 | (576, 176) | (736, 176) | right | 160 | 3.8 | least_targeted |
+| Q9 | (352, 660) | (352, 820) | down | 160 | 1.1 | round_robin |
+| Q10 | (228, 659) | (228, 819) | down | 160 | 1.1 | round_robin |
+| Q11 | (576, -160) | (736, -160) | right | 160 | 3.8 | least_targeted |
+| Q12 | (576, -208) | (732, -208) | right | 156 | 3.8 | least_targeted |
+| Q13 | (576, -256) | (736, -256) | right | 160 | 3.8 | least_targeted |
+| Q14 | (576, -304) | (736, -304) | right | 160 | 3.8 | least_targeted |
+| Q15 | (576, -352) | (736, -352) | right | 160 | 3.8 | least_targeted |
+| Q16 | (576, -400) | (736, -400) | right | 160 | 3.8 | least_targeted |
+| Q17 | (640, -448) | (480, -448) | left | 160 | 3.8 | least_targeted |
+| Q18 | (-704, 448) | (-544, 448) | right | 160 | 3.8 | least_targeted |
+| Q19 | (-704, 256) | (-544, 256) | right | 160 | 3.8 | least_targeted |
+| Q20 | (-704, 208) | (-544, 208) | right | 160 | 3.8 | least_targeted |
+| Q21 | (-704, 160) | (-544, 160) | right | 160 | 3.8 | least_targeted |
+| Q22 | (-704, -176) | (-544, -176) | right | 160 | 3.8 | least_targeted |
+| Q23 | (-704, -128) | (-544, -128) | right | 160 | 3.8 | least_targeted |
+| Q24 | (-640, -80) | (-800, -80) | left | 160 | 3.8 | least_targeted |
+| Q25 | (-640, -32) | (-800, -32) | left | 160 | 3.8 | least_targeted |
+| Q26 | (-640, 16) | (-800, 16) | left | 160 | 3.8 | least_targeted |
+| Q27 | (-640, 64) | (-800, 64) | left | 160 | 3.8 | least_targeted |
+| Q28 | (-640, 112) | (-800, 112) | left | 160 | 3.8 | least_targeted |
+| Q29 | (-640, 304) | (-800, 304) | left | 160 | 3.8 | least_targeted |
+| Q30 | (-640, 352) | (-800, 352) | left | 160 | 3.8 | least_targeted |
+| Q31 | (-640, 400) | (-800, 400) | left | 160 | 3.8 | least_targeted |
 | Q32 | (-784, -784) | (-784, -624) | down | 160 | 3.8 | least_targeted |
-| Q33 | (-928, -784) | (-928, -627) | down | 157 | 3.8 | least_targeted |
+| Q33 | (-928, -784) | (-928, -624) | down | 160 | 3.8 | least_targeted |
 | Q34 | (-880, -784) | (-880, -624) | down | 160 | 3.8 | least_targeted |
 | Q35 | (-832, -784) | (-832, -624) | down | 160 | 3.8 | least_targeted |
 
@@ -1034,39 +1094,39 @@ position. In `O1T2`, the alternating pattern follows spatial bank order.
 
 | Queue | Head | Tail | Head to Tail | Length (px) | Interval | Transition |
 |---|---:|---:|---|---:|---:|---|
-| Q | (640, 512) | (328, 512) | left | 312 | 3.8 | least_targeted |
-| Q2 | (640, 464) | (328, 464) | left | 312 | 3.8 | least_targeted |
-| Q3 | (640, 416) | (328, 416) | left | 312 | 3.8 | least_targeted |
-| Q4 | (640, 368) | (328, 368) | left | 312 | 3.8 | least_targeted |
-| Q5 | (576, 320) | (840, 320) | right | 264 | 3.8 | least_targeted |
-| Q6 | (576, 272) | (840, 272) | right | 264 | 3.8 | least_targeted |
-| Q7 | (576, 224) | (840, 224) | right | 264 | 3.8 | least_targeted |
-| Q8 | (576, 176) | (840, 176) | right | 264 | 3.8 | least_targeted |
-| Q9 | (352, 660) | (352, 1044) | down | 384 | 1.1 | round_robin |
-| Q10 | (228, 659) | (228, 1043) | down | 384 | 1.1 | round_robin |
-| Q11 | (576, -160) | (840, -160) | right | 264 | 3.8 | least_targeted |
-| Q12 | (576, -208) | (764, -208) | right | 188 | 3.8 | least_targeted |
-| Q13 | (576, -256) | (840, -256) | right | 264 | 3.8 | least_targeted |
-| Q14 | (576, -304) | (840, -304) | right | 264 | 3.8 | least_targeted |
-| Q15 | (576, -352) | (840, -352) | right | 264 | 3.8 | least_targeted |
-| Q16 | (576, -400) | (840, -400) | right | 264 | 3.8 | least_targeted |
-| Q17 | (640, -448) | (400, -448) | left | 240 | 3.8 | least_targeted |
-| Q18 | (-704, 448) | (-440, 448) | right | 264 | 3.8 | least_targeted |
-| Q19 | (-704, 256) | (-440, 256) | right | 264 | 3.8 | least_targeted |
-| Q20 | (-704, 208) | (-440, 208) | right | 264 | 3.8 | least_targeted |
-| Q21 | (-704, 160) | (-440, 160) | right | 264 | 3.8 | least_targeted |
-| Q22 | (-704, -176) | (-440, -176) | right | 264 | 3.8 | least_targeted |
-| Q23 | (-704, -128) | (-440, -128) | right | 264 | 3.8 | least_targeted |
-| Q24 | (-640, -80) | (-904, -80) | left | 264 | 3.8 | least_targeted |
-| Q25 | (-640, -32) | (-904, -32) | left | 264 | 3.8 | least_targeted |
-| Q26 | (-640, 16) | (-904, 16) | left | 264 | 3.8 | least_targeted |
-| Q27 | (-640, 64) | (-904, 64) | left | 264 | 3.8 | least_targeted |
-| Q28 | (-640, 112) | (-904, 112) | left | 264 | 3.8 | least_targeted |
-| Q29 | (-640, 304) | (-904, 304) | left | 264 | 3.8 | least_targeted |
-| Q30 | (-640, 352) | (-904, 352) | left | 264 | 3.8 | least_targeted |
-| Q31 | (-640, 400) | (-904, 400) | left | 264 | 3.8 | least_targeted |
+| Q | (640, 512) | (480, 512) | left | 160 | 3.8 | least_targeted |
+| Q2 | (640, 464) | (480, 464) | left | 160 | 3.8 | least_targeted |
+| Q3 | (640, 416) | (480, 416) | left | 160 | 3.8 | least_targeted |
+| Q4 | (640, 368) | (480, 368) | left | 160 | 3.8 | least_targeted |
+| Q5 | (576, 320) | (736, 320) | right | 160 | 3.8 | least_targeted |
+| Q6 | (576, 272) | (736, 272) | right | 160 | 3.8 | least_targeted |
+| Q7 | (576, 224) | (736, 224) | right | 160 | 3.8 | least_targeted |
+| Q8 | (576, 176) | (736, 176) | right | 160 | 3.8 | least_targeted |
+| Q9 | (352, 660) | (352, 820) | down | 160 | 1.1 | round_robin |
+| Q10 | (228, 659) | (228, 819) | down | 160 | 1.1 | round_robin |
+| Q11 | (576, -160) | (736, -160) | right | 160 | 3.8 | least_targeted |
+| Q12 | (576, -208) | (732, -208) | right | 156 | 3.8 | least_targeted |
+| Q13 | (576, -256) | (736, -256) | right | 160 | 3.8 | least_targeted |
+| Q14 | (576, -304) | (736, -304) | right | 160 | 3.8 | least_targeted |
+| Q15 | (576, -352) | (736, -352) | right | 160 | 3.8 | least_targeted |
+| Q16 | (576, -400) | (736, -400) | right | 160 | 3.8 | least_targeted |
+| Q17 | (640, -448) | (480, -448) | left | 160 | 3.8 | least_targeted |
+| Q18 | (-704, 448) | (-544, 448) | right | 160 | 3.8 | least_targeted |
+| Q19 | (-704, 256) | (-544, 256) | right | 160 | 3.8 | least_targeted |
+| Q20 | (-704, 208) | (-544, 208) | right | 160 | 3.8 | least_targeted |
+| Q21 | (-704, 160) | (-544, 160) | right | 160 | 3.8 | least_targeted |
+| Q22 | (-704, -176) | (-544, -176) | right | 160 | 3.8 | least_targeted |
+| Q23 | (-704, -128) | (-544, -128) | right | 160 | 3.8 | least_targeted |
+| Q24 | (-640, -80) | (-800, -80) | left | 160 | 3.8 | least_targeted |
+| Q25 | (-640, -32) | (-800, -32) | left | 160 | 3.8 | least_targeted |
+| Q26 | (-640, 16) | (-800, 16) | left | 160 | 3.8 | least_targeted |
+| Q27 | (-640, 64) | (-800, 64) | left | 160 | 3.8 | least_targeted |
+| Q28 | (-640, 112) | (-800, 112) | left | 160 | 3.8 | least_targeted |
+| Q29 | (-640, 304) | (-800, 304) | left | 160 | 3.8 | least_targeted |
+| Q30 | (-640, 352) | (-800, 352) | left | 160 | 3.8 | least_targeted |
+| Q31 | (-640, 400) | (-800, 400) | left | 160 | 3.8 | least_targeted |
 | Q32 | (-784, -784) | (-784, -624) | down | 160 | 3.8 | least_targeted |
-| Q33 | (-928, -784) | (-928, -627) | down | 157 | 3.8 | least_targeted |
+| Q33 | (-928, -784) | (-928, -624) | down | 160 | 3.8 | least_targeted |
 | Q34 | (-880, -784) | (-880, -624) | down | 160 | 3.8 | least_targeted |
 | Q35 | (-832, -784) | (-832, -624) | down | 160 | 3.8 | least_targeted |
 
@@ -1074,39 +1134,38 @@ position. In `O1T2`, the alternating pattern follows spatial bank order.
 
 | Queue | Head | Tail | Head to Tail | Length (px) | Interval | Transition |
 |---|---:|---:|---|---:|---:|---|
-| Q | (576, 512) | (840, 512) | right | 264 | 3.8 | least_targeted |
-| Q2 | (640, 464) | (328, 464) | left | 312 | 3.8 | least_targeted |
-| Q3 | (576, 416) | (840, 416) | right | 264 | 3.8 | least_targeted |
-| Q4 | (640, 368) | (328, 368) | left | 312 | 3.8 | least_targeted |
-| Q5 | (576, 320) | (840, 320) | right | 264 | 3.8 | least_targeted |
-| Q6 | (640, 272) | (328, 272) | left | 312 | 3.8 | least_targeted |
-| Q7 | (576, 224) | (840, 224) | right | 264 | 3.8 | least_targeted |
-| Q8 | (640, 176) | (328, 176) | left | 312 | 3.8 | least_targeted |
-| Q9 | (352, 660) | (352, 1044) | down | 384 | 1.1 | round_robin |
-| Q10 | (224, 656) | (224, 1040) | down | 384 | 1.1 | round_robin |
-| Q11 | (640, -160) | (400, -160) | left | 240 | 3.8 | least_targeted |
-| Q12 | (576, -208) | (764, -208) | right | 188 | 3.8 | least_targeted |
-| Q13 | (640, -256) | (400, -256) | left | 240 | 3.8 | least_targeted |
-| Q14 | (576, -304) | (840, -304) | right | 264 | 3.8 | least_targeted |
-| Q15 | (640, -352) | (400, -352) | left | 240 | 3.8 | least_targeted |
-| Q16 | (576, -400) | (840, -400) | right | 264 | 3.8 | least_targeted |
-| Q17 | (640, -448) | (400, -448) | left | 240 | 3.8 | least_targeted |
-| Q18 | (-704, 448) | (-440, 448) | right | 264 | 3.8 | least_targeted |
-| Q19 | (-704, 256) | (-440, 256) | right | 264 | 3.8 | least_targeted |
-| Q20 | (-640, 208) | (-904, 208) | left | 264 | 3.8 | least_targeted |
-| Q21 | (-704, 160) | (-440, 160) | right | 264 | 3.8 | least_targeted |
-| Q22 | (-640, -176) | (-904, -176) | left | 264 | 3.8 | least_targeted |
-| Q23 | (-704, -128) | (-440, -128) | right | 264 | 3.8 | least_targeted |
-| Q24 | (-640, -80) | (-904, -80) | left | 264 | 3.8 | least_targeted |
-| Q25 | (-704, -32) | (-440, -32) | right | 264 | 3.8 | least_targeted |
-| Q26 | (-640, 16) | (-904, 16) | left | 264 | 3.8 | least_targeted |
-| Q27 | (-704, 64) | (-440, 64) | right | 264 | 3.8 | least_targeted |
-| Q28 | (-640, 112) | (-904, 112) | left | 264 | 3.8 | least_targeted |
-| Q29 | (-640, 304) | (-904, 304) | left | 264 | 3.8 | least_targeted |
-| Q30 | (-704, 352) | (-440, 352) | right | 264 | 3.8 | least_targeted |
-| Q31 | (-640, 400) | (-904, 400) | left | 264 | 3.8 | least_targeted |
+| Q | (576, 512) | (736, 512) | right | 160 | 3.8 | least_targeted |
+| Q2 | (640, 464) | (480, 464) | left | 160 | 3.8 | least_targeted |
+| Q3 | (576, 416) | (736, 416) | right | 160 | 3.8 | least_targeted |
+| Q4 | (640, 368) | (480, 368) | left | 160 | 3.8 | least_targeted |
+| Q5 | (576, 320) | (736, 320) | right | 160 | 3.8 | least_targeted |
+| Q6 | (640, 272) | (480, 272) | left | 160 | 3.8 | least_targeted |
+| Q7 | (576, 224) | (736, 224) | right | 160 | 3.8 | least_targeted |
+| Q8 | (640, 176) | (480, 176) | left | 160 | 3.8 | least_targeted |
+| Q9 | (352, 660) | (352, 820) | down | 160 | 1.1 | round_robin |
+| Q10 | (224, 656) | (224, 816) | down | 160 | 1.1 | round_robin |
+| Q11 | (640, -160) | (480, -160) | left | 160 | 3.8 | least_targeted |
+| Q12 | (576, -208) | (668, -208) | right | 92 | 3.8 | least_targeted |
+| Q13 | (640, -256) | (480, -256) | left | 160 | 3.8 | least_targeted |
+| Q14 | (576, -304) | (736, -304) | right | 160 | 3.8 | least_targeted |
+| Q15 | (640, -352) | (480, -352) | left | 160 | 3.8 | least_targeted |
+| Q16 | (576, -400) | (736, -400) | right | 160 | 3.8 | least_targeted |
+| Q17 | (640, -448) | (480, -448) | left | 160 | 3.8 | least_targeted |
+| Q18 | (-704, 448) | (-544, 448) | right | 160 | 3.8 | least_targeted |
+| Q19 | (-704, 256) | (-544, 256) | right | 160 | 3.8 | least_targeted |
+| Q20 | (-640, 208) | (-800, 208) | left | 160 | 3.8 | least_targeted |
+| Q21 | (-704, 160) | (-544, 160) | right | 160 | 3.8 | least_targeted |
+| Q22 | (-640, -176) | (-800, -176) | left | 160 | 3.8 | least_targeted |
+| Q23 | (-704, -128) | (-544, -128) | right | 160 | 3.8 | least_targeted |
+| Q24 | (-640, -80) | (-800, -80) | left | 160 | 3.8 | least_targeted |
+| Q25 | (-704, -32) | (-544, -32) | right | 160 | 3.8 | least_targeted |
+| Q26 | (-640, 16) | (-800, 16) | left | 160 | 3.8 | least_targeted |
+| Q27 | (-704, 64) | (-544, 64) | right | 160 | 3.8 | least_targeted |
+| Q28 | (-640, 112) | (-800, 112) | left | 160 | 3.8 | least_targeted |
+| Q29 | (-640, 304) | (-800, 304) | left | 160 | 3.8 | least_targeted |
+| Q30 | (-704, 352) | (-544, 352) | right | 160 | 3.8 | least_targeted |
+| Q31 | (-640, 400) | (-800, 400) | left | 160 | 3.8 | least_targeted |
 | Q32 | (-784, -784) | (-784, -624) | down | 160 | 3.8 | least_targeted |
-| Q33 | (-928, -784) | (-928, -627) | down | 157 | 3.8 | least_targeted |
+| Q33 | (-928, -784) | (-928, -624) | down | 160 | 3.8 | least_targeted |
 | Q34 | (-880, -784) | (-880, -624) | down | 160 | 3.8 | least_targeted |
 | Q35 | (-832, -784) | (-832, -624) | down | 160 | 3.8 | least_targeted |
-
