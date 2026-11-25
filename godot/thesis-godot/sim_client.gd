@@ -13,6 +13,7 @@ const LAYOUT_SELECTOR_SCENE := "res://layout_selector.tscn"
 @export var stats_manager: StatisticsManager
 
 @onready var start_simulation_button: Button = $"../CanvasLayer/UI/BottomRight/StartSimulationButton"
+@onready var parameters_manager: ParametersManager = $"../ParametersManager"
 
 var socket := WebSocketPeer.new()
 var simulation_state := STATE_IDLE
@@ -95,6 +96,8 @@ func start_simulation() -> void:
 	if is_simulation_active():
 		push_warning("A simulation is already starting or running")
 		return
+	
+	parameters_manager.update_parameters()
 	_set_simulation_state(STATE_STARTING)
 	if not send_message(JSON.stringify({"cmd": "start_simulation"})):
 		_set_simulation_state(STATE_IDLE)
