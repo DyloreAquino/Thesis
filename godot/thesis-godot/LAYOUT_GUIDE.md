@@ -316,7 +316,8 @@ The station is organized into queue banks.
 #### Right-upper bank
 
 - `QueueLine..QueueLine8`
-- Feeder switches: `S2`, `S17`, depending on layout.
+- Feeder switches: `S2`; in `T3`, `S17` routes onward to `S18` instead of this
+  bank.
 - Downstream destinations:
   - `S20` → station exits 6/7
   - `S25` → right-side platform exits
@@ -325,7 +326,8 @@ The station is organized into queue banks.
 #### Right-lower bank
 
 - `QueueLine11..QueueLine17`
-- Feeder switches: `S9`, `S18`, depending on layout.
+- Feeder switches: `S9`, `S18`, depending on layout; in `T3`, `S17` also reaches
+  this bank through `S18`.
 - Downstream destinations:
   - `S19` → `ExitPoint2`
   - `S20` → station exits 6/7
@@ -336,7 +338,8 @@ The station is organized into queue banks.
 
 - `QueueLine18..QueueLine31`
 - Feeder switches: `S5`, `S22`, `S6`, `S13`, depending on layout; `S12` is
-  used only in `T1`, `T3`, and `main_layout`.
+  used only in `T1`, `T3`, and `main_layout`. In `T3`, `S13` is inert and `S12`
+  feeds the `S49`/`S51..S60` approach switches directly.
 - Downstream destinations:
   - `S14`, `S16` → left-side platform exits
   - `S7`, `S10` → station exits 6/7
@@ -498,6 +501,11 @@ whole map:
   queues.
 - `Q5..Q8` and `Q11..Q14` are reversed from the T2 alternating pattern to match
   this grouped flow.
+- `S17` targets `S18`; `S18` targets `S40..S46`, which feed `Q11..Q17`.
+- `S23` targets `S12`; `S12` targets `S49`, `S51..S60`; `S24` targets `S12` and
+  `S28`. `S13` is inert in `T3`.
+- `S22` targets `S50`, `S49`, `S48`, `S58`, `S59`, `S60`, `S47`, in that order.
+- `Q22..Q28` target `S10`; `Q18..Q21` and `Q29..Q31` target `S16`.
 - `Q9/Q10` and `Q32..Q35` keep their existing direction.
 - Queue heads must line up with the turnstile obstacle end: right exit heads at
   `x=640`, right entry heads at `x=576`, left entry heads at `x=-640`, left exit
