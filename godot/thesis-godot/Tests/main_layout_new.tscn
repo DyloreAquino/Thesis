@@ -30,7 +30,6 @@ stats_manager = NodePath("../StatisticsManager")
 
 [node name="GeometryExporter" type="Node" parent="." unique_id=575756652 node_paths=PackedStringArray("sim_client")]
 script = ExtResource("3_xh7tj")
-world_scale = 0.031
 sim_client = NodePath("../SimClient")
 
 [node name="AgentManager" type="Node" parent="." unique_id=826777606]
