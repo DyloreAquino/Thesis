@@ -799,14 +799,14 @@ transition_type = "least_targeted"
 [node name="JourneySwitch11" type="Marker2D" parent="JourneySwitches" unique_id=1409909615 node_paths=PackedStringArray("target_exits")]
 position = Vector2(47.99997, 608)
 script = ExtResource("9_on656")
-radius_m = 2.0
+radius_m = 3.0
 target_exits = [NodePath("../../ExitPoints/ExitPoint7")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch18" type="Marker2D" parent="JourneySwitches" unique_id=1614683869 node_paths=PackedStringArray("target_switches")]
 position = Vector2(912.00006, -304.00003)
 script = ExtResource("9_on656")
-radius_m = 3.0
+radius_m = 2.0
 target_switches = [NodePath("../JourneySwitch40"), NodePath("../JourneySwitch41"), NodePath("../JourneySwitch42"), NodePath("../JourneySwitch43"), NodePath("../JourneySwitch44"), NodePath("../JourneySwitch45"), NodePath("../JourneySwitch46")]
 transition_type = "least_targeted"
 
