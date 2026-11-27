@@ -1066,11 +1066,11 @@ radius_m = 5.0
 target_switches = [NodePath("../JourneySwitch15"), NodePath("../JourneySwitch14")]
 transition_type = "least_targeted"
 
-[node name="JourneySwitch21" type="Marker2D" parent="JourneySwitches" unique_id=659709319 node_paths=PackedStringArray("target_switches")]
+[node name="JourneySwitch21" type="Marker2D" parent="JourneySwitches" unique_id=659709319 node_paths=PackedStringArray("target_queues")]
 position = Vector2(-1033.0001, 348.00003)
 script = ExtResource("9_on656")
 radius_m = 1.0
-target_switches = [NodePath("../JourneySwitch58"), NodePath("../JourneySwitch59"), NodePath("../JourneySwitch60")]
+target_queues = [NodePath("../../QueueLines/QueueLine29"), NodePath("../../QueueLines/QueueLine30"), NodePath("../../QueueLines/QueueLine31")]
 transition_type = "least_targeted"
 
 [node name="JourneySwitch24" type="Marker2D" parent="JourneySwitches" unique_id=1978021656 node_paths=PackedStringArray("target_switches")]
@@ -1327,21 +1327,6 @@ position = Vector2(-864.5161, 112)
 script = ExtResource("9_on656")
 radius_m = 1.0
 target_queues = [NodePath("../../QueueLines/QueueLine28")]
-
-[node name="JourneySwitch58" type="Marker2D" parent="JourneySwitches" unique_id=2118075816 node_paths=PackedStringArray("target_queues")]
-position = Vector2(-864.5161, 303.99997)
-script = ExtResource("9_on656")
-target_queues = [NodePath("../../QueueLines/QueueLine29")]
-
-[node name="JourneySwitch59" type="Marker2D" parent="JourneySwitches" unique_id=2118075817 node_paths=PackedStringArray("target_queues")]
-position = Vector2(-864.5161, 351.99997)
-script = ExtResource("9_on656")
-target_queues = [NodePath("../../QueueLines/QueueLine30")]
-
-[node name="JourneySwitch60" type="Marker2D" parent="JourneySwitches" unique_id=2118075818 node_paths=PackedStringArray("target_queues")]
-position = Vector2(-864.5161, 399.99997)
-script = ExtResource("9_on656")
-target_queues = [NodePath("../../QueueLines/QueueLine31")]
 
 [node name="JourneySwitch61" type="Marker2D" parent="JourneySwitches" unique_id=2118075819 node_paths=PackedStringArray("target_queues")]
 position = Vector2(-784, -559.4839)
