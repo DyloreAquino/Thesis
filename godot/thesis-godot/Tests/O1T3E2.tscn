@@ -472,7 +472,7 @@ color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-16728.15, -752.00006, -16728.15, -656.00006, -18145.791, -656.00006, -18145.791, -752.0001)
 
 [node name="Obstacle75" type="Polygon2D" parent="Obstacles" unique_id=843275994]
-position = Vector2(-1424.0001, -320)
+position = Vector2(-1424.0001, -400)
 scale = Vector2(0.2545219, 1.0714285)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(628.62964, 298.66672, 817.2185, 343.4667, 817.2185, 477.86673, 628.62964, 522.66675, -0.00012207031, 522.66675, -188.58911, 477.86673, -188.58911, 343.4667, 0, 298.66672)
@@ -758,7 +758,7 @@ position = Vector2(0, 5.421011e-20)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="JourneySwitch12" type="Marker2D" parent="JourneySwitches" unique_id=881587184 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-1040.0001, 16.000002)
+position = Vector2(-1024, 32)
 script = ExtResource("9_on656")
 radius_m = 3.0
 target_switches = [NodePath("../JourneySwitch51"), NodePath("../JourneySwitch52"), NodePath("../JourneySwitch53"), NodePath("../JourneySwitch54"), NodePath("../JourneySwitch55"), NodePath("../JourneySwitch56"), NodePath("../JourneySwitch57"), NodePath("../JourneySwitch28")]
