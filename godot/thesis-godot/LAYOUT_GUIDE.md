@@ -519,6 +519,19 @@ retained entry points:
 
 The UI can still override this value before starting a simulation.
 
+### Default agent count
+
+The scene default for `AgentCountInput` is `20 × N`, where `N` is the number of
+retained entry points:
+
+| E variant | Entry points | Default agent count |
+|---|---:|---:|
+| `E1` | 7 | 140 agents |
+| `E2` | 5 | 100 agents |
+| `E3` | 2 | 40 agents |
+
+The UI can still override this value before starting a simulation.
+
 ### Turnstile variants
 
 | Feature | `T1` | `T2` | `T3` |
@@ -839,6 +852,9 @@ Before considering a layout finished:
 
 21. **Default entry rate matches the `E` variant**
     - `E1` = `10.5`, `E2` = `7.5`, `E3` = `3.0`.
+
+22. **Default agent count matches the `E` variant**
+    - `E1` = `140`, `E2` = `100`, `E3` = `40`.
 
 ---
 
