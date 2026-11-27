@@ -1003,7 +1003,7 @@ target_switches = [NodePath("../JourneySwitch50"), NodePath("../JourneySwitch49"
 transition_type = "least_targeted"
 
 [node name="JourneySwitch12" type="Marker2D" parent="JourneySwitches" unique_id=881587184 node_paths=PackedStringArray("target_switches")]
-position = Vector2(-1024, 32)
+position = Vector2(-990.0001, -3.0000038)
 script = ExtResource("9_on656")
 radius_m = 3.0
 target_switches = [NodePath("../JourneySwitch51"), NodePath("../JourneySwitch52"), NodePath("../JourneySwitch53"), NodePath("../JourneySwitch54"), NodePath("../JourneySwitch55"), NodePath("../JourneySwitch56"), NodePath("../JourneySwitch57"), NodePath("../JourneySwitch28")]
