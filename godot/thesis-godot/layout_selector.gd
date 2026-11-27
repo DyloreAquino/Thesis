@@ -2,52 +2,76 @@ extends Control
 
 const LAYOUTS := [
 	{
-		"button_path": "ScrollContainer/GridContainer/MainLayoutButton",
-		"scene_path": "res://Tests/main_layout.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T1E1Button",
+		"scene_path": "res://Tests/O1T1E1.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O1T2Button",
-		"scene_path": "res://Tests/O1T2.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T1E2Button",
+		"scene_path": "res://Tests/O1T1E2.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O1T3Button",
-		"scene_path": "res://Tests/O1T3.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T1E3Button",
+		"scene_path": "res://Tests/O1T1E3.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O2T1Button",
-		"scene_path": "res://Tests/O2T1.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T2E1Button",
+		"scene_path": "res://Tests/O1T2E1.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O2T2Button",
-		"scene_path": "res://Tests/O2T2.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T2E2Button",
+		"scene_path": "res://Tests/O1T2E2.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O2T3Button",
-		"scene_path": "res://Tests/O2T3.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T2E3Button",
+		"scene_path": "res://Tests/O1T2E3.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O3T1Button",
-		"scene_path": "res://Tests/O3T1.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T3E1Button",
+		"scene_path": "res://Tests/O1T3E1.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O3T2Button",
-		"scene_path": "res://Tests/O3T2.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T3E2Button",
+		"scene_path": "res://Tests/O1T3E2.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O3T3Button",
-		"scene_path": "res://Tests/O3T3.tscn",
+		"button_path": "ScrollContainer/GridContainer/O1T3E3Button",
+		"scene_path": "res://Tests/O1T3E3.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O4T1Button",
-		"scene_path": "res://Tests/O4T1.tscn",
+		"button_path": "ScrollContainer/GridContainer/O2T1E1Button",
+		"scene_path": "res://Tests/O2T1E1.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O4T2Button",
-		"scene_path": "res://Tests/O4T2.tscn",
+		"button_path": "ScrollContainer/GridContainer/O2T1E2Button",
+		"scene_path": "res://Tests/O2T1E2.tscn",
 	},
 	{
-		"button_path": "ScrollContainer/GridContainer/O4T3Button",
-		"scene_path": "res://Tests/O4T3.tscn",
+		"button_path": "ScrollContainer/GridContainer/O2T1E3Button",
+		"scene_path": "res://Tests/O2T1E3.tscn",
+	},
+	{
+		"button_path": "ScrollContainer/GridContainer/O2T2E1Button",
+		"scene_path": "res://Tests/O2T2E1.tscn",
+	},
+	{
+		"button_path": "ScrollContainer/GridContainer/O2T2E2Button",
+		"scene_path": "res://Tests/O2T2E2.tscn",
+	},
+	{
+		"button_path": "ScrollContainer/GridContainer/O2T2E3Button",
+		"scene_path": "res://Tests/O2T2E3.tscn",
+	},
+	{
+		"button_path": "ScrollContainer/GridContainer/O2T3E1Button",
+		"scene_path": "res://Tests/O2T3E1.tscn",
+	},
+	{
+		"button_path": "ScrollContainer/GridContainer/O2T3E2Button",
+		"scene_path": "res://Tests/O2T3E2.tscn",
+	},
+	{
+		"button_path": "ScrollContainer/GridContainer/O2T3E3Button",
+		"scene_path": "res://Tests/O2T3E3.tscn",
 	},
 ]
 

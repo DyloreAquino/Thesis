@@ -17,25 +17,31 @@ Snapshot date: 2026-11-24.
 
 | Layout | File | Meaning | Canonical use |
 |---|---|---|---|
-| Main / O1T1 | `res://Tests/main_layout.tscn` | Base station layout | Best default base for a new layout |
-| O1T2 | `res://Tests/O1T2.tscn` | Alternating entry/exit gates and stricter routing separation | Turnstile-orientation / routing variant |
-| O1T3 | `res://Tests/O1T3.tscn` | Grouped entry/exit gates on left and right sides | Grouped-turnstile variant |
-| O2T1 | `res://Tests/O2T1.tscn` | Repositioned food stands | Obstacle-position variant |
-| O2T2 | `res://Tests/O2T2.tscn` | Repositioned food stands + alternating gates | Combined obstacle / turnstile variant |
-| O2T3 | `res://Tests/O2T3.tscn` | Repositioned food stands + grouped gates | Combined obstacle / turnstile variant |
-| O3T1 | `res://Tests/O3T1.tscn` | North entry/exit blocked off | Blocked-exit variant |
-| O3T2 | `res://Tests/O3T2.tscn` | North entry/exit blocked + alternating gates | Combined blocked-exit / turnstile variant |
-| O3T3 | `res://Tests/O3T3.tscn` | North entry/exit blocked + grouped gates | Combined blocked-exit / turnstile variant |
-| O4T1 | `res://Tests/O4T1.tscn` | South entry/exit blocked off | Blocked-exit variant |
-| O4T2 | `res://Tests/O4T2.tscn` | South entry/exit blocked + alternating gates | Combined blocked-exit / turnstile variant |
-| O4T3 | `res://Tests/O4T3.tscn` | South entry/exit blocked + grouped gates | Combined blocked-exit / turnstile variant |
+| O1T1E1 | `res://Tests/O1T1E1.tscn` | Base station layout, all entries/exits | Best default base for a new layout |
+| O1T1E2 | `res://Tests/O1T1E2.tscn` | Base layout with E2 entry/exit removal | Entry-removal variant |
+| O1T1E3 | `res://Tests/O1T1E3.tscn` | Base layout with E3 entry/exit removal | Exit-removal variant |
+| O1T2E1 | `res://Tests/O1T2E1.tscn` | Alternating gates and stricter routing separation | Turnstile-orientation / routing variant |
+| O1T2E2 | `res://Tests/O1T2E2.tscn` | Alternating gates with E2 entry/exit removal | Combined turnstile / entry-removal variant |
+| O1T2E3 | `res://Tests/O1T2E3.tscn` | Alternating gates with E3 entry/exit removal | Combined turnstile / exit-removal variant |
+| O1T3E1 | `res://Tests/O1T3E1.tscn` | Grouped entry/exit gates on left and right sides | Grouped-turnstile variant |
+| O1T3E2 | `res://Tests/O1T3E2.tscn` | Grouped gates with E2 entry/exit removal | Combined grouped-turnstile / entry-removal variant |
+| O1T3E3 | `res://Tests/O1T3E3.tscn` | Grouped gates with E3 entry/exit removal | Combined grouped-turnstile / exit-removal variant |
+| O2T1E1 | `res://Tests/O2T1E1.tscn` | Repositioned food stands | Obstacle-position variant |
+| O2T1E2 | `res://Tests/O2T1E2.tscn` | Repositioned food stands with E2 entry/exit removal | Combined obstacle / entry-removal variant |
+| O2T1E3 | `res://Tests/O2T1E3.tscn` | Repositioned food stands with E3 entry/exit removal | Combined obstacle / exit-removal variant |
+| O2T2E1 | `res://Tests/O2T2E1.tscn` | Repositioned food stands + alternating gates | Combined obstacle / turnstile variant |
+| O2T2E2 | `res://Tests/O2T2E2.tscn` | Repositioned food stands + alternating gates with E2 entry/exit removal | Combined obstacle / turnstile / entry-removal variant |
+| O2T2E3 | `res://Tests/O2T2E3.tscn` | Repositioned food stands + alternating gates with E3 entry/exit removal | Combined obstacle / turnstile / exit-removal variant |
+| O2T3E1 | `res://Tests/O2T3E1.tscn` | Repositioned food stands + grouped gates | Combined obstacle / turnstile variant |
+| O2T3E2 | `res://Tests/O2T3E2.tscn` | Repositioned food stands + grouped gates with E2 entry/exit removal | Combined obstacle / grouped-turnstile / entry-removal variant |
+| O2T3E3 | `res://Tests/O2T3E3.tscn` | Repositioned food stands + grouped gates with E3 entry/exit removal | Combined obstacle / grouped-turnstile / exit-removal variant |
 
 Legacy or experimental scenes such as `main_layout_new.tscn`, `test_main.tscn`,
 `test_two.tscn`, and `test_layout_1.tscn` are **not** canonical layout bases.
 Do not copy from them unless intentionally reviving an old experiment.
 
 The startup scene is `res://layout_selector.tscn`. It presents buttons for the
-twelve canonical layouts and uses `layout_selector.gd` to switch scenes.
+eighteen canonical layouts and uses `layout_selector.gd` to switch scenes.
 
 ---
 
@@ -217,7 +223,7 @@ Important obstacle patterns:
 `Obstacle40` is the central food-stand block.
 
 - `O1` uses the normal placement.
-- `O2` uses the repositioned placement implemented in `O2T1`.
+- `O2` uses the repositioned placement implemented in `O2T1E1`.
 
 When copying a layout, preserve this difference intentionally.
 
@@ -321,7 +327,7 @@ The station is organized into queue banks.
 - Downstream destinations:
   - `S20` → station exits 6/7
   - `S25` → right-side platform exits
-- `O1T2` alternates head directions within the bank.
+- `O1T2E1` alternates head directions within the bank.
 
 #### Right-lower bank
 
@@ -331,19 +337,19 @@ The station is organized into queue banks.
 - Downstream destinations:
   - `S19` → `ExitPoint2`
   - `S20` → station exits 6/7
-  - `S26` → station exits 6/7, only in `O1T2`
-- `O1T2` alternates head directions within the bank.
+  - `S26` → station exits 6/7, only in `O1T2E1`
+- `O1T2E1` alternates head directions within the bank.
 
 #### Left bank
 
 - `QueueLine18..QueueLine31`
 - Feeder switches: `S5`, `S22`, `S6`, `S13`, depending on layout; `S12` is
-  used only in `T1`, `T3`, and `main_layout`. In `T3`, `S13` is inert and `S12`
+  used only in `T1`, `T3`, and `O1T1E1`. In `T3`, `S13` is inert and `S12`
   feeds the `S49`/`S51..S60` approach switches directly.
 - Downstream destinations:
   - `S14`, `S16` → left-side platform exits
   - `S7`, `S10` → station exits 6/7
-- `O1T2` alternates head directions by spatial position, not simply by numeric
+- `O1T2E1` alternates head directions by spatial position, not simply by numeric
   order.
 
 #### Bottom vertical pair
@@ -462,12 +468,12 @@ When adding a bank, use this pattern unless there is a deliberate reason not to.
 
 ### Routing separation
 
-`O1T2` is intentionally stricter:
+`O1T2E1` is intentionally stricter:
 
 - Train-side entries should reach only station exits.
 - Station-side entries should reach only platform exits.
 
-`main_layout` and `O2T1` are currently more permissive, but future edits should
+`O1T1E1` and `O2T1E1` are currently more permissive, but future edits should
 avoid accidentally mixing flows unless that is the intended variant.
 
 ---
@@ -476,11 +482,29 @@ avoid accidentally mixing flows unless that is the intended variant.
 
 ### Obstacle variants
 
-| Feature | `O1` | `O2` | `O3` | `O4` |
-|---|---|---|---|---|
-| Food-stand block | Normal placement | Repositioned | Normal | Normal |
-| North entry/exit | Present | Present | Removed | Present |
-| South entry/exit | Present | Present | Present | Removed |
+| Feature | `O1` | `O2` |
+|---|---|---|
+| Food-stand block | Normal placement | Repositioned |
+
+The old `O3` and `O4` obstacle codes are retired. Their blocked entry/exit role
+is now handled by the `E` dimension.
+
+### Entry/exit variants
+
+| Feature | `E1` | `E2` | `E3` |
+|---|---|---|---|
+| `EntryPoint` | Present | Removed | Present |
+| `EntryPoint2`..`EntryPoint6` | Present | Present | Removed |
+| `EntryPoint7` | Present | Removed | Present |
+| `ExitPoint`, `ExitPoint2`..`ExitPoint5` | Present | Removed | Present |
+| `ExitPoint6`..`ExitPoint8` | Present | Present | Removed |
+
+`E2` keeps the platform-to-station exit side while removing the north/south
+entry side. `E3` does the opposite: it keeps the station-to-platform entry side
+and removes exits `6`, `7`, and `8`.
+
+Both `E2` and `E3` also omit queue lines and journey switches that no longer
+have any path to a remaining exit. Surviving routes are otherwise unchanged.
 
 ### Turnstile variants
 
@@ -521,12 +545,12 @@ whole map:
 
 ### 9.1 Create a new layout
 
-1. Copy the closest canonical scene:
-   - Use `main_layout.tscn` for a general layout.
-   - Use `O2T1.tscn` for repositioned food stands.
-   - Use `O1T2.tscn` for alternating entry/exit gates.
-   - Use `O1T3.tscn` for grouped entry/exit gates.
-2. Save as `res://Tests/<NewLayout>.tscn`.
+1. Copy the closest canonical `E1` scene:
+   - Use `O1T1E1.tscn` for a general layout.
+   - Use `O2T1E1.tscn` for repositioned food stands.
+   - Use `O1T2E1.tscn` for alternating entry/exit gates.
+   - Use `O1T3E1.tscn` for grouped entry/exit gates.
+2. Save as `res://Tests/O<obstacle>T<turnstile>E<entry-exit>.tscn`.
 3. Change the scene header UID so it does not collide with the source scene:
 
 ```text
@@ -535,11 +559,20 @@ whole map:
 
 4. Optionally rename the root node, but keep the required runtime child node
    names intact.
-5. Add the new scene to `layout_selector.gd`.
-6. Add a matching button to `layout_selector.tscn`.
-7. Add the new layout to the canonical layout table and generated appendices.
-8. Preserve the `BackToLayoutSelectorButton` and its `SimClient` connection.
-9. Run the layout in Godot and press **Fix Geometry** before simulating.
+5. For `E2` and `E3`, remove only the entry/exit nodes listed in the
+   entry/exit variant table. Keep all other queue lines and switches unchanged
+   at this step.
+6. Remove `NodePath` entries pointing to deleted exit nodes from `target_exits`.
+   If a node has no remaining exits, remove the `target_exits` property and
+   remove `"target_exits"` from its `node_paths` list. Never leave `[null]`.
+7. Delete any `JourneySwitch` or `QueueLine` that has no path to a remaining
+   exit, then remove incoming `NodePath` references to those deleted nodes.
+   The server rejects inert routes as cycles or dead ends.
+8. Add the new scene to `layout_selector.gd`.
+9. Add a matching button to `layout_selector.tscn`.
+10. Add the new layout to the canonical layout table and generated appendices.
+11. Preserve the `BackToLayoutSelectorButton` and its `SimClient` connection.
+12. Run the layout in Godot and press **Fix Geometry** before simulating.
 
 ### 9.2 Add a queue
 
@@ -668,9 +701,9 @@ Checklist:
 - No path returns to an earlier switch.
 - All switch and queue positions are inside walkable geometry.
 
-### 9.8 Preserve `O1T2` routing separation
+### 9.8 Preserve `O1T2E1` routing separation
 
-When editing `O1T2`, keep the flow classes separated:
+When editing `O1T2E1`, keep the flow classes separated:
 
 ```text
 train-side entries → station exits
@@ -697,18 +730,24 @@ Current selector entries:
 
 | Button | Scene |
 |---|---|
-| `MainLayoutButton` | `res://Tests/main_layout.tscn` |
-| `O1T2Button` | `res://Tests/O1T2.tscn` |
-| `O1T3Button` | `res://Tests/O1T3.tscn` |
-| `O2T1Button` | `res://Tests/O2T1.tscn` |
-| `O2T2Button` | `res://Tests/O2T2.tscn` |
-| `O2T3Button` | `res://Tests/O2T3.tscn` |
-| `O3T1Button` | `res://Tests/O3T1.tscn` |
-| `O3T2Button` | `res://Tests/O3T2.tscn` |
-| `O3T3Button` | `res://Tests/O3T3.tscn` |
-| `O4T1Button` | `res://Tests/O4T1.tscn` |
-| `O4T2Button` | `res://Tests/O4T2.tscn` |
-| `O4T3Button` | `res://Tests/O4T3.tscn` |
+| `O1T1E1Button` | `res://Tests/O1T1E1.tscn` |
+| `O1T1E2Button` | `res://Tests/O1T1E2.tscn` |
+| `O1T1E3Button` | `res://Tests/O1T1E3.tscn` |
+| `O1T2E1Button` | `res://Tests/O1T2E1.tscn` |
+| `O1T2E2Button` | `res://Tests/O1T2E2.tscn` |
+| `O1T2E3Button` | `res://Tests/O1T2E3.tscn` |
+| `O1T3E1Button` | `res://Tests/O1T3E1.tscn` |
+| `O1T3E2Button` | `res://Tests/O1T3E2.tscn` |
+| `O1T3E3Button` | `res://Tests/O1T3E3.tscn` |
+| `O2T1E1Button` | `res://Tests/O2T1E1.tscn` |
+| `O2T1E2Button` | `res://Tests/O2T1E2.tscn` |
+| `O2T1E3Button` | `res://Tests/O2T1E3.tscn` |
+| `O2T2E1Button` | `res://Tests/O2T2E1.tscn` |
+| `O2T2E2Button` | `res://Tests/O2T2E2.tscn` |
+| `O2T2E3Button` | `res://Tests/O2T2E3.tscn` |
+| `O2T3E1Button` | `res://Tests/O2T3E1.tscn` |
+| `O2T3E2Button` | `res://Tests/O2T3E2.tscn` |
+| `O2T3E3Button` | `res://Tests/O2T3E3.tscn` |
 
 ### 9.10 Add an entry
 
@@ -779,7 +818,7 @@ Before considering a layout finished:
 
 17. **Feeders target approach switches, not queues**
 
-18. **`O1T2` flow classes remain separated**
+18. **`O1T2E1` flow classes remain separated**
 
 19. **Back button still works**
 
@@ -873,12 +912,14 @@ If the server reports a geometry or routing error, fix the scene and press
 
 ## Appendix A. Generated topology snapshot
 
-The following snapshot was generated from the current canonical `.tscn` files.
-It is intended for quick reference when editing routing. Do not hand-edit these
-tables unless you also re-verify the live scenes. Queue approach switches
-`JourneySwitch30..64` are not expanded here; each targets exactly one queue.
+The following snapshot was generated from the current canonical `E1` `.tscn`
+files. It is intended for quick reference when editing routing. `E2` and `E3`
+share these routes except for the entry/exit nodes and exit `NodePath`s removed
+by their variant rules. Do not hand-edit these tables unless you also re-verify
+the live scenes. Queue approach switches `JourneySwitch30..64` are not expanded
+here; each targets exactly one queue.
 
-### A.1 main_layout.tscn
+### A.1 O1T1E1.tscn
 
 #### Entry reachability
 
@@ -959,15 +1000,15 @@ Q34         -> S29
 Q35         -> S29
 ```
 
-### A.2 O2T1.tscn
+### A.2 O2T1E1.tscn
 
-`O2T1` currently has the same routing topology as `main_layout`. The intended
+`O2T1E1` currently has the same routing topology as `O1T1E1`. The intended
 layout difference is the repositioned food-stand block represented by
 `Obstacle40`.
 
-Refer to the `main_layout.tscn` tables above for its current topology.
+Refer to the `O1T1E1.tscn` tables above for its current topology.
 
-### A.3 O1T2.tscn
+### A.3 O1T2E1.tscn
 
 #### Entry reachability
 
@@ -1056,49 +1097,9 @@ The following tables show the current queue geometry in each canonical layout.
 direction from head to tail.
 
 These tables are ordered by queue number, not necessarily by spatial bank
-position. In `O1T2`, the alternating pattern follows spatial bank order.
+position. In `O1T2E1`, the alternating pattern follows spatial bank order.
 
-### B.1 main_layout.tscn
-
-| Queue | Head | Tail | Head to Tail | Length (px) | Interval | Transition |
-|---|---:|---:|---|---:|---:|---|
-| Q | (640, 512) | (480, 512) | left | 160 | 3.8 | least_targeted |
-| Q2 | (640, 464) | (480, 464) | left | 160 | 3.8 | least_targeted |
-| Q3 | (640, 416) | (480, 416) | left | 160 | 3.8 | least_targeted |
-| Q4 | (640, 368) | (480, 368) | left | 160 | 3.8 | least_targeted |
-| Q5 | (576, 320) | (736, 320) | right | 160 | 3.8 | least_targeted |
-| Q6 | (576, 272) | (736, 272) | right | 160 | 3.8 | least_targeted |
-| Q7 | (576, 224) | (736, 224) | right | 160 | 3.8 | least_targeted |
-| Q8 | (576, 176) | (736, 176) | right | 160 | 3.8 | least_targeted |
-| Q9 | (352, 660) | (352, 820) | down | 160 | 1.1 | round_robin |
-| Q10 | (228, 659) | (228, 819) | down | 160 | 1.1 | round_robin |
-| Q11 | (576, -160) | (736, -160) | right | 160 | 3.8 | least_targeted |
-| Q12 | (576, -208) | (732, -208) | right | 156 | 3.8 | least_targeted |
-| Q13 | (576, -256) | (736, -256) | right | 160 | 3.8 | least_targeted |
-| Q14 | (576, -304) | (736, -304) | right | 160 | 3.8 | least_targeted |
-| Q15 | (576, -352) | (736, -352) | right | 160 | 3.8 | least_targeted |
-| Q16 | (576, -400) | (736, -400) | right | 160 | 3.8 | least_targeted |
-| Q17 | (640, -448) | (480, -448) | left | 160 | 3.8 | least_targeted |
-| Q18 | (-704, 448) | (-544, 448) | right | 160 | 3.8 | least_targeted |
-| Q19 | (-704, 256) | (-544, 256) | right | 160 | 3.8 | least_targeted |
-| Q20 | (-704, 208) | (-544, 208) | right | 160 | 3.8 | least_targeted |
-| Q21 | (-704, 160) | (-544, 160) | right | 160 | 3.8 | least_targeted |
-| Q22 | (-704, -176) | (-544, -176) | right | 160 | 3.8 | least_targeted |
-| Q23 | (-704, -128) | (-544, -128) | right | 160 | 3.8 | least_targeted |
-| Q24 | (-640, -80) | (-800, -80) | left | 160 | 3.8 | least_targeted |
-| Q25 | (-640, -32) | (-800, -32) | left | 160 | 3.8 | least_targeted |
-| Q26 | (-640, 16) | (-800, 16) | left | 160 | 3.8 | least_targeted |
-| Q27 | (-640, 64) | (-800, 64) | left | 160 | 3.8 | least_targeted |
-| Q28 | (-640, 112) | (-800, 112) | left | 160 | 3.8 | least_targeted |
-| Q29 | (-640, 304) | (-800, 304) | left | 160 | 3.8 | least_targeted |
-| Q30 | (-640, 352) | (-800, 352) | left | 160 | 3.8 | least_targeted |
-| Q31 | (-640, 400) | (-800, 400) | left | 160 | 3.8 | least_targeted |
-| Q32 | (-784, -784) | (-784, -624) | down | 160 | 3.8 | least_targeted |
-| Q33 | (-928, -784) | (-928, -624) | down | 160 | 3.8 | least_targeted |
-| Q34 | (-880, -784) | (-880, -624) | down | 160 | 3.8 | least_targeted |
-| Q35 | (-832, -784) | (-832, -624) | down | 160 | 3.8 | least_targeted |
-
-### B.2 O2T1.tscn
+### B.1 O1T1E1.tscn
 
 | Queue | Head | Tail | Head to Tail | Length (px) | Interval | Transition |
 |---|---:|---:|---|---:|---:|---|
@@ -1138,7 +1139,47 @@ position. In `O1T2`, the alternating pattern follows spatial bank order.
 | Q34 | (-880, -784) | (-880, -624) | down | 160 | 3.8 | least_targeted |
 | Q35 | (-832, -784) | (-832, -624) | down | 160 | 3.8 | least_targeted |
 
-### B.3 O1T2.tscn
+### B.2 O2T1E1.tscn
+
+| Queue | Head | Tail | Head to Tail | Length (px) | Interval | Transition |
+|---|---:|---:|---|---:|---:|---|
+| Q | (640, 512) | (480, 512) | left | 160 | 3.8 | least_targeted |
+| Q2 | (640, 464) | (480, 464) | left | 160 | 3.8 | least_targeted |
+| Q3 | (640, 416) | (480, 416) | left | 160 | 3.8 | least_targeted |
+| Q4 | (640, 368) | (480, 368) | left | 160 | 3.8 | least_targeted |
+| Q5 | (576, 320) | (736, 320) | right | 160 | 3.8 | least_targeted |
+| Q6 | (576, 272) | (736, 272) | right | 160 | 3.8 | least_targeted |
+| Q7 | (576, 224) | (736, 224) | right | 160 | 3.8 | least_targeted |
+| Q8 | (576, 176) | (736, 176) | right | 160 | 3.8 | least_targeted |
+| Q9 | (352, 660) | (352, 820) | down | 160 | 1.1 | round_robin |
+| Q10 | (228, 659) | (228, 819) | down | 160 | 1.1 | round_robin |
+| Q11 | (576, -160) | (736, -160) | right | 160 | 3.8 | least_targeted |
+| Q12 | (576, -208) | (732, -208) | right | 156 | 3.8 | least_targeted |
+| Q13 | (576, -256) | (736, -256) | right | 160 | 3.8 | least_targeted |
+| Q14 | (576, -304) | (736, -304) | right | 160 | 3.8 | least_targeted |
+| Q15 | (576, -352) | (736, -352) | right | 160 | 3.8 | least_targeted |
+| Q16 | (576, -400) | (736, -400) | right | 160 | 3.8 | least_targeted |
+| Q17 | (640, -448) | (480, -448) | left | 160 | 3.8 | least_targeted |
+| Q18 | (-704, 448) | (-544, 448) | right | 160 | 3.8 | least_targeted |
+| Q19 | (-704, 256) | (-544, 256) | right | 160 | 3.8 | least_targeted |
+| Q20 | (-704, 208) | (-544, 208) | right | 160 | 3.8 | least_targeted |
+| Q21 | (-704, 160) | (-544, 160) | right | 160 | 3.8 | least_targeted |
+| Q22 | (-704, -176) | (-544, -176) | right | 160 | 3.8 | least_targeted |
+| Q23 | (-704, -128) | (-544, -128) | right | 160 | 3.8 | least_targeted |
+| Q24 | (-640, -80) | (-800, -80) | left | 160 | 3.8 | least_targeted |
+| Q25 | (-640, -32) | (-800, -32) | left | 160 | 3.8 | least_targeted |
+| Q26 | (-640, 16) | (-800, 16) | left | 160 | 3.8 | least_targeted |
+| Q27 | (-640, 64) | (-800, 64) | left | 160 | 3.8 | least_targeted |
+| Q28 | (-640, 112) | (-800, 112) | left | 160 | 3.8 | least_targeted |
+| Q29 | (-640, 304) | (-800, 304) | left | 160 | 3.8 | least_targeted |
+| Q30 | (-640, 352) | (-800, 352) | left | 160 | 3.8 | least_targeted |
+| Q31 | (-640, 400) | (-800, 400) | left | 160 | 3.8 | least_targeted |
+| Q32 | (-784, -784) | (-784, -624) | down | 160 | 3.8 | least_targeted |
+| Q33 | (-928, -784) | (-928, -624) | down | 160 | 3.8 | least_targeted |
+| Q34 | (-880, -784) | (-880, -624) | down | 160 | 3.8 | least_targeted |
+| Q35 | (-832, -784) | (-832, -624) | down | 160 | 3.8 | least_targeted |
+
+### B.3 O1T2E1.tscn
 
 | Queue | Head | Tail | Head to Tail | Length (px) | Interval | Transition |
 |---|---:|---:|---|---:|---:|---|
