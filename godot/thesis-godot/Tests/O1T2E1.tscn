@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://cfaysggxyuyo8" path="res://stat_chart.gd" id="10_02hj6"]
 [ext_resource type="Script" uid="uid://cfrtainw3mj4h" path="res://resize_handle.gd" id="11_hrlbt"]
 
-[node name="MainLayout2" type="Node2D" unique_id=347431086]
+[node name="MainLayout5" type="Node2D" unique_id=347431086]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1164766382]
 visible = false
@@ -400,7 +400,7 @@ color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
 
 [node name="Obstacle2" type="Polygon2D" parent="Obstacles" unique_id=359802987]
-position = Vector2(688.0001, 80.00001)
+position = Vector2(752, 80.00004)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
@@ -532,79 +532,79 @@ color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -269.4121, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle3" type="Polygon2D" parent="Obstacles" unique_id=1381993589]
-position = Vector2(688.0001, 32.000008)
+position = Vector2(752, 32.00004)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle4" type="Polygon2D" parent="Obstacles" unique_id=447625738]
-position = Vector2(688.0001, -16)
+position = Vector2(752, -15.9999695)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle5" type="Polygon2D" parent="Obstacles" unique_id=535174295]
-position = Vector2(688.0001, -64)
+position = Vector2(752, -63.99997)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle7" type="Polygon2D" parent="Obstacles" unique_id=1375290896]
-position = Vector2(688.0001, -112)
+position = Vector2(752, -111.99997)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle8" type="Polygon2D" parent="Obstacles" unique_id=477184002]
-position = Vector2(688.0001, -160)
+position = Vector2(752, -159.99997)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle9" type="Polygon2D" parent="Obstacles" unique_id=1292236399]
-position = Vector2(688.0001, -208.00002)
+position = Vector2(752, -207.99998)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle18" type="Polygon2D" parent="Obstacles" unique_id=670228212]
-position = Vector2(688.0002, -544)
+position = Vector2(752.00006, -544)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle19" type="Polygon2D" parent="Obstacles" unique_id=2041248117]
-position = Vector2(688.0002, -592)
+position = Vector2(752.00006, -592)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle20" type="Polygon2D" parent="Obstacles" unique_id=478635067]
-position = Vector2(688.0002, -640)
+position = Vector2(752.00006, -640)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle21" type="Polygon2D" parent="Obstacles" unique_id=253671266]
-position = Vector2(688.0002, -688)
+position = Vector2(752.00006, -688)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle22" type="Polygon2D" parent="Obstacles" unique_id=1231136584]
-position = Vector2(688.0001, -736.00006)
+position = Vector2(752, -736)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle23" type="Polygon2D" parent="Obstacles" unique_id=328891654]
-position = Vector2(688.0001, -784.00006)
+position = Vector2(752, -784)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle24" type="Polygon2D" parent="Obstacles" unique_id=1462217236]
-position = Vector2(688.0001, -832.00006)
+position = Vector2(752, -832)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
@@ -626,7 +626,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine2" type="Line2D" parent="QueueLines" unique_id=249091878 node_paths=PackedStringArray("target_switches", "target_exits")]
 position = Vector2(640, 464)
-points = PackedVector2Array(0, 0, -160.00003, -4.7e-05)
+points = PackedVector2Array(64, 0, -160.00003, -4.7e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -648,7 +648,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine4" type="Line2D" parent="QueueLines" unique_id=1388178965 node_paths=PackedStringArray("target_switches", "target_exits")]
 position = Vector2(640, 368)
-points = PackedVector2Array(0, 0, -160.00003, -4.3e-05)
+points = PackedVector2Array(64, 0, -160.00003, -4.3e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -671,7 +671,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine6" type="Line2D" parent="QueueLines" unique_id=1476430865 node_paths=PackedStringArray("target_switches", "target_exits")]
 position = Vector2(640, 272)
-points = PackedVector2Array(0, 0, -160.00003, -2.9e-05)
+points = PackedVector2Array(64, 0, -160.00003, -3e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -694,7 +694,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine8" type="Line2D" parent="QueueLines" unique_id=182999263 node_paths=PackedStringArray("target_switches")]
 position = Vector2(640, 176)
-points = PackedVector2Array(0, 0, -160.00003, -1.9e-05)
+points = PackedVector2Array(64, 0, -160.00003, -2e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -725,7 +725,7 @@ release_interval_seconds = 1.1
 
 [node name="QueueLine11" type="Line2D" parent="QueueLines" unique_id=1490459077 node_paths=PackedStringArray("target_switches")]
 position = Vector2(640, -160)
-points = PackedVector2Array(0, 0, -160.00003, 1.7e-05)
+points = PackedVector2Array(64, 0, -160.00003, 2e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -735,7 +735,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine12" type="Line2D" parent="QueueLines" unique_id=2118075787 node_paths=PackedStringArray("target_switches")]
 position = Vector2(576, -208)
-points = PackedVector2Array(0, 0, 91.999916, 2.1e-05)
+points = PackedVector2Array(0, 0, 128.00006, -1.5258789e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -745,7 +745,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine13" type="Line2D" parent="QueueLines" unique_id=1347048751 node_paths=PackedStringArray("target_switches")]
 position = Vector2(640, -256)
-points = PackedVector2Array(0, 0, -160.00003, 2.6e-05)
+points = PackedVector2Array(64, 0, -160.00003, 3e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -765,7 +765,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine15" type="Line2D" parent="QueueLines" unique_id=230802736 node_paths=PackedStringArray("target_switches")]
 position = Vector2(640, -352)
-points = PackedVector2Array(0, 0, -160.00003, 3.6e-05)
+points = PackedVector2Array(64, 0, -160.00003, 4e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -786,7 +786,7 @@ release_interval_seconds = 3.8
 [node name="QueueLine17" type="Line2D" parent="QueueLines" unique_id=1477802620 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99988, -386.99994)
 scale = Vector2(0.99999994, 0.99999994)
-points = PackedVector2Array(947.9999, -61.00006, 787.9999, -61.000008)
+points = PackedVector2Array(1011.99994, -61.00006, 787.9999, -61.00001)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -796,7 +796,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine18" type="Line2D" parent="QueueLines" unique_id=1542024900 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-307.99997, 93.00006)
-points = PackedVector2Array(-396.00006, 354.99994, -236.00002, 354.9999)
+points = PackedVector2Array(-460.00003, 354.99994, -236.00002, 354.9999)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -806,7 +806,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine19" type="Line2D" parent="QueueLines" unique_id=637253521 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-704, 256)
-points = PackedVector2Array(0, 0, 160.00005, -2.9e-05)
+points = PackedVector2Array(-64, 0, 160.00005, -3e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -826,7 +826,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine21" type="Line2D" parent="QueueLines" unique_id=1395593791 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-704, 160)
-points = PackedVector2Array(0, 0, 160.00005, -1.9e-05)
+points = PackedVector2Array(-64, 0, 160.00005, -2e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -846,7 +846,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine23" type="Line2D" parent="QueueLines" unique_id=1717492854 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-704, -128)
-points = PackedVector2Array(0, 0, 160.00005, 1.5e-05)
+points = PackedVector2Array(-64, 0, 160.00005, 2e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -866,7 +866,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine25" type="Line2D" parent="QueueLines" unique_id=284370422 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-704, -32)
-points = PackedVector2Array(0, 0, 31.999939, -1.9073486e-06, 160.00005, 4e-06)
+points = PackedVector2Array(-64, 0, 31.99994, 0, 160.00005, 0)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -886,7 +886,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine27" type="Line2D" parent="QueueLines" unique_id=1894524512 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-704, 64)
-points = PackedVector2Array(0, 0, 160.00005, -7e-06)
+points = PackedVector2Array(-64, 0, 160.00005, -1e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")
@@ -916,7 +916,7 @@ release_interval_seconds = 3.8
 
 [node name="QueueLine30" type="Line2D" parent="QueueLines" unique_id=1092191723 node_paths=PackedStringArray("target_switches")]
 position = Vector2(-704, 352)
-points = PackedVector2Array(0, 0, 160.00005, -5.7e-05)
+points = PackedVector2Array(-64, 0, 160.00005, -6e-05)
 width = 4.0
 default_color = Color(1, 1, 0.36078432, 1)
 script = ExtResource("8_gnm01")

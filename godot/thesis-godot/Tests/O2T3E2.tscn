@@ -360,7 +360,7 @@ color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-606.1786, 352.00003, -606.1786, 384.00006, -808.23816, 384.00006, -808.23804, 352.00006)
 
 [node name="Obstacle2" type="Polygon2D" parent="Obstacles" unique_id=359802987]
-position = Vector2(688.0001, 80.00001)
+position = Vector2(752, 80.00004)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
@@ -493,79 +493,79 @@ color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -269.4121, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle3" type="Polygon2D" parent="Obstacles" unique_id=1381993589]
-position = Vector2(688.0001, 32.000008)
+position = Vector2(752, 32.00004)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle4" type="Polygon2D" parent="Obstacles" unique_id=447625738]
-position = Vector2(688.0001, -16)
+position = Vector2(752, -15.9999695)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle5" type="Polygon2D" parent="Obstacles" unique_id=535174295]
-position = Vector2(688.0001, -64)
+position = Vector2(752, -63.99997)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle7" type="Polygon2D" parent="Obstacles" unique_id=1375290896]
-position = Vector2(688.0001, -112)
+position = Vector2(752, -111.99997)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle8" type="Polygon2D" parent="Obstacles" unique_id=477184002]
-position = Vector2(688.0001, -160)
+position = Vector2(752, -159.99997)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle9" type="Polygon2D" parent="Obstacles" unique_id=1292236399]
-position = Vector2(688.0001, -208.00002)
+position = Vector2(752, -207.99998)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle18" type="Polygon2D" parent="Obstacles" unique_id=670228212]
-position = Vector2(688.0002, -544)
+position = Vector2(752.00006, -544)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle19" type="Polygon2D" parent="Obstacles" unique_id=2041248117]
-position = Vector2(688.0002, -592)
+position = Vector2(752.00006, -592)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle20" type="Polygon2D" parent="Obstacles" unique_id=478635067]
-position = Vector2(688.0002, -640)
+position = Vector2(752.00006, -640)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle21" type="Polygon2D" parent="Obstacles" unique_id=253671266]
-position = Vector2(688.0002, -688)
+position = Vector2(752.00006, -688)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle22" type="Polygon2D" parent="Obstacles" unique_id=1231136584]
-position = Vector2(688.0001, -736.00006)
+position = Vector2(752, -736)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle23" type="Polygon2D" parent="Obstacles" unique_id=328891654]
-position = Vector2(688.0001, -784.00006)
+position = Vector2(752, -784)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
 
 [node name="Obstacle24" type="Polygon2D" parent="Obstacles" unique_id=1462217236]
-position = Vector2(688.0001, -832.00006)
+position = Vector2(752, -832)
 scale = Vector2(0.23755385, 1)
 color = Color(0.27531895, 0.27096286, 0.2501598, 1)
 polygon = PackedVector2Array(-202.05981, 400, -202.05981, 416, -740.8843, 416, -740.8843, 400)
