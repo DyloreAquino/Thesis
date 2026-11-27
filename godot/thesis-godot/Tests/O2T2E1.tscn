@@ -1380,7 +1380,7 @@ text = "Entry Rate / s"
 [node name="EntryRateInput" type="SpinBox" parent="CanvasLayer/UI/TopRight/VBoxContainer/HBoxContainer2" unique_id=1489319540]
 layout_mode = 2
 step = 0.01
-value = 7.0
+value = 10.5
 
 [node name="BottomRight" type="VBoxContainer" parent="CanvasLayer/UI" unique_id=416506383]
 layout_mode = 1

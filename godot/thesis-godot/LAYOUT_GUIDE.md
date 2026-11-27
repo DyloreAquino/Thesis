@@ -506,6 +506,19 @@ and removes exits `6`, `7`, and `8`.
 Both `E2` and `E3` also omit queue lines and journey switches that no longer
 have any path to a remaining exit. Surviving routes are otherwise unchanged.
 
+### Default entry rate
+
+The scene default for `EntryRateInput` is `1.5 × N`, where `N` is the number of
+retained entry points:
+
+| E variant | Entry points | Default entry rate |
+|---|---:|---:|
+| `E1` | 7 | 10.5 agents/s |
+| `E2` | 5 | 7.5 agents/s |
+| `E3` | 2 | 3.0 agents/s |
+
+The UI can still override this value before starting a simulation.
+
 ### Turnstile variants
 
 | Feature | `T1` | `T2` | `T3` |
@@ -823,6 +836,9 @@ Before considering a layout finished:
 19. **Back button still works**
 
 20. **Fix Geometry still sends the layout**
+
+21. **Default entry rate matches the `E` variant**
+    - `E1` = `10.5`, `E2` = `7.5`, `E3` = `3.0`.
 
 ---
 
